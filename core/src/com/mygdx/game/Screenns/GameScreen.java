@@ -19,10 +19,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     public GameScreen(final MyGdxGame game) {
         super(game);
+
         planet = new Planet(game, 120, 300);
         planet.setTexture(new Texture("planet_10.png"));
         planet.setRotation(127f);
         planet.setSpaceObjectName("Planeta");
+        background = new Background(game, camera);
         Gdx.input.setInputProcessor(this);
         init();
     }
@@ -32,11 +34,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if ((camera.position.x - Gdx.input.getDeltaX() < GAME_WIDTH / 2) || (camera.position.x + Gdx.input.getDeltaX() > 2000)){
             camera.translate(-Gdx.input.getDeltaX(), 0);
+            background.moveX(-Gdx.input.getDeltaX());
         }
         if ((camera.position.y + Gdx.input.getDeltaY() < GAME_HEIGHT / 2) || (camera.position.y + Gdx.input.getDeltaY() > 2000)) {
             camera.translate(0, Gdx.input.getDeltaY());
+            background.moveY(Gdx.input.getDeltaY());
         }
-            background.viewport.getCamera().translate(-Gdx.input.getDeltaX() / 10, Gdx.input.getDeltaY() / 10, 0);
+
             return true;
         }
 
@@ -48,31 +52,25 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     private void initLabelMoney() {
         hud = new Hud(spriteBatch);
-        background = new Background(spriteBatch);
-
             }
 
     private void initSpaceShipPlayer() {
 
+        stage.addActor(background);
         stage.addActor(game.spaceShipPlayer);
         stage.addActor(planet);
+
     }
 
     @Override
     public void render(float delta){
         super.render(delta);
         update(delta);
-        background.draw();
-        //background.stage.draw();
+        spriteBatch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         spriteBatch.begin();
         stage.draw();
         spriteBatch.end();
-
-        spriteBatch.setProjectionMatrix(hud.stage.getCamera().combined);
-        spriteBatch.setProjectionMatrix(background.stage.getCamera().combined);
-
-        //hud.stage.draw();
 
     }
 

@@ -1,36 +1,59 @@
 package com.mygdx.game.Screenns;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.MyGdxGame;
 
 import static com.mygdx.game.MyGdxGame.GAME_HEIGHT;
 import static com.mygdx.game.MyGdxGame.GAME_WIDTH;
 
-public class Background implements Disposable {
+public class Background extends Actor implements Disposable {
 
-    //Scene2D.ui Stage and its own Viewport for HUD
-    public Stage stage;
-    public Viewport viewport;
+
+    private MyGdxGame game;
+    public TextureRegion region;
     private Image space;
     private Texture texture;
+    private Camera camera;
 
-    public Background(SpriteBatch spriteBatch) {
-
-    viewport =new FitViewport(GAME_WIDTH, GAME_HEIGHT, new OrthographicCamera());
-    stage =new Stage(viewport, spriteBatch);
-    texture = new Texture("space.jpg");
-    space = new Image(texture);
-    space.setHeight(GAME_HEIGHT);
-    space.setWidth(GAME_WIDTH);
-    stage.addActor(space);
-
+    public Background(final MyGdxGame game, Camera camera) {
+        super();
+        this.game = game;
+        this.camera = camera;
+        texture = new Texture("space.jpg");
+        region = new TextureRegion();
+        setWidth(texture.getWidth());
+        setHeight(texture.getHeight());
+        region.setRegion(texture);
 }
+
+    public void moveX(float x){
+        moveBy(x/2,0);
+    }
+
+    public void moveY (float y){
+        moveBy(0, y/2);
+    }
+
+    public void draw(Batch batch, float parentAlpha){
+        Color c = getColor();
+        batch.setColor(c.r, c.g, c.b, c.a);
+        if ( isVisible() )
+            batch.draw( region, getX(), getY(), getOriginX(),
+                    getOriginY(),
+                    getWidth(), getHeight(), getScaleX(),
+                    getScaleY(), getRotation() );
+    }
+
+    public void act(float dt) {
+        super.act(dt);
+    }
 
     @Override
     public void dispose() {
