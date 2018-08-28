@@ -1,12 +1,18 @@
 package com.mygdx.game.Helper;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
+import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.Captain;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.ExperienceType;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
+import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Screenns.GameScreen;
 
 
 public class ReadXML {
@@ -54,5 +60,27 @@ public class ReadXML {
         spaceShipPlayer.modifyFailureRate();
         return true;
 
+    }
+
+    public static boolean readPlanets(MyGdxGame game, GameScreen screen){
+
+        Element root = new XmlReader().parse(Gdx.files.internal("planets.xml"));
+
+        int j = root.getChildCount();
+
+        for (int i=1; i <= j; i++) {
+            Element planet = root.getChildByName("planet" + i);
+            screen.planets.add(new Planet
+                    (game, planet.getFloat("posx"),
+                            planet.getFloat("posy"),
+                            new Texture(planet.get("texture")),
+                            (planet.get("name")),
+                            planet.getFloat("rot"),
+                            planet.getFloat("Titan"),
+                            planet.getFloat("Grafen"),
+                            planet.getFloat("Woter"),
+                            planet.getFloat("Fuell")));
+        }
+        return true;
     }
 }
