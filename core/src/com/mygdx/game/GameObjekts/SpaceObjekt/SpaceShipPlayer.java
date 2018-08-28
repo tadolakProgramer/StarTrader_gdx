@@ -1,6 +1,7 @@
 package com.mygdx.game.GameObjekts.SpaceObjekt;
 
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;

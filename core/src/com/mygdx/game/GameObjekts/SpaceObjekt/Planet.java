@@ -28,7 +28,6 @@ public class Planet extends SpaceObject {
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
-
     }
 
 }

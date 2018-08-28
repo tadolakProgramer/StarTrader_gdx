@@ -1,0 +1,10 @@
+<planets>
+    <Planet>Planet1</Planet>
+    <texture>planet_10.png</texture>
+    <pos x="100" y="100"/>
+        <rot>12</rot>
+        <Hydro>100</Hydro>
+        <Boranium>90</Boranium>
+        <Germanium>30</Germanium>
+        <Fuellium>6</Fuellium>
+</planets>
