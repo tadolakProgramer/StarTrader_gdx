@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -14,11 +15,15 @@ public abstract class SpaceObject extends Actor {
 
     private MyGdxGame game;
     public TextureRegion region;
+    protected String path;
     protected  Vector2 positionC;
 
     protected float rotationSpeed;
     public Label labelName;
     public String spaceObjectName;
+
+    private float actualWidth;
+    private float actualHight;
 
     public SpaceObject(final MyGdxGame game) {
         super();
@@ -29,18 +34,19 @@ public abstract class SpaceObject extends Actor {
         }
 
     private void addLabel() {
+        BitmapFont Fonts = game.myFont;
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
+        labelStyle.font = Fonts;
         labelStyle.fontColor = Color.YELLOW;
         labelName = new Label(spaceObjectName, labelStyle);
     }
 
-    public void setTexture(Texture texture){
-        setWidth(texture.getWidth());
-        setHeight(texture.getHeight());
-        region.setRegion(texture);
-        setOrigin(texture.getWidth()/2, texture.getHeight()/2);
-
+    public void setTexture(String texture){
+        Texture texture1 = new Texture(""+texture);
+        setWidth(texture1.getWidth());
+        setHeight(texture1.getHeight());
+        region.setRegion(texture1);
+        setOrigin(texture1.getWidth()/2, texture1.getHeight()/2);
     }
 
     public void act(float dt){
@@ -59,18 +65,27 @@ public abstract class SpaceObject extends Actor {
                     getWidth(), getHeight(), getScaleX(),
                     getScaleY(), getRotation());
             labelName.draw(batch, parentAlpha);
+
     }
 
     public void update(float dt) {
-            setPositionC();
-            setRotations(dt);
+
+        }
+
+        protected void setLabelPosition(){
             labelName.setX(positionC.x - labelName.getPrefWidth() / 2);
             labelName.setY(positionC.y - getHeight() / 2 * getScaleY() - labelName.getPrefHeight() / 2);
         }
 
+        public Vector getVector() {
+            return positionC;
+        }
 
+        public void setPositionOrgin(float x, float y){
+            setPosition(x - getOriginX(), y - getOriginY());
+        }
 
-    private void setRotations(float dt) {
+    protected void setRotations(float dt) {
         setRotation(getRotation()+rotationSpeed * dt);
     }
 
@@ -79,9 +94,42 @@ public abstract class SpaceObject extends Actor {
         positionC.y = (getY() + getOriginY());
     }
 
+    public float getPositionCX(){
+        return positionC.x;
+    }
+
+    public float getPositionCY(){
+        return positionC.y;
+    }
+
     public void setSpaceObjectName(String spaceObjectName) {
         this.spaceObjectName = spaceObjectName;
         labelName.setText(spaceObjectName);
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public float getRotationSpeed() {
+        return rotationSpeed;
+    }
+
+    public String getSpaceObjectName() {
+        return spaceObjectName;
+    }
+
+    public void setActualSize(){
+        actualWidth = getScaleX() * getWidth();
+        actualHight = getScaleY() * getHeight();
+    }
+
+    public float getActualWidth() {
+        return actualWidth;
+    }
+
+    public float getActualHight() {
+        return actualHight;
     }
 }
 

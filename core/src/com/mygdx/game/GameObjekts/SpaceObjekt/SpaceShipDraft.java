@@ -42,10 +42,10 @@ public class SpaceShipDraft extends Image {
             }
         });
     }
-
+/*
     private void drawMOdule(final MyGdxGame game) {
                    for (int slot = 0; slot<9; slot++){
-                if (game.spaceShipPlayer.schipModules.get(slot).moduleType!= ModuleType.EMPTY){
+                if (spaceShipPlayer.schipModules.get(slot).moduleType!= ModuleType.EMPTY){
                     batch.begin();
                     game.spaceShipPlayer.schipModules.get(slot).sprite.draw(batch);
                     batch.end();
@@ -53,6 +53,7 @@ public class SpaceShipDraft extends Image {
             }
 
     }
+    */
 
     private void initialize(){
         scale = GAME_WIDTH / this.getWidth() ;

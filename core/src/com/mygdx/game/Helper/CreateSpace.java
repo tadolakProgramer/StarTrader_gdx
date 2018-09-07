@@ -1,8 +1,11 @@
 package com.mygdx.game.Helper;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Screenns.GameScreen;
+import com.mygdx.game.Screenns.Hud;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,7 @@ public class CreateSpace {
     private float yl;
     private boolean newRandom;
 
-    public List Create(MyGdxGame game){
+    public List Create(MyGdxGame game, Hud hud){
 
         List<Planet> planets = new ArrayList<Planet>();
 
@@ -39,7 +42,7 @@ public class CreateSpace {
         double woter = rWoter.nextDouble();
         double fuell = rFuell.nextDouble();
 
-        planets.add(new Planet(game, x, y, "planet_"+rtexture+".png", StarNames[starsName], rotation, titan,grafen,woter,fuell));
+        planets.add(new Planet(game, hud, x, y, "planet_"+rtexture+".png", StarNames[starsName], rotation, titan,grafen,woter,fuell));
 
         int z = planets.size();
         for (int planetCounter = z; planetCounter <= 20; planetCounter++){
@@ -65,7 +68,7 @@ public class CreateSpace {
             double woterl = rWoter.nextDouble()*10;
             double fuelll = rFuell.nextDouble()*10;
 
-            planets.add(new Planet(game, xl, yl, "planet_"+texturel+".png", StarNames[starsNamel], rotationl, titanl,grafenl,woterl,fuelll));
+            planets.add(new Planet(game, hud, xl, yl, "planet_"+texturel+".png", StarNames[starsNamel], rotationl, titanl,grafenl,woterl,fuelll));
 
             z = planets.size();
         }

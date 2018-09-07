@@ -4,36 +4,49 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
+import com.mygdx.game.Screenns.GameScreen;
 import com.mygdx.game.Screenns.SpalshScreen;
 
 
 
 public class MyGdxGame extends Game {
 
-	public SpaceShipPlayer spaceShipPlayer;
+
 
 	public final static  String GAME_NAME = "Star Trader";
-	public final static  int GAME_WIDTH = 800;
-	public final static  int GAME_HEIGHT = 600;
+	public final static  int GAME_WIDTH = 1024;
+	public final static  int GAME_HEIGHT = 768;
 	public final static float SPACE_OBJECT_SCALIBG = GAME_WIDTH/1522;
-	public final static float GAME_SCALE = 0.5f;
+	public final static float GAME_SCALE = 0.25f;
 	public final static float SCROLL_SPEED =10f;
 	public Deque<Screen> kolejka = new ArrayDeque<Screen>();
+	public BitmapFont myFont;
 //	public final static Skin SKIN = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
+	public Skin skin;
 
 	private boolean paused;
 
+	public List<Planet> planets = new ArrayList<Planet>();
+	public Screen gameScreen;
+
 	@Override
 	public void create() {
-		spaceShipPlayer = new SpaceShipPlayer(this);
-		this.setScreen(new SpalshScreen(this));
-		//int ilosc = kolejka.size;
-			}
+		myFont = new BitmapFont(Gdx.files.internal("fonts/Xspace3.fnt"));
+		myFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear,
+				Texture.TextureFilter.Linear);
 
+		this.gameScreen = new GameScreen(this);
+		this.setScreen(new SpalshScreen(this));
+	}
 	public boolean isPaused() {
 		return paused;
 	}

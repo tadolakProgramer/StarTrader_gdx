@@ -4,7 +4,7 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 		file: font-button-export.fnt
 	}
 	font: {
-		file: font-export.fnt
+		file: Xspace3.fnt
 	}
 	title: {
 		file: font-title-export.fnt
@@ -15,7 +15,7 @@ com.badlogic.gdx.graphics.Color: {
 		r: 0
 		g: 0
 		b: 0
-		a: 1
+		a: 0.5
 	}
 	color: {
 		r: 0.3372549
@@ -57,6 +57,32 @@ com.badlogic.gdx.graphics.Color: {
 		r: 0.76862746
 		g: 0.4509804
 		b: 0
+		a: 0.95
+	}
+	titan: {
+		r: 0.76862746
+		g: 0.4509804
+		b: 0
+		a: 1.0
+	}
+
+	grafen: {
+		r: 0.6555550
+		g: 0.97570
+		b: .0
+		a: 1.0
+	}
+
+	woter: {
+		r: 0.22745098
+		g: 0.29607846
+		b: 1.0
+		a: 1
+	}
+	fuell: {
+		r: 0.22745098
+		g: 0.9607846
+		b: 1.0
 		a: 1
 	}
 }
@@ -167,11 +193,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	}
 	slider-horizontal-s: {
 		name: slider-horizontal
-		color: selection
+		color: fuell
 	}
 	slider-vertical-s: {
 		name: slider-vertical
-		color: selection
+		color: fuell
 	}
 	select-box-pressed-h: {
 		name: select-box-pressed
@@ -317,15 +343,31 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
 		font: font
-		fontColor: color
+		//fontColor: color
 	}
 	button: {
 		font: button
-		fontColor: color
+		//fontColor: color
 	}
 	title: {
 		font: title
-		fontColor: color
+		//fontColor: color
+	}
+	grafen:{
+		font: font
+		fontColor: grafen
+	}
+	titan:{
+		font: font
+		fontColor: titan
+	}
+	woter:{
+		font: font
+		fontColor: woter
+	}
+	fuell: {
+		font: font
+		fontColor: fuell
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {

@@ -2,10 +2,13 @@ package com.mygdx.game.Helper;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Screenns.GameScreen;
+import com.mygdx.game.Screenns.Hud;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -28,7 +31,7 @@ import java.util.Random;
 public class CreateXmlFile {
 
 
-    public static void crateSpace(MyGdxGame game) {
+    public static void crateSpace(MyGdxGame game, GameScreen screen, Hud hud) {
 
         List<Planet> planets = new ArrayList<Planet>();
 
@@ -43,7 +46,7 @@ public class CreateXmlFile {
             // root element
             Element rootElement = doc.createElement("Planets");
             doc.appendChild(rootElement);
-            planets = createSpace1.Create(game);
+            planets = createSpace1.Create(game, hud);
 
             for (int z=1;z<=planets.size()-1;z++) {
 

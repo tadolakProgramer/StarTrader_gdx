@@ -17,13 +17,13 @@ public class SpalshScreen extends AbstractScreen {
     public SpalshScreen(final MyGdxGame game) {
         super(game);
         initSplashScreen();
-        final Screen gameScreen = new GameScreen(game);
-        game.kolejka.addFirst(gameScreen);
+
+        game.kolejka.addFirst(game.gameScreen);
 
         Timer.schedule(new Task() {
             @Override
             public void run() {
-                game.setScreen(gameScreen);
+                game.setScreen(game.gameScreen);
             }
         },1);
 
