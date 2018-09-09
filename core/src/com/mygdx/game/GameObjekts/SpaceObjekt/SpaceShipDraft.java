@@ -60,4 +60,8 @@ public class SpaceShipDraft extends Image {
         this.setScale(scale);
         this.setPosition((GAME_WIDTH / 2) - (this.getWidth()*scale/2), (MyGdxGame.GAME_HEIGHT / 2) - (this.getHeight()*scale/2));
     }
+
+    public float getScale() {
+        return scale;
+    }
 }

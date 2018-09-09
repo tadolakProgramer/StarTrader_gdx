@@ -31,7 +31,7 @@ public abstract class SpaceObject extends Actor {
         region = new TextureRegion();
         positionC = new Vector2();
         addLabel();
-        this.setScale(0.1f);
+        //this.setScale(0.1f);
         }
 
     private void addLabel() {
@@ -43,7 +43,6 @@ public abstract class SpaceObject extends Actor {
     }
 
     public void setTexture(String texture){
-        Texture texture1 = (game.textureAtlas.findRegion(texture).getTexture());
         //region.setRegion(game.textureAtlas.findRegion(texture));
         setWidth(game.textureAtlas.findRegion(texture).packedWidth);
         //setWidth(game.textureAtlas.findRegion(texture).originalWidth);

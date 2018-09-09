@@ -40,22 +40,6 @@ public class Planet extends SpaceObject {
     private double priceFuell;
     private MyGdxGame game;
 
-    public Stage stage;
-    public Viewport viewport;
-
-    //Mario score/time Tracking Variables
-    private Integer worldTimer;
-    private boolean timeUp; // true when the world timer reaches 0
-    private float timeCount;
-    private static Integer score;
-
-    //Scene2D widgets
-    private Label countdownLabel;
-    private static Label scoreLabel;
-    private Label timeLabel;
-    private Label levelLabel;
-    private Label worldLabel;
-    private Label marioLabel;
     private Hud hud;
 
     public Planet(final MyGdxGame game, float x, float y){

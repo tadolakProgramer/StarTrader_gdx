@@ -178,7 +178,7 @@ public class SpaceShipPlayer extends SpaceObject {
         setLabelPosition();
 
         float distance = Vector2.dst2(targetX, targetY, positionC.x, positionC.y);
-        if (distance < 0.3*spaceShipEngine.getSpeedActual()*dt) {
+        if (distance <= 0.3*spaceShipEngine.getSpeedActual()*dt) {
             setStop();
         } else {
             if (fuelFill <= 0) {
