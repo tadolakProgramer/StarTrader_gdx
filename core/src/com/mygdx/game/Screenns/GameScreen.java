@@ -4,8 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
+import com.mygdx.game.Helper.CreateXmlFile;
 import com.mygdx.game.Helper.ReadXML;
 import com.mygdx.game.MyGdxGame;
 import java.util.ArrayList;
@@ -50,7 +54,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     private void spaceInit(){
-        //CreateXmlFile.crateSpace(game);
+        //CreateXmlFile.crateSpace(game, this, hud);
         ReadXML.readPlanets(game, this, hud);
         for (int i = 0; i<=planets.size()-1; i++){
             stage.addActor(planets.get(i));
@@ -60,7 +64,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     private void initHUD() {
-        hud = new Hud(this, spriteBatch);
+        hud = new Hud(this, game, spriteBatch);
     }
 
     private void initSpaceShipPlayer() {
@@ -183,4 +187,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         return false;
     }
 
+    public void setCameraToSpaceSchip() {
+        camera.position.x = spaceShipPlayer.getPositionCX();
+        camera.position.y = spaceShipPlayer.getPositionCY();
+    }
 }

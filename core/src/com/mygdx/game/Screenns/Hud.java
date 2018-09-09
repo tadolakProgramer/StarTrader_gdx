@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -29,6 +31,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
+import com.mygdx.game.MyGdxGame;
 
 
 import static com.mygdx.game.MyGdxGame.GAME_HEIGHT;
@@ -67,18 +70,18 @@ public class Hud implements Disposable{
     private Planet planet;
     private int planetNumber;
 
-    private ShapeRenderer shapeRenderer;
-    private Rectangle windowFrame;
-
+    public TextureRegion region;
 
     private Skin skin;
     private Window window;
     private int windowInfoPlanetCount = 0;
+    private MyGdxGame game;
     private GameScreen gameScreen;
 
-    public Hud(GameScreen gameScreen, SpriteBatch sb){
+    public Hud(final GameScreen gameScreen, MyGdxGame game, SpriteBatch sb){
 
         this.gameScreen = gameScreen;
+        this.game = game;
         skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
 
         //define our tracking variables
@@ -90,6 +93,8 @@ public class Hud implements Disposable{
         //define our stage using that viewport and our games spritebatch
         viewport = new FitViewport(GAME_WIDTH, GAME_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
+
+        gameScreen.multiplexer.addProcessor(stage);
 
         //define a table used to organize our hud's labels
         Table table = new Table();
@@ -128,8 +133,16 @@ public class Hud implements Disposable{
         table.add(moneyLabel).expandX();
 
         //add our table to the stage
-        stage.addActor(table);
 
+        TextButton textButton1 = new TextButton("Start", skin);
+        textButton1.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                gameScreen.setCameraToSpaceSchip();
+            }
+        });
+        stage.addActor(table);
+        stage.addActor(textButton1);
         }
 
 
@@ -142,6 +155,8 @@ public class Hud implements Disposable{
             gameScreen.multiplexer.addProcessor(stage);
 
             window = new Window(planetName, skin);
+
+            region = new TextureRegion();
 
             window.debug();
 
@@ -165,8 +180,9 @@ public class Hud implements Disposable{
                 if (gameScreen.planets.get(i).getSpaceObjectName().equals(planetName)) {
                     planet = gameScreen.planets.get(i);
                     planetNumber = i;
-                    planetImage = new Image(new TextureRegion(new Texture(planet.getPath())));
-                    planetImage.setWidth(10);
+                    region = game.textureAtlas.findRegion(planet.getPath());
+                    planetImage = new Image(game.textureAtlas.findRegion(planet.getPath()));
+
                     planetImage.setSize(10,10);
                     titanPriceLabel = new Label(String.format("%.2f", planet.getPriceTitan())+" T$", skin, "titan");
                     titanPriceLabel.setFontScale(1.5f);
@@ -229,8 +245,6 @@ public class Hud implements Disposable{
                     window.remove();
                     windowInfoPlanetCount--;
                     gameScreen.multiplexer.removeProcessor(stage);
-                    System.out.println("KLIK");
-                    //return true; //super.touchDown(event, x, y, pointer, button);
                 }
             });
             textButton1.addListener(new ClickListener() {
@@ -240,8 +254,6 @@ public class Hud implements Disposable{
                     window.remove();
                     windowInfoPlanetCount--;
                     gameScreen.multiplexer.removeProcessor(stage);
-                    System.out.println("KLIK_1");
-                    //return true; //super.touchDown(event, x, y, pointer, button);
                 }
             });
         }
@@ -252,6 +264,7 @@ public class Hud implements Disposable{
     public void update(float dt) {
         progressBarUpdate();
         windowInfoPlanetUpdate(dt);
+
         }
 
     private void windowInfoPlanetUpdate(float dt) {

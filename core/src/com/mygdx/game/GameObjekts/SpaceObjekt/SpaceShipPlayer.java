@@ -60,7 +60,8 @@ public class SpaceShipPlayer extends SpaceObject {
         super(game);
         this.game = game;
         this.gameScreen = gameScreen;
-        setTexture(("aliensprite2.png"));
+        setTexture(game.textureAtlas.findRegion("aliensprite2").name);
+        setScale(GAME_SCALE);
         moveVector = new Vector2();
         initialize();
 
@@ -88,7 +89,6 @@ public class SpaceShipPlayer extends SpaceObject {
 
         spaceShipEngine = new SpaceShipEngine(ModuleType.SPACE_SHIP_ENGINE,"Golem",1,1,100);
 
-        this.setScale(GAME_SCALE);
         setSpaceObjectName("Tado-044");
 
         money = 1234.56;

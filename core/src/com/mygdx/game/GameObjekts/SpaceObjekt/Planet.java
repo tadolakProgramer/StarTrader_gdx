@@ -101,6 +101,7 @@ public class Planet extends SpaceObject {
         setActualSize();
     }
 
+
     public double getPriceTitan() {
         return priceTitan;
     }

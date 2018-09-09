@@ -42,7 +42,7 @@ public class CreateSpace {
         double woter = rWoter.nextDouble();
         double fuell = rFuell.nextDouble();
 
-        planets.add(new Planet(game, hud, x, y, "planet_"+rtexture+".png", StarNames[starsName], rotation, titan,grafen,woter,fuell));
+        planets.add(new Planet(game, hud, x, y, "planet_"+rtexture, StarNames[starsName], rotation, titan,grafen,woter,fuell));
 
         int z = planets.size();
         for (int planetCounter = z; planetCounter <= 20; planetCounter++){
@@ -60,7 +60,7 @@ public class CreateSpace {
                 }
             }
             while(newRandom);
-            int texturel = texture.nextInt(16)+1;
+            int texturel = texture.nextInt(21)+1;
             int starsNamel = rStarsName.nextInt(1212);
             float rotationl = rRotation.nextFloat()*15 + 10;
             double titanl = rTitan.nextDouble()*10;
@@ -68,7 +68,7 @@ public class CreateSpace {
             double woterl = rWoter.nextDouble()*10;
             double fuelll = rFuell.nextDouble()*10;
 
-            planets.add(new Planet(game, hud, xl, yl, "planet_"+texturel+".png", StarNames[starsNamel], rotationl, titanl,grafenl,woterl,fuelll));
+            planets.add(new Planet(game, hud, xl, yl, "planet_"+texturel, StarNames[starsNamel], rotationl, titanl,grafenl,woterl,fuelll));
 
             z = planets.size();
         }
