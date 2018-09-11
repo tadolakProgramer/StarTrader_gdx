@@ -13,8 +13,6 @@ public class SpaceShipCocpit extends ShipModule{
         this.fill = fill;
         this.baseFailureRate = baseFailureRate;
 
-        this.texture = new Texture("badlogic.jpg");
-        this.sprite = new Sprite(texture);
 
     }
 }

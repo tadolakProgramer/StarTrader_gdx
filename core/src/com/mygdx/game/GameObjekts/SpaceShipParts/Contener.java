@@ -13,8 +13,8 @@ public class Contener extends ShipModule {
         this.capacity = capacity;
         this.fill = fill;
         this.cost = cost;
-
-        this.texture = new Texture("badlogic.jpg");
-        this.sprite = new Sprite(texture);
     }
+
+
+
 }

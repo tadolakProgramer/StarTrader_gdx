@@ -30,8 +30,6 @@ public class SpaceShipEngine extends ShipModule{
         SpeedEngine = 40;
         ConsumptionFuel = 20.50f;
 
-        this.texture = new Texture("badlogic.jpg");
-        this.sprite = new Sprite(texture);
     }
 
     public float getSpeedEngine() {

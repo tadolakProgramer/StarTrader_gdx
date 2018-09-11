@@ -12,7 +12,5 @@ public class HousingModule extends ShipModule{
         this.cost = cost;
         this.baseFailureRate = baseFailureRate;
 
-        this.texture = new Texture("badlogic.jpg");
-        this.sprite = new Sprite(texture);
     }
 }
