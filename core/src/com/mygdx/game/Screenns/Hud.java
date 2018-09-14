@@ -137,8 +137,9 @@ public class Hud implements Disposable{
         TextButton textButton1 = new TextButton("Start", skin);
         textButton1.addListener(new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameScreen.setCameraToSpaceSchip();
+                return true;
             }
         });
         stage.addActor(table);
@@ -158,7 +159,7 @@ public class Hud implements Disposable{
 
             region = new TextureRegion();
 
-            window.debug();
+            //window.debug();
 
             window.setColor(Color.BLACK);
             window.getTitleLabel().setColor(Color.CHARTREUSE);
@@ -167,6 +168,7 @@ public class Hud implements Disposable{
 
             Button button = new Button(skin, "close");
             window.getTitleTable().add(button).padRight(1.0f);
+            window.setBounds(window.getX(), window.getY(), window.getWidth(),window.getHeight());
 
             Table winTable = new Table();
             //winTable.debug();
@@ -265,6 +267,8 @@ public class Hud implements Disposable{
         progressBarUpdate();
         windowInfoPlanetUpdate(dt);
 
+
+
         }
 
     private void windowInfoPlanetUpdate(float dt) {
@@ -275,7 +279,8 @@ public class Hud implements Disposable{
     }
 
     private void progressBarUpdate() {
-        fuellLabel.setText(String.format("%.2f", gameScreen.spaceShipPlayer.fuelFill));
+        fuellLabel.setText(String.format("%.2f", gameScreen.spaceShipPlayer.fuelFill)+"  "+String.format("%.2f", gameScreen.spaceShipPlayer.fuelFill/gameScreen.spaceShipPlayer.fuelCapacity*100)+"$");
+        fuelFillBar.setRange(0,(float)gameScreen.spaceShipPlayer.fuelCapacity);
         fuelFillBar.setValue((float)gameScreen.spaceShipPlayer.fuelFill);
         fuelFillBar.setPosition(fuellLabel.getX() + fuellLabel.getWidth()/2 - fuelFillBar.getWidth()/2, fuellLabel.getY()+5 );
     }
