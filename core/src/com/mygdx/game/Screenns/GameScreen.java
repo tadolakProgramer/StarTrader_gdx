@@ -45,6 +45,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         initSpaceShipPlayer();
         initHUD();
         spaceInit();
+        setCameraToSpaceSchip();
     }
 
     private void backgroundInit() {
@@ -69,15 +70,16 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     private void initSpaceShipPlayer() {
         spaceShipPlayer = new SpaceShipPlayer(game, this);
+
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if ((camera.position.x - Gdx.input.getDeltaX() > GAME_WIDTH / 2) || (camera.position.x + Gdx.input.getDeltaX() < 20000)){
+        if ((camera.position.x - Gdx.input.getDeltaX() > GAME_WIDTH / 2) || (camera.position.x + Gdx.input.getDeltaX() < 34000)){
             camera.translate(-Gdx.input.getDeltaX(), 0);
             backgroundCam.translate(-Gdx.input.getDeltaX()/4, 0);
                     }
-        if ((camera.position.y + Gdx.input.getDeltaY() < GAME_HEIGHT / 2) || (camera.position.y + Gdx.input.getDeltaY() < 20000)) {
+        if ((camera.position.y + Gdx.input.getDeltaY() < GAME_HEIGHT / 2) || (camera.position.y + Gdx.input.getDeltaY() < 34000)) {
             camera.translate(0, Gdx.input.getDeltaY());
             backgroundCam.translate(0, Gdx.input.getDeltaY()/4);
             }
@@ -143,6 +145,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(multiplexer);
+        setCameraToSpaceSchip();
     }
 
 
@@ -190,5 +193,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     public void setCameraToSpaceSchip() {
         camera.position.x = spaceShipPlayer.getPositionCX();
         camera.position.y = spaceShipPlayer.getPositionCY();
+        backgroundCam.position.x = camera.position.x;
+        backgroundCam.position.y = camera.position.y;
+    }
+
+    public void createSpaceShipScreen() {
+
+        game.setScreen(new SpaceShipScreen(game, spaceShipPlayer));
     }
 }
