@@ -22,7 +22,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
         }
 
-        public void update() {
+        public void update(OrthographicCamera camera) {
+
         }
 
         public void render(OrthographicCamera camera) {
