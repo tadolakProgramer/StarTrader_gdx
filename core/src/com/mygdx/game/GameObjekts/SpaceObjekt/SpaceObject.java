@@ -43,12 +43,11 @@ public abstract class SpaceObject extends Actor {
     }
 
     public void setTexture(String texture){
-        //region.setRegion(game.textureAtlas.findRegion(texture));
+
         setWidth(game.textureAtlas.findRegion(texture).packedWidth);
-        //setWidth(game.textureAtlas.findRegion(texture).originalWidth);
+
         setHeight(game.textureAtlas.findRegion(texture).packedHeight);
-        //setHeight(game.textureAtlas.findRegion(texture).originalHeight);
-        //region.setRegion(texture1);
+
         region.setRegion(game.textureAtlas.findRegion(texture));
         setOrigin((game.textureAtlas.findRegion(texture).packedWidth)/2, (game.textureAtlas.findRegion(texture).packedHeight)/2);
     }
@@ -70,12 +69,13 @@ public abstract class SpaceObject extends Actor {
                     getScaleY(), getRotation());
             labelName.draw(batch, parentAlpha);
 
+        System.out.println("P: "+ spaceObjectName);
+
     }
 
     public void update(float dt) {
 
         }
-
         protected void setLabelPosition(){
             labelName.setX(positionC.x - labelName.getPrefWidth() / 2);
             labelName.setY(positionC.y - getHeight() / 2 * getScaleY() - labelName.getPrefHeight() / 2);
