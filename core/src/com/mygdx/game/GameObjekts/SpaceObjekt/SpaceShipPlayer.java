@@ -31,8 +31,6 @@ import static com.mygdx.game.MyGdxGame.GAME_SCALE;
 
 public class SpaceShipPlayer extends SpaceObject {
 
-    private double positionX;
-    private double positionY;
 
     public List<ShipModule> schipModules = new ArrayList<ShipModule>();
     public List<Person> persosns = new ArrayList<Person>();
@@ -55,8 +53,9 @@ public class SpaceShipPlayer extends SpaceObject {
     private double money;
     private MyGdxGame game;
     private GameScreen gameScreen;
+    private int planetTripCounter;  //Do zdobywania nagród
 
-    public SpaceShipPlayer(final MyGdxGame game, GameScreen gameScreen){
+    public SpaceShipPlayer(final MyGdxGame game, final GameScreen gameScreen){
         super(game);
         this.game = game;
         this.gameScreen = gameScreen;
@@ -70,7 +69,7 @@ public class SpaceShipPlayer extends SpaceObject {
             @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                game.setScreen(new SpaceShipScreen(game));
+                gameScreen.createSpaceShipScreen();
 
                 System.out.println("KLIK");
                 return super.touchDown(event, x, y, pointer, button);
@@ -103,8 +102,16 @@ public class SpaceShipPlayer extends SpaceObject {
                     schipModules.set(index, new SpaceShipCocpit(ModuleType.COKPIT, name, capacity, fill, cost, baseFailureRate));
                     break;
                 }
-                case CONTENER: {
+                case GAS: {
                     schipModules.set(index, new Contener(ModuleType.CONTENER, name, capacity, fill, cost, baseFailureRate));
+                    break;
+                }
+                case LIQUID: {
+                    schipModules.set(index, new Contener(ModuleType.LIQUID, name, capacity, fill, cost, baseFailureRate));
+                    break;
+                }
+                case LOSE: {
+                    schipModules.set(index, new Contener(ModuleType.LOSE, name, capacity, fill, cost, baseFailureRate));
                     break;
                 }
                 case SPACE_SHIP_ENGINE: {
@@ -112,7 +119,7 @@ public class SpaceShipPlayer extends SpaceObject {
                     break;
                 }
                 case FUEL: {
-                    schipModules.set(index, new FuelTank(ModuleType.FUEL, name, capacity, fill, cost, baseFailureRate));
+                    schipModules.set(index, new Contener(ModuleType.FUEL, name, capacity, fill, cost, baseFailureRate));
                     addFuelCapacity(capacity);
                     addFuelFill(fill);
                     break;
@@ -130,7 +137,7 @@ public class SpaceShipPlayer extends SpaceObject {
     }
 
     public void addFuelCapacity(double fuelCapacity){
-        this.fuelCapacity =+ fuelCapacity;
+        this.fuelCapacity = this.fuelCapacity + fuelCapacity;
     }
 
     public void subFuelCapacity(double fuelCapacity){
@@ -138,11 +145,11 @@ public class SpaceShipPlayer extends SpaceObject {
     }
 
     public void addFuelFill(double fuel){
-        if (fuelCapacity < fuelCapacity + fuel) {
-            this.fuelFill =+ fuel;
+        if ((fuel + fuelFill) > this.fuelCapacity) {
+            this.fuelFill = fuelCapacity;
         }
         else {
-            this.fuelFill = fuelCapacity;
+            this.fuelFill = this.fuelFill + fuel;
         }
 
     }
@@ -196,6 +203,7 @@ public class SpaceShipPlayer extends SpaceObject {
     private void setStop() {
         setPositionOrgin(targetX, targetY);
         spaceShipEngine.setSpeedActual(0);
+        planetTripCounter++;
 
         Action stopAction = Actions.parallel(
                 //Actions.rotateTo((float) rotation, 1.2f),
@@ -207,7 +215,7 @@ public class SpaceShipPlayer extends SpaceObject {
 
     public void modifyFailureRate(){
 
-        for (int p=0; p < persosns.size(); p++){
+        for (int p = 0; p < persosns.size(); p++){
             ExperienceType firstExperienceType =  persosns.get(p).getFirstExperienceType();
             ExperienceType secondExperienceType = persosns.get(p).getSecondExperienceType();
 
@@ -231,14 +239,7 @@ public class SpaceShipPlayer extends SpaceObject {
 
     }
 //GET SET **********************************************************************
-
-    public void setPositionX(double positionX) {
-        this.positionX = positionX;
-    }
-
-    public void setPositionY(double positionY) {
-        this.positionY = positionY;
-    }
+    
 
     public double getMoney() {
         return money;
