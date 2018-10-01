@@ -23,7 +23,7 @@ public class ReadXML {
         Element root = new XmlReader().parse(Gdx.files.internal("spaceship.xml"));
 
         Element position = root.getChildByName("pos");
-        spaceShipPlayer.setPosition(position.getFloat("x"), position.getFloat("y"));
+        spaceShipPlayer.setPositionOrgin(position.getFloat("x"), position.getFloat("y"));
 
             for (int k=0; k<14; k++) {
                 Element Slot = root.getChildByName("SLOT" + k);

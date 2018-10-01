@@ -5,11 +5,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
-import com.mygdx.game.Helper.CreateXmlFile;
 import com.mygdx.game.Helper.ReadXML;
 import com.mygdx.game.MyGdxGame;
 import java.util.ArrayList;
@@ -23,7 +20,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
 
     public List<Planet> planets = new ArrayList<Planet>();
-    public List<Planet> viewPlanets = new ArrayList<>();
+    public List<Planet> viewPlanets = new ArrayList<Planet>();
     public SpaceShipPlayer spaceShipPlayer;
     private Planet planet;
 
@@ -60,8 +57,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         for (int i = 0; i<=planets.size()-1; i++){
             stage.addActor(planets.get(i));
         }
-
         stage.addActor(spaceShipPlayer);
+
     }
 
     private void initHUD() {
@@ -93,9 +90,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     public void render(float delta){
         super.render(delta);
         //System.out.println("KLIK: " + delta);
-        spriteBatch.setProjectionMatrix(hud.stage.getCamera().combined);
 
         background.render(backgroundCam);
+
+        spriteBatch.setProjectionMatrix(hud.stage.getCamera().combined);
 
         spriteBatch.begin();
         stage.draw();
@@ -138,14 +136,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         stage.act();
         setViewPlanets();
 
-        //System.out.println("Cam_pos: "+x1+"  "+y1);
+        //System.out.println("Cam_pos: "+camera.position.x+"  "+camera.position.y);
         }
 
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(multiplexer);
-        setCameraToSpaceSchip();
     }
 
 
@@ -191,14 +188,28 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     public void setCameraToSpaceSchip() {
-        camera.position.x = spaceShipPlayer.getPositionCX();
-        camera.position.y = spaceShipPlayer.getPositionCY();
-        backgroundCam.position.x = camera.position.x;
-        backgroundCam.position.y = camera.position.y;
-    }
+
+        //double angle = Math.atan2(spaceShipPlayer.getPositionCY() - camera.position.y, camera.position.x-spaceShipPlayer.getPositionCX());
+        //float distance = Vector2.dst2(camera.position.x, camera.position.y, spaceShipPlayer.getPositionCX(), camera.position.y)/100;
+        //float moveX = (float)Math.cos(angle)*distance;
+        //float moveY = (float)Math.sin(angle)*distance;
+        //for (int i = 1 ; i<=100;i++) {
+            //camera.translate(moveX, moveY);
+            camera.position.y = spaceShipPlayer.getPositionCY();
+            camera.position.x = spaceShipPlayer.getPositionCX();
+
+            backgroundCam.position.x = camera.position.x;
+            backgroundCam.position.y = camera.position.y;
+        }
+
 
     public void createSpaceShipScreen() {
 
         game.setScreen(new SpaceShipScreen(game, spaceShipPlayer));
+    }
+
+    public void createMarketWindow() {
+        hud.createWindowPlanetMarket(spaceShipPlayer.targetName);
+
     }
 }

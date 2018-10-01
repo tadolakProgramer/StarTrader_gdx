@@ -41,7 +41,7 @@ public class Planet extends SpaceObject {
     private MyGdxGame game;
 
     private Hud hud;
-
+/**
     public Planet(final MyGdxGame game, float x, float y){
         super(game);
         this.game = game;
@@ -50,7 +50,7 @@ public class Planet extends SpaceObject {
         rotationSpeed =15;
         addClickListener();
     }
-
+*/
     public Planet(final MyGdxGame game, Hud hud, float x, float y, String path, String name, float speedRot, double priceT, double priceG, double priceW, double priceF) {
         super(game);
         this.path = path;

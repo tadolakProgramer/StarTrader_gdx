@@ -79,12 +79,7 @@ com.badlogic.gdx.graphics.Color: {
 		b: 1.0
 		a: 1
 	}
-	fuell: {
-		r: 0.22745098
-		g: 0.9607846
-		b: 1.0
-		a: 1
-	}
+	fuell: { a: 1.0, b: 0.36862746, g: 0.0, r: 0.011764706 }
 }
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	button-c: {

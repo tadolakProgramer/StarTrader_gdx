@@ -34,8 +34,8 @@ public class CreateSpace {
 
         int rtexture = texture.nextInt(16)+1;
         int starsName = rStarsName.nextInt(1212);
-        float x = posx.nextFloat()*1000;
-        float y = posy.nextFloat()*1000;
+        float x = posx.nextFloat()*17000;
+        float y = posy.nextFloat()*34000;
         float rotation = rRotation.nextFloat()*15 + 10;
         double titan = rTitan.nextDouble();
         double grafen = rGrafen.nextFloat();
@@ -45,15 +45,15 @@ public class CreateSpace {
         planets.add(new Planet(game, hud, x, y, "planet_"+rtexture, StarNames[starsName], rotation, titan,grafen,woter,fuell));
 
         int z = planets.size();
-        for (int planetCounter = z; planetCounter <= 20; planetCounter++){
+        for (int planetCounter = z; planetCounter <= 300; planetCounter++){
             do {
                 newRandom = false;
-                xl = posx.nextFloat()*1500;
-                yl = posy.nextFloat()*1500;
+                xl = posx.nextFloat()*17000;
+                yl = posy.nextFloat()*34000;
                 for (int i = 0; i < z ; i++){
                     this.distance = Math.sqrt(Math.pow(((double)xl - planets.get(i).getX()),2) + (Math.pow(((double)yl - planets.get(i).getY()),2)));
                             //this.distance = Vector2.dst2(xl,yl,planets.get(i).getX(), planets.get(i).getY());
-                    if (distance < 250){
+                    if (distance < 400){
                         newRandom = true;
                         System.out.println("NEW_RND");
                     }

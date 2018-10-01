@@ -47,13 +47,6 @@ public class Hud implements Disposable{
     public Stage stage;
     public Viewport viewport;
 
-
-    //Mario score/time Tracking Variables
-    private Integer worldTimer;
-    private boolean timeUp; // true when the world timer reaches 0
-    private float timeCount;
-    private static Integer score;
-
     //Scene2D widgets
     private Label moneyLabel;
     private static Label fuellLabel;
@@ -70,11 +63,15 @@ public class Hud implements Disposable{
     private Planet planet;
     private int planetNumber;
 
+    private float time = 0;
+    private int fps = 0;
+
     public TextureRegion region;
 
     private Skin skin;
     private Window window;
     private int windowInfoPlanetCount = 0;
+    private int windowInfoPlanetMarket = 0;
     private MyGdxGame game;
     private GameScreen gameScreen;
 
@@ -84,13 +81,7 @@ public class Hud implements Disposable{
         this.game = game;
         skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
 
-        //define our tracking variables
-        worldTimer = 300;
-        timeCount = 0;
-        score = 0;
 
-        //setup the HUD viewport using a new camera seperate from our gamecam
-        //define our stage using that viewport and our games spritebatch
         viewport = new FitViewport(GAME_WIDTH, GAME_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
@@ -132,7 +123,7 @@ public class Hud implements Disposable{
         table.add(levelLabel).expandX();
         table.add(moneyLabel).expandX();
 
-        //add our table to the stage
+        //add
 
         TextButton textButton1 = new TextButton("Start", skin);
         textButton1.addListener(new ClickListener() {
@@ -142,8 +133,20 @@ public class Hud implements Disposable{
                 return true;
             }
         });
+
+        TextButton textButtonZoom = new TextButton("Start", skin);
+        textButtonZoom.setPosition(100,0);
+        textButtonZoom.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameScreen.camera.zoom = gameScreen.camera.zoom - 0.01f;
+                return true;
+            }
+        });
+
         stage.addActor(table);
         stage.addActor(textButton1);
+        stage.addActor(textButtonZoom);
         }
 
 
@@ -155,11 +158,9 @@ public class Hud implements Disposable{
 
             gameScreen.multiplexer.addProcessor(stage);
 
+
             window = new Window(planetName, skin);
-
             region = new TextureRegion();
-
-            //window.debug();
 
             window.setColor(Color.BLACK);
             window.getTitleLabel().setColor(Color.CHARTREUSE);
@@ -263,12 +264,130 @@ public class Hud implements Disposable{
             windowInfoPlanetCount--;
         }
     }
+
+    public void createWindowPlanetMarket(String planetName) {
+
+        windowInfoPlanetMarket++;
+
+        if (windowInfoPlanetMarket<=1) {
+
+            gameScreen.multiplexer.addProcessor(stage);
+
+            window = new Window(planetName, skin);
+            region = new TextureRegion();
+
+            window.setColor(Color.BLACK);
+            window.getTitleLabel().setColor(Color.CHARTREUSE);
+            window.setSize(400.0f, 400.0f);
+            window.setPosition(Gdx.graphics.getWidth() / 2.0f, Gdx.graphics.getHeight() / 2.0f, Align.center);
+
+            Button button = new Button(skin, "close");
+            window.getTitleTable().add(button).padRight(1.0f);
+            window.setBounds(window.getX(), window.getY(), window.getWidth(),window.getHeight());
+
+            Table winTable = new Table();
+            //winTable.debug();
+            window.add(winTable).grow().pad(10);
+            winTable.align(1);
+            stage.addActor(window);
+            winTable.top();
+
+            for (int i = 0; i <= gameScreen.planets.size() - 1; i++) {
+                if (gameScreen.planets.get(i).getSpaceObjectName().equals(planetName)) {
+                    planet = gameScreen.planets.get(i);
+                    planetNumber = i;
+                    region = game.textureAtlas.findRegion(planet.getPath());
+                    planetImage = new Image(game.textureAtlas.findRegion(planet.getPath()));
+
+                    planetImage.setSize(10,10);
+                    titanPriceLabel = new Label(String.format("%.2f", planet.getPriceTitan())+" T$", skin, "titan");
+                    titanPriceLabel.setFontScale(1.5f);
+                    grafenPriceLabel = new Label(String.format("%.2f", planet.getPriceGrafen()), skin, "grafen");
+                    grafenPriceLabel.setFontScale(1.5f);
+                    woterPriceLabel = new Label(String.format("%.2f", planet.getPriceWoter()), skin, "woter");
+                    woterPriceLabel.setFontScale(1.5f);
+                    fuellPriceLabel = new Label(String.format("%.2f", planet.getPriceFuell()), skin, "fuell");
+                    fuellPriceLabel.setFontScale(1.5f);
+                    break;
+                }
+            }
+
+
+            Label titanLabel = new Label("Titan: ", skin, "titan");
+            titanLabel.setFontScale(1.5f);
+
+            Label grafenLabel = new Label("Grafen", skin, "grafen");
+            grafenLabel.setFontScale(1.5f);
+
+            Label woterLabel = new Label("Woter", skin, "woter");
+            woterLabel.setFontScale(1.5f);
+
+            Label fuellLabel = new Label("Fuell", skin, "fuell");
+            fuellLabel.setFontScale(1.5f);
+
+
+            TextButton textButtonClose = new TextButton("Close", skin);
+
+            TextButton textButtonBuyTitan =  new TextButton("Buy", skin);
+            TextButton textButtonSellTitan =  new TextButton("Sell", skin);
+
+            TextButton textButtonBuyFuel =  new TextButton("Buy", skin);
+            TextButton textButtonSellFuel =  new TextButton("Sell", skin);
+
+            window.row().pad(5);
+            winTable.row().colspan(4);
+            winTable.add(planetImage).size(100,100);
+
+            winTable.row().pad(5);
+            winTable.add(titanLabel).expandX().left();
+            winTable.add(titanPriceLabel).expandX().right();
+            winTable.add(textButtonBuyTitan).left().pad(5);
+            winTable.add(textButtonSellTitan).left().pad(5);
+
+            winTable.row().pad(5);
+            winTable.add(grafenLabel).expandX().left();
+            winTable.add(grafenPriceLabel).expandX().right();
+
+
+            winTable.row().pad(5);
+            winTable.add(woterLabel).expandX().left();
+            winTable.add(woterPriceLabel).expandX().right();
+
+            winTable.row().pad(5);
+            winTable.add(fuellLabel).expandX().left();
+            winTable.add(fuellPriceLabel).expand().right();
+            winTable.add(textButtonBuyFuel).left().pad(5);
+            winTable.add(textButtonSellFuel).left().pad(5);
+
+            winTable.row();
+            winTable.row().colspan(4);
+            winTable.add(textButtonClose).expand().center().pad(10);
+
+
+            textButtonClose.addListener(new ClickListener() {
+                @Override
+                public void  touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    window.remove();
+                    windowInfoPlanetCount--;
+                    gameScreen.multiplexer.removeProcessor(stage);
+                }
+            });
+        }
+        else{
+            windowInfoPlanetMarket--;
+        }
+    }
     public void update(float dt) {
         progressBarUpdate();
         windowInfoPlanetUpdate(dt);
-
-
-
+        time = time +dt;
+        fps ++;
+        if (time >= 1){
+            float fpsA = fps;
+           levelLabel.setText("FPS"+fpsA);
+           time = 0;
+           fps = 0;
+        }
         }
 
     private void windowInfoPlanetUpdate(float dt) {
@@ -292,5 +411,4 @@ public class Hud implements Disposable{
     @Override
     public void dispose() { stage.dispose(); }
 
-    public boolean isTimeUp() { return timeUp; }
 }

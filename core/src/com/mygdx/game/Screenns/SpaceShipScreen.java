@@ -2,9 +2,14 @@ package com.mygdx.game.Screenns;
 
 
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipDraft;
+import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleActor;
+import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType;
 import com.mygdx.game.MyGdxGame;
+
+import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.EMPTY;
 
 public class SpaceShipScreen extends AbstractScreen {
 
@@ -12,20 +17,30 @@ public class SpaceShipScreen extends AbstractScreen {
     private ModuleActor moduleActor;
 
 
-    public SpaceShipScreen(final MyGdxGame game) {
+
+
+
+    public SpaceShipScreen(final MyGdxGame game, final SpaceShipPlayer spaceShipPlayer) {
         super(game);
         game.kolejka.addFirst(this);
         isVisible = true;
-        intSpaceShipDraft();
-
+        intSpaceShipDraft(spaceShipPlayer);
     }
 
 
-    private void intSpaceShipDraft() {
+    private void intSpaceShipDraft(final SpaceShipPlayer spaceShipPlayer) {
         spaceShipDraft = new SpaceShipDraft(game);
-        moduleActor = new ModuleActor(game, spaceShipDraft.getScale());
-        stage.addActor(spaceShipDraft);
-        stage.addActor(moduleActor);
+        for(int i = 1; i <= 10 /*spaceShipPlayer.schipModules.size()-1*/ ; i++){
+
+            if (spaceShipPlayer.schipModules.get(i).moduleType !=  EMPTY) {
+
+                int index = i;
+                ModuleType moduleType = spaceShipPlayer.schipModules.get(i).moduleType;
+                moduleActor = new ModuleActor(game, moduleType, index, spaceShipDraft.getScale());
+                stage.addActor(spaceShipDraft);
+                stage.addActor(moduleActor);
+            }
+        }
     }
 
     @Override
@@ -51,5 +66,9 @@ public class SpaceShipScreen extends AbstractScreen {
     @Override
     public void show(){
         isVisible = true;
+    }
+    @Override
+    public void dispose(){
+        this.dispose();
     }
 }

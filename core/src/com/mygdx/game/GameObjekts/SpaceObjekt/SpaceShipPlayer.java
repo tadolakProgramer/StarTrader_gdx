@@ -43,24 +43,28 @@ public class SpaceShipPlayer extends SpaceObject {
     private SpaceShipCocpit spaceShipCocpit;
     private HousingModule housingModule;
     private SpaceShipEngine spaceShipEngine;
+    private boolean isRun;
 
     private int planetNumber;
 
     private Vector2 moveVector;
     private float targetX;
     private float targetY;
+    public String targetName;
 
     private double money;
     private MyGdxGame game;
     private GameScreen gameScreen;
     private int planetTripCounter;  //Do zdobywania nagród
 
-    public SpaceShipPlayer(final MyGdxGame game, final GameScreen gameScreen){
+    public SpaceShipPlayer(final MyGdxGame game,  final GameScreen gameScreen){
         super(game);
-        this.game = game;
+        //this.game = game;
         this.gameScreen = gameScreen;
-        setTexture(game.textureAtlas.findRegion("aliensprite2").name);
         setScale(GAME_SCALE);
+        this.path = "aliensprite2";
+        //this.setTexture(game.textureAtlas.findRegion("aliensprite2").name);
+        setTexture(this.path);
         moveVector = new Vector2();
         initialize();
 
@@ -69,7 +73,12 @@ public class SpaceShipPlayer extends SpaceObject {
             @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                gameScreen.createSpaceShipScreen();
+                if (isRun) {
+                    gameScreen.createSpaceShipScreen();
+                }
+                else {
+                    gameScreen.createMarketWindow();
+                }
 
                 System.out.println("KLIK");
                 return super.touchDown(event, x, y, pointer, button);
@@ -103,7 +112,7 @@ public class SpaceShipPlayer extends SpaceObject {
                     break;
                 }
                 case GAS: {
-                    schipModules.set(index, new Contener(ModuleType.CONTENER, name, capacity, fill, cost, baseFailureRate));
+                    schipModules.set(index, new Contener(ModuleType.GAS, name, capacity, fill, cost, baseFailureRate));
                     break;
                 }
                 case LIQUID: {
@@ -163,12 +172,15 @@ public class SpaceShipPlayer extends SpaceObject {
 
         targetX = gameScreen.planets.get(planetNumber).getPositionCX();
         targetY = gameScreen.planets.get(planetNumber).getPositionCY();
+        targetName = gameScreen.planets.get(planetNumber).getSpaceObjectName();
 
         double angle = Math.atan2(targetY-positionC.y, targetX-positionC.x);
         double rotation =  Math.toDegrees(angle)+90;
 
         spaceShipEngine.setSpeedActual(spaceShipEngine.getSpeedEngine());
         moveVector.set((float)Math.cos(angle), (float)Math.sin(angle));
+
+        isRun = true;
 
         Action startAction = Actions.parallel(
                 Actions.rotateTo((float) rotation, 1.2f),
@@ -183,6 +195,8 @@ public class SpaceShipPlayer extends SpaceObject {
     public void update(float dt) {
         setPositionC();
         setLabelPosition();
+        setActualSize();
+
 
         float distance = Vector2.dst2(targetX, targetY, positionC.x, positionC.y);
         if (distance <= 0.3*spaceShipEngine.getSpeedActual()*dt) {
@@ -203,6 +217,7 @@ public class SpaceShipPlayer extends SpaceObject {
     private void setStop() {
         setPositionOrgin(targetX, targetY);
         spaceShipEngine.setSpeedActual(0);
+        isRun = false;
         planetTripCounter++;
 
         Action stopAction = Actions.parallel(
@@ -239,7 +254,7 @@ public class SpaceShipPlayer extends SpaceObject {
 
     }
 //GET SET **********************************************************************
-    
+
 
     public double getMoney() {
         return money;
