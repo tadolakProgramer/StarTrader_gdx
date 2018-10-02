@@ -37,10 +37,6 @@ import com.mygdx.game.MyGdxGame;
 import static com.mygdx.game.MyGdxGame.GAME_HEIGHT;
 import static com.mygdx.game.MyGdxGame.GAME_WIDTH;
 
-
-/**
- * Created by brentaureli on 8/17/15.
- */
 public class Hud implements Disposable{
 
     //Scene2D.ui Stage and its own Viewport for HUD
@@ -165,7 +161,7 @@ public class Hud implements Disposable{
             window.setColor(Color.BLACK);
             window.getTitleLabel().setColor(Color.CHARTREUSE);
             window.setSize(400.0f, 400.0f);
-            window.setPosition(Gdx.graphics.getWidth() / 2.0f, Gdx.graphics.getHeight() / 2.0f, Align.center);
+            window.setPosition(GAME_WIDTH / 2.0f-200, GAME_HEIGHT / 2.0f-200);//, Align.center);
 
             Button button = new Button(skin, "close");
             window.getTitleTable().add(button).padRight(1.0f);
@@ -368,7 +364,7 @@ public class Hud implements Disposable{
                 @Override
                 public void  touchUp(InputEvent event, float x, float y, int pointer, int button) {
                     window.remove();
-                    windowInfoPlanetCount--;
+                    windowInfoPlanetMarket--;
                     gameScreen.multiplexer.removeProcessor(stage);
                 }
             });
