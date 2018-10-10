@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
@@ -17,7 +18,7 @@ import com.mygdx.game.Screenns.GameScreen;
 import static com.mygdx.game.MyGdxGame.GAME_HEIGHT;
 import static com.mygdx.game.MyGdxGame.GAME_WIDTH;
 
-public abstract class AbstractHUD {
+public abstract class AbstractHUD implements Disposable {
 
 
     //Scene2D.ui Stage and its own Viewport for HUD
@@ -27,7 +28,6 @@ public abstract class AbstractHUD {
     public TextureRegion region;
     protected Skin skin;
     protected Window window;
-    protected int windowInfoPlanetCount = 0;
     protected int windowInfoPlanetMarket = 0;
     protected MyGdxGame game;
     protected GameScreen gameScreen;
@@ -49,4 +49,12 @@ public abstract class AbstractHUD {
 
         gameScreen.multiplexer.addProcessor(stage);
     }
+/*
+    public void update(float dt){
+
+        System.out.println("HudUpdate");
+    }
+*/
+    @Override
+    public void dispose() { stage.dispose(); }
 }

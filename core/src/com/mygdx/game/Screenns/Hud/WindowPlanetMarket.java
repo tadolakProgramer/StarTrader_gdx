@@ -89,7 +89,8 @@ public class WindowPlanetMarket extends AbstractHUD {
             TextButton textButtonClose = new TextButton("Close", skin);
 
             TextButton textButtonBuyTitan =  new TextButton("Buy", skin);
-            TextField textField = new TextField("", skin);
+            TextField textField = new TextField("0", skin);
+            textField.setSize(10f,10);
 
             TextButton textButtonSellTitan =  new TextButton("Sell", skin);
 

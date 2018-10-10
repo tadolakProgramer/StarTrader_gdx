@@ -4,11 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
 import com.mygdx.game.Helper.ReadXML;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Screenns.Hud.Hud;
+
 import java.util.ArrayList;
 import java.util.List;
 

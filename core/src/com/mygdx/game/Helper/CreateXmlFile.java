@@ -1,14 +1,10 @@
 package com.mygdx.game.Helper;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.GameScreen;
-import com.mygdx.game.Screenns.Hud;
+import com.mygdx.game.Screenns.Hud.Hud;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -16,17 +12,14 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Attr;
-import org.w3c.dom.CDATASection;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class CreateXmlFile {
 

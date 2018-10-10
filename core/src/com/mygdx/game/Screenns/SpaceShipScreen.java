@@ -69,6 +69,6 @@ public class SpaceShipScreen extends AbstractScreen {
     }
     @Override
     public void dispose(){
-        this.dispose();
+
     }
 }

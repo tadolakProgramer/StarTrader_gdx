@@ -1,8 +1,6 @@
 package com.mygdx.game.Helper;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
@@ -12,7 +10,7 @@ import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.ExperienceType;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.GameScreen;
-import com.mygdx.game.Screenns.Hud;
+import com.mygdx.game.Screenns.Hud.Hud;
 
 
 public class ReadXML {

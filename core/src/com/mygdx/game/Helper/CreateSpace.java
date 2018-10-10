@@ -1,11 +1,8 @@
 package com.mygdx.game.Helper;
 
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Screenns.GameScreen;
-import com.mygdx.game.Screenns.Hud;
+import com.mygdx.game.Screenns.Hud.Hud;
 
 import java.util.ArrayList;
 import java.util.List;

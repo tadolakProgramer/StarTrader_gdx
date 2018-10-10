@@ -24,13 +24,15 @@ public class WindowPlanetInfo extends AbstractHUD {
     private Label woterPriceLabel;
     private Label fuellPriceLabel;
 
+    private int windowInfoPlanetCount;
 
-    public WindowPlanetInfo(final GameScreen gameScreen, MyGdxGame game, SpriteBatch sb,String planetName) {
+
+    public WindowPlanetInfo(final GameScreen gameScreen, MyGdxGame game, SpriteBatch sb, String planetName) {
         super(gameScreen, game, sb);
 
-        windowInfoPlanetCount++;
+        windowInfoPlanetCount=1;
 
-        if (windowInfoPlanetCount<=1) {
+        if (windowInfoPlanetCount <= 1) {
 
             gameScreen.multiplexer.addProcessor(stage);
 
@@ -41,16 +43,17 @@ public class WindowPlanetInfo extends AbstractHUD {
             window.setColor(Color.BLACK);
             window.getTitleLabel().setColor(Color.CHARTREUSE);
             window.setSize(400.0f, 400.0f);
-            window.setPosition(GAME_WIDTH / 2.0f-200, GAME_HEIGHT / 2.0f-200);//, Align.center);
+            window.setPosition(GAME_WIDTH / 2.0f - 200, GAME_HEIGHT / 2.0f - 200);//, Align.center);
 
             Button button = new Button(skin, "close");
             window.getTitleTable().add(button).padRight(1.0f);
-            window.setBounds(window.getX(), window.getY(), window.getWidth(),window.getHeight());
+            window.setBounds(window.getX(), window.getY(), window.getWidth(), window.getHeight());
 
             Table winTable = new Table();
             window.add(winTable).grow().pad(10);
             winTable.align(1);
             winTable.top();
+            stage.addActor(window);
 
 
             for (int i = 0; i <= gameScreen.planets.size() - 1; i++) {
@@ -60,8 +63,8 @@ public class WindowPlanetInfo extends AbstractHUD {
                     region = game.textureAtlas.findRegion(planet.getPath());
                     planetImage = new Image(game.textureAtlas.findRegion(planet.getPath()));
 
-                    planetImage.setSize(10,10);
-                    titanPriceLabel = new Label(String.format("%.2f", planet.getPriceTitan())+" T$", skin, "titan");
+                    planetImage.setSize(10, 10);
+                    titanPriceLabel = new Label(String.format("%.2f", planet.getPriceTitan()) + " T$", skin, "titan");
                     titanPriceLabel.setFontScale(1.5f);
                     grafenPriceLabel = new Label(String.format("%.2f", planet.getPriceGrafen()), skin, "grafen");
                     grafenPriceLabel.setFontScale(1.5f);
@@ -92,7 +95,7 @@ public class WindowPlanetInfo extends AbstractHUD {
 
             window.row().pad(5);
             winTable.row().colspan(2);
-            winTable.add(planetImage).size(100,100);
+            winTable.add(planetImage).size(100, 100);
 
             winTable.row().pad(5);
             winTable.add(titanLabel).expandX().left();
@@ -126,17 +129,26 @@ public class WindowPlanetInfo extends AbstractHUD {
             });
             textButton1.addListener(new ClickListener() {
                 @Override
-                public void  touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                     gameScreen.spaceShipPlayer.setStart(planetNumber);
                     window.remove();
                     windowInfoPlanetCount--;
                     gameScreen.multiplexer.removeProcessor(stage);
                 }
             });
-        }
-        else{
+        } else {
             windowInfoPlanetCount--;
         }
     }
+
+    public void update(float dt) {
+        windowInfoPlanetUpdate(dt);
     }
 
+    private void windowInfoPlanetUpdate(float dt) {
+        if (windowInfoPlanetCount >= 1) {
+            planetImage.setOrigin(planetImage.getImageWidth() / 2, planetImage.getImageHeight() / 2);
+            planetImage.rotateBy(planet.getRotationSpeed() * dt);
+        }
+    }
+}

@@ -22,7 +22,7 @@ public abstract class AbstractScreen implements Screen {
 
     protected MyGdxGame game;
     protected Stage stage;
-    protected OrthographicCamera camera;
+    public OrthographicCamera camera;
     protected SpriteBatch spriteBatch;
     protected boolean isVisible;
 

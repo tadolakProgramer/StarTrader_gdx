@@ -66,7 +66,7 @@ public abstract class SpaceObject extends Actor {
                     getScaleY(), getRotation());
             labelName.draw(batch, parentAlpha);
 
-        System.out.println("P: "+ spaceObjectName);
+       // System.out.println("P: "+ spaceObjectName);
 
     }
 
