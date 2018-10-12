@@ -65,6 +65,7 @@ public class SpaceShipPlayer extends SpaceObject {
     private int planetTripCounter;  //Do zdobywania nagród
     private double loseCapacity;
     private double loseFill;
+    private double waterFill;
 
     public SpaceShipPlayer(final MyGdxGame game,  final GameScreen gameScreen){
         super(game);
@@ -244,19 +245,48 @@ public class SpaceShipPlayer extends SpaceObject {
     public void buy(CargoType cargoType, int quantity, double cost) {
 
         if (checkMoney(quantity, cost) && checkFill(cargoType, quantity)) {
+
             subMoney(quantity * cost);
             ModuleType moduleType = cargoType.getModuleType();
-            switch (moduleType) {
-                case LOSE: {
-                    loseFill = loseFill + quantity;
-                    addTitan(quantity);
-                }
+            fillingModule(moduleType, quantity);
+            addCargo(cargoType, quantity);
+        }
+    }
+
+    private void addCargo(CargoType cargoType, int quantity) {
+        switch (cargoType){
+            case TITAN:{
+                addTitan(quantity);
+                break;}
+            case FUEL:{
+                addFuelFill(quantity);
+                break;}
+            case WATER: {
+                addWater(quantity);
+                break;
+            }
+            }
+        }
+
+    private void addWater(int quantity) {
+        waterFill = waterFill + quantity;
+    }
+
+
+
+    private void fillingModule(ModuleType moduleType, int quantity) {
+        switch (moduleType) {
+            case LOSE: {
+                loseFill = loseFill + quantity;
+            }
+            case FUEL:{
+                addFuelFill(quantity);
             }
         }
     }
 
     private void addTitan(int quantity) {
-        titanFill=titanFill+quantity;
+        titanFill = titanFill+quantity;
     }
 
     private void subMoney(double v) {
@@ -279,7 +309,13 @@ public class SpaceShipPlayer extends SpaceObject {
                 }
                 break;
             }
-        }
+            case FUEL: {
+                if (fuelFill + quantity <= fuelCapacity) {
+                    return true;
+                }
+                    break;
+                }
+            }
         return false;
     }
 
