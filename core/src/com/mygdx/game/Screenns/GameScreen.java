@@ -93,7 +93,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         //System.out.println("KLIK: " + delta);
 
         background.render(backgroundCam);
-
         spriteBatch.setProjectionMatrix(hud.stage.getCamera().combined);
 
         spriteBatch.begin();
@@ -101,7 +100,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         spriteBatch.end();
 
         hud.stage.draw();
-
         update(delta);
         }
 
@@ -119,12 +117,14 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
                         (planets.get(i).getPositionCY() + planets.get(i).getActualHight()/2 <= y1 - h/2)
                         )
                 {
+                    if ( planets.get(i).isVisible()){
                     planets.get(i).setVisible(false);
-                    //viewPlanets.add(planets.get(i));
+                    viewPlanets.remove(planets.get(i));}
                 }
                 else{
+                    if(!planets.get(i).isVisible()){
                     planets.get(i).setVisible(true);
-                    //viewPlanets.remove(planets.get(i));
+                    viewPlanets.add(planets.get(i));}
                     }
                 }
             }
@@ -211,6 +211,5 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     public void createMarketWindow() {
         hud.createWindowPlanetMarket(spaceShipPlayer.targetName);
-
     }
 }
