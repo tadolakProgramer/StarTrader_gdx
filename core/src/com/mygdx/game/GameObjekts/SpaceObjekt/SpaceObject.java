@@ -14,7 +14,7 @@ import com.mygdx.game.MyGdxGame;
 public abstract class SpaceObject extends Actor {
 
     private MyGdxGame game;
-    public TextureRegion region;
+    protected TextureRegion region;
     protected String path;
     protected  Vector2 positionC;
 

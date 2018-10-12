@@ -14,15 +14,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.GameScreen;
 
 public class WindowPlanetMarket extends AbstractHUD {
 
     private Label titanPriceLabel;
+    private double titanPrice;
     private Label grafenPriceLabel;
     private Label woterPriceLabel;
     private Label fuellPriceLabel;
+    private TextField.TextFieldFilter filter;
 
     public WindowPlanetMarket(final GameScreen gameScreen, MyGdxGame game, SpriteBatch sb, String planetName ) {
         super(gameScreen, game, sb);
@@ -38,7 +41,7 @@ public class WindowPlanetMarket extends AbstractHUD {
 
             window.setColor(Color.BLACK);
             window.getTitleLabel().setColor(Color.CHARTREUSE);
-            window.setSize(400.0f, 400.0f);
+            window.setSize(500.0f, 400.0f);
             window.setPosition(Gdx.graphics.getWidth() / 2.0f, Gdx.graphics.getHeight() / 2.0f, Align.center);
 
             Button button = new Button(skin, "close");
@@ -60,7 +63,8 @@ public class WindowPlanetMarket extends AbstractHUD {
                     planetImage = new Image(game.textureAtlas.findRegion(planet.getPath()));
 
                     planetImage.setSize(10,10);
-                    titanPriceLabel = new Label(String.format("%.2f", planet.getPriceTitan())+" T$", skin, "titan");
+                    titanPrice = planet.getPriceTitan();
+                    titanPriceLabel = new Label(String.format("%.2f", titanPrice)+" T$", skin, "titan");
                     titanPriceLabel.setFontScale(1.5f);
                     grafenPriceLabel = new Label(String.format("%.2f", planet.getPriceGrafen()), skin, "grafen");
                     grafenPriceLabel.setFontScale(1.5f);
@@ -89,8 +93,7 @@ public class WindowPlanetMarket extends AbstractHUD {
             TextButton textButtonClose = new TextButton("Close", skin);
 
             TextButton textButtonBuyTitan =  new TextButton("Buy", skin);
-            TextField textField = new TextField("0", skin);
-            textField.setSize(10f,10);
+            final TextField textField = new TextField("0", skin);
 
             TextButton textButtonSellTitan =  new TextButton("Sell", skin);
 
@@ -98,15 +101,41 @@ public class WindowPlanetMarket extends AbstractHUD {
             TextButton textButtonSellFuel =  new TextButton("Sell", skin);
 
             window.row().pad(5);
-            winTable.row().colspan(4);
+            winTable.row().colspan(5);
             winTable.add(planetImage).size(100,100);
 
             winTable.row().pad(5);
             winTable.add(titanLabel).expandX().left();
             winTable.add(titanPriceLabel).expandX().right();
             winTable.add(textButtonBuyTitan).left().pad(5);
-            winTable.add(textField).padLeft(10.0f);
+            winTable.add(textField).size(100,30).pad(5.0f);
             winTable.add(textButtonSellTitan).left().pad(5);
+
+
+
+            textField.setTextFieldFilter(new TextField.TextFieldFilter() {
+                // Accepts only digits
+                public boolean acceptChar(TextField textField, char c) {
+                    if (Character.toString(c).matches("^[0-9]")) {
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+            textButtonBuyTitan.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    String t = textField.getText();
+                    int i = Integer.valueOf(t);
+                    gameScreen.spaceShipPlayer.buy(CargoType.TITAN, i, titanPrice);
+                    textField.setText("0");
+                    return true;
+                }
+            });
+
+
+
 
             winTable.row().pad(5);
             winTable.add(grafenLabel).expandX().left();
@@ -124,7 +153,7 @@ public class WindowPlanetMarket extends AbstractHUD {
             winTable.add(textButtonSellFuel).left().pad(5);
 
             winTable.row();
-            winTable.row().colspan(4);
+            winTable.row().colspan(5);
             winTable.add(textButtonClose).expand().center().pad(10);
 
 

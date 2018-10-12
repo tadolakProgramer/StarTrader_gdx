@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.Contener;
 import com.mygdx.game.GameObjekts.SpaceShipParts.Empty;
 import com.mygdx.game.GameObjekts.SpaceShipParts.FuelTank;
@@ -25,7 +26,9 @@ import com.mygdx.game.Screenns.SpaceShipScreen;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mygdx.game.GameObjekts.SpaceShipParts.CargoType.TITAN;
 import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.EMPTY;
+import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.LOSE;
 import static com.mygdx.game.MyGdxGame.GAME_SCALE;
 
 
@@ -37,6 +40,10 @@ public class SpaceShipPlayer extends SpaceObject {
 
     public double fuelCapacity;
     public double fuelFill;
+
+    public double titanCapacity = 100;
+    public double titanFill;
+
     public double housingModuleCapacity;
     public double housingModuleFill;
 
@@ -56,6 +63,8 @@ public class SpaceShipPlayer extends SpaceObject {
     private MyGdxGame game;
     private GameScreen gameScreen;
     private int planetTripCounter;  //Do zdobywania nagród
+    private double loseCapacity;
+    private double loseFill;
 
     public SpaceShipPlayer(final MyGdxGame game,  final GameScreen gameScreen){
         super(game);
@@ -121,6 +130,7 @@ public class SpaceShipPlayer extends SpaceObject {
                 }
                 case LOSE: {
                     schipModules.set(index, new Contener(ModuleType.LOSE, name, capacity, fill, cost, baseFailureRate));
+                    addLoseCapacity(capacity);
                     break;
                 }
                 case SPACE_SHIP_ENGINE: {
@@ -143,6 +153,10 @@ public class SpaceShipPlayer extends SpaceObject {
                 }
             }
         }
+    }
+
+    private void addLoseCapacity(double capacity) {
+        this.loseCapacity = this.loseCapacity + capacity;
     }
 
     public void addFuelCapacity(double fuelCapacity){
@@ -225,6 +239,48 @@ public class SpaceShipPlayer extends SpaceObject {
                 Actions.scaleTo(0.25f,0.25f,1.2f)
         );
         this.addAction(stopAction);
+    }
+
+    public void buy(CargoType cargoType, int quantity, double cost) {
+
+        if (checkMoney(quantity, cost) && checkFill(cargoType, quantity)) {
+            subMoney(quantity * cost);
+            ModuleType moduleType = cargoType.getModuleType();
+            switch (moduleType) {
+                case LOSE: {
+                    loseFill = loseFill + quantity;
+                    addTitan(quantity);
+                }
+            }
+        }
+    }
+
+    private void addTitan(int quantity) {
+        titanFill=titanFill+quantity;
+    }
+
+    private void subMoney(double v) {
+        money = money - v;
+    }
+
+    private boolean checkMoney(int quantity, double cost){
+        if (quantity * cost < money){
+            return true;
+        }
+        else return false;
+    }
+
+    private boolean checkFill(CargoType cargoType, int quantity) {
+        ModuleType moduleType = cargoType.getModuleType();
+        switch (moduleType) {
+            case LOSE: {
+                if (loseFill + quantity <= loseCapacity) {
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
     }
 
 
