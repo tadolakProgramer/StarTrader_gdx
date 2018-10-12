@@ -1,6 +1,7 @@
 package com.mygdx.game.Screenns.Hud;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
@@ -18,7 +18,7 @@ import com.mygdx.game.Screenns.GameScreen;
 import static com.mygdx.game.MyGdxGame.GAME_HEIGHT;
 import static com.mygdx.game.MyGdxGame.GAME_WIDTH;
 
-public abstract class AbstractHUD implements Disposable {
+public abstract class AbstractHUD {
 
 
     //Scene2D.ui Stage and its own Viewport for HUD
@@ -36,25 +36,21 @@ public abstract class AbstractHUD implements Disposable {
     protected Planet planet;
     protected int planetNumber;
     protected SpriteBatch sb;
+    protected Camera camera;
 
-    public AbstractHUD(final GameScreen gameScreen, MyGdxGame game, SpriteBatch sb){
+    public AbstractHUD(final GameScreen gameScreen, MyGdxGame game, SpriteBatch sb) {
         this.gameScreen = gameScreen;
         this.game = game;
         this.sb = sb;
         skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
 
-
-        viewport = new FitViewport(GAME_WIDTH, GAME_HEIGHT, new OrthographicCamera());
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(GAME_WIDTH, GAME_HEIGHT, camera);
         stage = new Stage(viewport, sb);
+        camera.update();
 
         gameScreen.multiplexer.addProcessor(stage);
-    }
-/*
-    public void update(float dt){
 
-        System.out.println("HudUpdate");
     }
-*/
-    @Override
-    public void dispose() { stage.dispose(); }
+
 }

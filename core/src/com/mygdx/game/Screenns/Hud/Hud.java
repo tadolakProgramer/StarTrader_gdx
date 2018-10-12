@@ -138,6 +138,7 @@ public class Hud extends  AbstractHUD {
 
     public void update(float dt) {
         progressBarUpdate();
+        moneyLabel.setText(String.format("%.2f", gameScreen.spaceShipPlayer.getMoney()));
         time = time +dt;
         fps ++;
         if (time >= 1){

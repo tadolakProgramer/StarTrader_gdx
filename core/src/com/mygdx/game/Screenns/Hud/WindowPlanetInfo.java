@@ -105,7 +105,6 @@ public class WindowPlanetInfo extends AbstractHUD {
             winTable.add(grafenLabel).expandX().left();
             winTable.add(grafenPriceLabel).expandX().right();
 
-
             winTable.row().pad(5);
             winTable.add(woterLabel).expandX().left();
             winTable.add(woterPriceLabel).expandX().right();
@@ -118,12 +117,11 @@ public class WindowPlanetInfo extends AbstractHUD {
             winTable.add(textButton1).expand().center().pad(10);
             winTable.add(textButton2).expand().center().pad(10);
 
-
             textButton2.addListener(new ClickListener() {
                 @Override
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                     window.remove();
-                    windowInfoPlanetCount--;
+                    windowInfoPlanetCount=0;
                     gameScreen.multiplexer.removeProcessor(stage);
                 }
             });
@@ -132,12 +130,12 @@ public class WindowPlanetInfo extends AbstractHUD {
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                     gameScreen.spaceShipPlayer.setStart(planetNumber);
                     window.remove();
-                    windowInfoPlanetCount--;
+                    windowInfoPlanetCount=0;
                     gameScreen.multiplexer.removeProcessor(stage);
                 }
             });
         } else {
-            windowInfoPlanetCount--;
+            windowInfoPlanetCount=0;
         }
     }
 

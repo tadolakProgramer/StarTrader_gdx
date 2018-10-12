@@ -93,12 +93,12 @@ public class WindowPlanetMarket extends AbstractHUD {
             TextButton textButtonClose = new TextButton("Close", skin);
 
             TextButton textButtonBuyTitan =  new TextButton("Buy", skin);
-            final TextField textField = new TextField("0", skin);
-
+            final TextField textFieldTitan = new TextField("0", skin);
             TextButton textButtonSellTitan =  new TextButton("Sell", skin);
 
             TextButton textButtonBuyFuel =  new TextButton("Buy", skin);
-            TextButton textButtonSellFuel =  new TextButton("Sell", skin);
+            final TextField textFieldFuell = new TextField("0", skin);
+            //TextButton textButtonSellFuel =  new TextButton("Sell", skin);
 
             window.row().pad(5);
             winTable.row().colspan(5);
@@ -108,12 +108,12 @@ public class WindowPlanetMarket extends AbstractHUD {
             winTable.add(titanLabel).expandX().left();
             winTable.add(titanPriceLabel).expandX().right();
             winTable.add(textButtonBuyTitan).left().pad(5);
-            winTable.add(textField).size(100,30).pad(5.0f);
+            winTable.add(textFieldTitan).size(100,30).pad(5.0f);
             winTable.add(textButtonSellTitan).left().pad(5);
 
 
 
-            textField.setTextFieldFilter(new TextField.TextFieldFilter() {
+            textFieldTitan.setTextFieldFilter(new TextField.TextFieldFilter() {
                 // Accepts only digits
                 public boolean acceptChar(TextField textField, char c) {
                     if (Character.toString(c).matches("^[0-9]")) {
@@ -126,10 +126,10 @@ public class WindowPlanetMarket extends AbstractHUD {
             textButtonBuyTitan.addListener(new ClickListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    String t = textField.getText();
+                    String t = textFieldTitan.getText();
                     int i = Integer.valueOf(t);
                     gameScreen.spaceShipPlayer.buy(CargoType.TITAN, i, titanPrice);
-                    textField.setText("0");
+                    textFieldTitan.setText("0");
                     return true;
                 }
             });
@@ -150,7 +150,29 @@ public class WindowPlanetMarket extends AbstractHUD {
             winTable.add(fuellLabel).expandX().left();
             winTable.add(fuellPriceLabel).expand().right();
             winTable.add(textButtonBuyFuel).left().pad(5);
-            winTable.add(textButtonSellFuel).left().pad(5);
+            winTable.add(textFieldFuell).size(100,30).pad(5.0f);
+            //winTable.add(textButtonSellFuel).left().pad(5);
+
+            textFieldFuell.setTextFieldFilter(new TextField.TextFieldFilter() {
+                // Accepts only digits
+                public boolean acceptChar(TextField textField, char c) {
+                    if (Character.toString(c).matches("^[0-9]")) {
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+            textButtonBuyFuel.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    String t = textFieldFuell.getText();
+                    int i = Integer.valueOf(t);
+                    gameScreen.spaceShipPlayer.buy(CargoType.FUEL, i, titanPrice);
+                    textFieldFuell.setText("0");
+                    return true;
+                }
+            });
 
             winTable.row();
             winTable.row().colspan(5);
