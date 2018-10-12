@@ -4,7 +4,8 @@ package com.mygdx.game.GameObjekts.SpaceShipParts;
 public enum CargoType {
 
     TITAN(ModuleType.LOSE),
-    WOTER(ModuleType.LIQUID);
+    WATER(ModuleType.LIQUID),
+    FUEL(ModuleType.FUEL);
 
     private final ModuleType moduleType;
 
