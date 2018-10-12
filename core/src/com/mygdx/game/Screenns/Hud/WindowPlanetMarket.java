@@ -20,6 +20,7 @@ import com.mygdx.game.Screenns.GameScreen;
 
 public class WindowPlanetMarket extends AbstractHUD {
 
+    private  double fuelPrice;
     private Label titanPriceLabel;
     private double titanPrice;
     private Label grafenPriceLabel;
@@ -64,6 +65,7 @@ public class WindowPlanetMarket extends AbstractHUD {
 
                     planetImage.setSize(10,10);
                     titanPrice = planet.getPriceTitan();
+                    fuelPrice =  planet.getPriceFuell();
                     titanPriceLabel = new Label(String.format("%.2f", titanPrice)+" T$", skin, "titan");
                     titanPriceLabel.setFontScale(1.5f);
                     grafenPriceLabel = new Label(String.format("%.2f", planet.getPriceGrafen()), skin, "grafen");
@@ -134,7 +136,16 @@ public class WindowPlanetMarket extends AbstractHUD {
                 }
             });
 
-
+            textButtonSellTitan.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    String t = textFieldTitan.getText();
+                    int i = Integer.valueOf(t);
+                    gameScreen.spaceShipPlayer.sell(CargoType.TITAN, i, titanPrice);
+                    textFieldTitan.setText("0");
+                    return true;
+                }
+            });
 
 
             winTable.row().pad(5);
@@ -168,7 +179,7 @@ public class WindowPlanetMarket extends AbstractHUD {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     String t = textFieldFuell.getText();
                     int i = Integer.valueOf(t);
-                    gameScreen.spaceShipPlayer.buy(CargoType.FUEL, i, titanPrice);
+                    gameScreen.spaceShipPlayer.buy(CargoType.FUEL, i, fuelPrice);
                     textFieldFuell.setText("0");
                     return true;
                 }
