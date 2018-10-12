@@ -253,14 +253,21 @@ public class SpaceShipPlayer extends SpaceObject {
         }
     }
 
+    public void sell(CargoType cargoType, int quantity, double cost){
+        addMoney(quantity * cost);
+        ModuleType moduleType = cargoType.getModuleType();
+        addCargo(cargoType, quantity * (-1));
+        fillingModule(moduleType, quantity * (-1));
+    }
+
     private void addCargo(CargoType cargoType, int quantity) {
         switch (cargoType){
             case TITAN:{
                 addTitan(quantity);
                 break;}
-            case FUEL:{
+            /*case FUEL:{
                 addFuelFill(quantity);
-                break;}
+                break;}*/
             case WATER: {
                 addWater(quantity);
                 break;
@@ -273,14 +280,15 @@ public class SpaceShipPlayer extends SpaceObject {
     }
 
 
-
     private void fillingModule(ModuleType moduleType, int quantity) {
         switch (moduleType) {
             case LOSE: {
                 loseFill = loseFill + quantity;
+                break;
             }
             case FUEL:{
                 addFuelFill(quantity);
+                break;
             }
         }
     }
@@ -291,6 +299,10 @@ public class SpaceShipPlayer extends SpaceObject {
 
     private void subMoney(double v) {
         money = money - v;
+    }
+
+    private void addMoney(double v) {
+        money = money + v;
     }
 
     private boolean checkMoney(int quantity, double cost){
