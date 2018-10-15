@@ -5,12 +5,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.Contener;
 import com.mygdx.game.GameObjekts.SpaceShipParts.Empty;
-import com.mygdx.game.GameObjekts.SpaceShipParts.FuelTank;
 import com.mygdx.game.GameObjekts.SpaceShipParts.HousingModule;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.ExperienceType;
@@ -18,17 +16,15 @@ import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.Person;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipModule;
 import com.mygdx.game.GameObjekts.SpaceShipParts.SpaceShipCocpit;
 import com.mygdx.game.GameObjekts.SpaceShipParts.SpaceShipEngine;
+import com.mygdx.game.Helper.ModifiedXML;
 import com.mygdx.game.Helper.ReadXML;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.GameScreen;
-import com.mygdx.game.Screenns.SpaceShipScreen;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mygdx.game.GameObjekts.SpaceShipParts.CargoType.TITAN;
 import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.EMPTY;
-import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.LOSE;
 import static com.mygdx.game.MyGdxGame.GAME_SCALE;
 
 
@@ -234,6 +230,7 @@ public class SpaceShipPlayer extends SpaceObject {
         spaceShipEngine.setSpeedActual(0);
         isRun = false;
         planetTripCounter++;
+        ModifiedXML.setPosition(this.getPositionCX(), this.getPositionCY());
 
         Action stopAction = Actions.parallel(
                 //Actions.rotateTo((float) rotation, 1.2f),

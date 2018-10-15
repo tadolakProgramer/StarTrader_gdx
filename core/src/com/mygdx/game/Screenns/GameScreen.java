@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
+import com.mygdx.game.Helper.ModifiedXML;
 import com.mygdx.game.Helper.ReadXML;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.Hud.Hud;
@@ -137,6 +138,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         stage.act();
         setViewPlanets();
 
+
         //System.out.println("Cam_pos: "+camera.position.x+"  "+camera.position.y);
         }
 
@@ -144,6 +146,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(multiplexer);
+    }
+    @Override
+    public  void dispose(){
+        ModifiedXML.setPosition(spaceShipPlayer.getOriginX(), spaceShipPlayer.getOriginY());
     }
 
 
