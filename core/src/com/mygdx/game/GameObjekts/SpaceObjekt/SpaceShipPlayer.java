@@ -37,7 +37,6 @@ public class SpaceShipPlayer extends SpaceObject {
     public double fuelCapacity;
     public double fuelFill;
 
-    public double titanCapacity = 100;
     public double titanFill;
 
     public double housingModuleCapacity;
@@ -105,7 +104,8 @@ public class SpaceShipPlayer extends SpaceObject {
 
         setSpaceObjectName("Tado-044");
 
-        money = 1234.56;
+        setMoney();
+        setPlanetTripCounter();
     }
 
     public void addModule(int index, ModuleType moduleType, String  name, double capacity, double fill, double cost, double baseFailureRate) {
@@ -183,6 +183,9 @@ public class SpaceShipPlayer extends SpaceObject {
 
         targetX = gameScreen.planets.get(planetNumber).getPositionCX();
         targetY = gameScreen.planets.get(planetNumber).getPositionCY();
+
+        ModifiedXML.writeTargetPositionToXml(targetX,targetY);
+
         targetName = gameScreen.planets.get(planetNumber).getSpaceObjectName();
 
         double angle = Math.atan2(targetY-positionC.y, targetX-positionC.x);
@@ -210,6 +213,7 @@ public class SpaceShipPlayer extends SpaceObject {
 
 
         float distance = Vector2.dst2(targetX, targetY, positionC.x, positionC.y);
+        if (isRun) {
         if (distance <= 0.3*spaceShipEngine.getSpeedActual()*dt) {
             setStop();
         } else {
@@ -218,10 +222,11 @@ public class SpaceShipPlayer extends SpaceObject {
                 setPositionOrgin(moveVector.x * dt * spaceShipEngine.getSpeedActual() + positionC.x, moveVector.y * dt * spaceShipEngine.getSpeedActual() + positionC.y);
                 fuelFill = 0;
             } else {
-                float stepDistance = Vector2.dst2( positionC.x + moveVector.x,  positionC.y + moveVector.y, positionC.x, positionC.y);
+                float stepDistance = Vector2.dst2(positionC.x + moveVector.x, positionC.y + moveVector.y, positionC.x, positionC.y);
                 setPositionOrgin(moveVector.x * dt * spaceShipEngine.getSpeedActual() + positionC.x, moveVector.y * dt * spaceShipEngine.getSpeedActual() + positionC.y);
                 fuelFill = fuelFill - stepDistance * spaceShipEngine.getConsumptionFuel() / 100;
             }
+        }
         }
     }
 
@@ -230,10 +235,12 @@ public class SpaceShipPlayer extends SpaceObject {
         spaceShipEngine.setSpeedActual(0);
         isRun = false;
         planetTripCounter++;
-        ModifiedXML.setPosition(this.getPositionCX(), this.getPositionCY());
+
+        ModifiedXML.writePositionToXml(this.getPositionCX(), this.getPositionCY());
+        ModifiedXML.writePlanetCountTripToXml(planetTripCounter);
 
         Action stopAction = Actions.parallel(
-                //Actions.rotateTo((float) rotation, 1.2f),
+                Actions.rotateTo((float) 180, 1.2f),
                 Actions.scaleTo(0.25f,0.25f,1.2f)
         );
         this.addAction(stopAction);
@@ -296,11 +303,15 @@ public class SpaceShipPlayer extends SpaceObject {
 
     private void subMoney(double v) {
         money = money - v;
+        ModifiedXML.writeMoneyToXml(money);
     }
 
     private void addMoney(double v) {
         money = money + v;
+        ModifiedXML.writeMoneyToXml(money);
     }
+
+
 
     private boolean checkMoney(int quantity, double cost){
         if (quantity * cost < money){
@@ -359,5 +370,13 @@ public class SpaceShipPlayer extends SpaceObject {
 
     public double getMoney() {
         return money;
+    }
+
+    public void setMoney(){
+        money = ReadXML.readPlayerMoney();
+    }
+
+    private void setPlanetTripCounter(){
+        planetTripCounter = ReadXML.readPlayerPlanetCount();
     }
 }
