@@ -14,7 +14,7 @@ import org.w3c.dom.Node;
 public class ModifiedXML {
 
     private final static String FILE_SPACE_SHIP = ("spaceship.xml");
-    private final static String FILE_PLAYER = ("player");
+    private final static String FILE_PLAYER = ("player.xml");
     private static Document doc;
 
     public static void setDokument(String file){
