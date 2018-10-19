@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
 import com.mygdx.game.MyGdxGame;
 
 public abstract class SpaceObject extends Actor {
@@ -132,5 +133,7 @@ public abstract class SpaceObject extends Actor {
     public float getActualHight() {
         return actualHight;
     }
+
+
 }
 
