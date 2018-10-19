@@ -23,7 +23,7 @@ public class Planet extends SpaceObject {
         super(game);
         this.game = game;
         setScale(GAME_SCALE);
-        setPosition(x,y);
+        writePositionToXml(x,y);
         rotationSpeed =15;
         addClickListener();
     }
