@@ -30,5 +30,27 @@ public abstract class Person {
         return secondExperienceLevel;
     }
 
+    public CrowType getCrowType() {
+        return crowType;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public float getPay() {
+        return pay;
+    }
 }
