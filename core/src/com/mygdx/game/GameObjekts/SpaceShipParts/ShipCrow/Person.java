@@ -7,51 +7,39 @@ public abstract class Person {
     private int age;
     private float height;
     private String gender;
-    private float firstExperienceLevel;
-    private ExperienceType firstExperienceType;
-    protected float secondExperienceLevel;
-    protected ExperienceType secondExperienceType;
+    private ExperienceLevel firstExperienceLevel;
+    protected ExperienceLevel secondExperienceLevel;
     private float pay;
 
-    public Person(String name, int age, float height, String gender, float firstExperienceLevel, ExperienceType firstExperienceType, float pay) {
+    public Person(String name, int age, float height, String gender, ExperienceLevel firstExperienceLevel, float pay) {
         this.crowType = crowType;
         this.name = name;
         this.age = age;
         this.height = height;
         this.gender = gender;
         this.firstExperienceLevel = firstExperienceLevel;
-        this.firstExperienceType = firstExperienceType;
         this.secondExperienceLevel = secondExperienceLevel;
-        this.secondExperienceType = secondExperienceType;
         this.pay = pay;
     }
 
-    public Person(CrowType crowType, String name, int age, float height, String gender, float firstExperienceLevel, ExperienceType firstExperienceType, float secondExperienceLevel, ExperienceType secondExperienceType, float pay) {
+    public Person(CrowType crowType, String name, int age, float height, String gender, ExperienceLevel firstExperienceLevel, ExperienceLevel secondExperienceLevel, float pay) {
         this.crowType = crowType;
         this.name = name;
         this.age = age;
         this.height = height;
         this.gender = gender;
         this.firstExperienceLevel = firstExperienceLevel;
-        this.firstExperienceType = firstExperienceType;
         this.secondExperienceLevel = secondExperienceLevel;
-        this.secondExperienceType = secondExperienceType;
         this.pay = pay;
     }
 
-    public float getFirstExperienceLevel() {
+    public ExperienceLevel getFirstExperienceLevel() {
         return firstExperienceLevel;
     }
 
-    public ExperienceType getFirstExperienceType() {
-        return firstExperienceType;
-    }
-
-    public float getSecondExperienceLevel() {
+    public ExperienceLevel getSecondExperienceLevel() {
         return secondExperienceLevel;
     }
 
-    public ExperienceType getSecondExperienceType() {
-        return secondExperienceType;
-    }
+
 }
