@@ -32,6 +32,7 @@ public class SpaceShipScreen extends AbstractScreen {
     private Label fuelLabelText;
     private ProgressBar fuelFillBar;
     protected Skin skin;
+    private Table table;
 
 
     private float time = 0;
@@ -42,13 +43,12 @@ public class SpaceShipScreen extends AbstractScreen {
         super(game);
         this.spaceShipPlayer = spaceShipPlayer;
         game.kolejka.addFirst(this);
-
+        table = new Table();
         isVisible = true;
         skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
         intSpaceShipDraft(spaceShipPlayer);
         createTableWithCargo();
     }
-
 
 
     private void intSpaceShipDraft(final SpaceShipPlayer spaceShipPlayer) {
@@ -62,7 +62,6 @@ public class SpaceShipScreen extends AbstractScreen {
                 moduleActor = new ModuleActor(game, moduleType, index, spaceShipDraft.getScale());
                 stage.addActor(spaceShipDraft);
                 stage.addActor(moduleActor);
-
             }
         }
     }
@@ -97,9 +96,7 @@ public class SpaceShipScreen extends AbstractScreen {
     }
 
     private void createTableWithCargo() {
-        //define a table used to organize our hud's labels
-        Table table = new Table();
-        //Top-Align table
+
         table.top().pad(10f);
         //table.debug();
         //make the table fill the entire stage
@@ -109,12 +106,12 @@ public class SpaceShipScreen extends AbstractScreen {
         table.setColor(255,1,1,255);
         float x = table.getX();
         float y = table.getY();
-
+/*
         ProgressBar.ProgressBarStyle progressBarStyle = skin.get("fancy", ProgressBar.ProgressBarStyle.class);
         TiledDrawable tiledDrawable = skin.getTiledDrawable("slider-fancy-knob").tint(skin.getColor("fuell"));
         tiledDrawable.setMinWidth(0);
         progressBarStyle.knobBefore = tiledDrawable;
-
+*/
 
         moneyLabelText = new Label("Money", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
         fuelLabelText = new Label("Fuel: ", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
@@ -129,8 +126,6 @@ public class SpaceShipScreen extends AbstractScreen {
 
         //fuelFillBar = new ProgressBar(0.0f, (float) spaceShipPlayer.fuelCapacity, 1, false, skin, "fancy");
 
-        //add our labels to our table, padding the top, and giving them all equal width with expandX
-
         //table.row();
         table.add(moneyLabelText).expandX().left();
         table.add(moneyLabel).expandX();
@@ -139,9 +134,11 @@ public class SpaceShipScreen extends AbstractScreen {
         table.add(fuelLabelText).expandX().left();
         table.add(fuellLabel).expandX();
 
-        table.row();
-        table.add(titanLabelText).expandX().left();
-        table.add(titanLabel).expandX();
+        if (spaceShipPlayer.titanFill > 0) {
+            table.row();
+            table.add(titanLabelText).expandX().left();
+            table.add(titanLabel).expandX();
+        }
 
         stage.addActor(table);
 
