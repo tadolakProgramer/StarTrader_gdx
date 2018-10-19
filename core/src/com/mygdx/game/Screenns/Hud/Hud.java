@@ -76,14 +76,14 @@ public class Hud extends  AbstractHUD {
 
 
         //define our labels using the String, and a Label style consisting of a font and color
-        moneyLabel = new Label(String.format("%.2f", gameScreen.spaceShipPlayer.getMoney()), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        fuellLabel =new Label(String.format("%.2f", gameScreen.spaceShipPlayer.fuelFill), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
+        moneyLabel = new Label(String.format("%.2f", gameScreen.spaceShipPlayer.getMoney()), skin, "grafen");
+        fuellLabel =new Label(String.format("%.2f", gameScreen.spaceShipPlayer.fuelFill), skin, "grafen");
         fuelFillBar = new ProgressBar(0.0f, (float) gameScreen.spaceShipPlayer.fuelCapacity, 1, false, skin, "fancy");
 
-        timeLabel = new Label("Money", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        levelLabel = new Label("1-1: ", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        worldLabel = new Label("WORLD: ", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        marioLabel = new Label("Fuel: ", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
+        timeLabel = new Label("Money", skin, "grafen");
+        levelLabel = new Label("1-1: ", skin, "grafen");
+        worldLabel = new Label("WORLD: ", skin, "grafen");
+        marioLabel = new Label("Fuel: ",skin, "grafen");
 
         //add our labels to our table, padding the top, and giving them all equal width with expandX
         table.add(marioLabel).expandX().padTop(1);
