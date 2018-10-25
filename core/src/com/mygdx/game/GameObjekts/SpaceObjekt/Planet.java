@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
+import com.mygdx.game.Helper.ModifiedXML;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.Hud.Hud;
 
@@ -83,6 +84,8 @@ public class Planet extends SpaceObject {
         priceTitan = priceTitan + MathUtils.random((float)priceTitan*-0.049f, (float)priceTitan*0.051f);
         priceGrafen = priceGrafen + MathUtils.random((float)priceGrafen*-0.049f, (float)priceGrafen*0.051f);
         priceWoter = priceWoter + MathUtils.random((float)priceWoter*-0.049f, (float)priceWoter*0.051f);
+
+        ModifiedXML.writeNewPriceToXml(spaceObjectName, 10);
 
         hud.showDlgNewPrice(spaceObjectName);
 
