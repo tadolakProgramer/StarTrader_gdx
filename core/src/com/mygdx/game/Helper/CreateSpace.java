@@ -1,5 +1,6 @@
 package com.mygdx.game.Helper;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.Hud.Hud;
@@ -14,58 +15,49 @@ public class CreateSpace {
     private float xl;
     private float yl;
     private boolean newRandom;
+    private int numberStarName;
 
     public List Create(MyGdxGame game, Hud hud){
 
         List<Planet> planets = new ArrayList<Planet>();
 
-        Random texture = new Random();
-        Random rStarsName = new Random();
-        Random posx = new Random();
-        Random posy = new Random();
-        Random rRotation = new Random();
-        Random rTitan = new Random();
-        Random rGrafen = new Random();
-        Random rWoter = new Random();
-        Random rFuell = new Random();
+        int rtexture = MathUtils.random(1, 16);
+        numberStarName = MathUtils.random(1, 1212);
+        float x = MathUtils.random(500, 17000);
+        float y = MathUtils.random(500, 34000);
+        float rotation = MathUtils.random(10, 15);
+        double titan = MathUtils.random(10, 15);
+        double grafen = MathUtils.random(15, 20);
+        double woter = MathUtils.random(50, 60);
+        double fuell = MathUtils.random(5,10);
 
-        int rtexture = texture.nextInt(16)+1;
-        int starsName = rStarsName.nextInt(1212);
-        float x = posx.nextFloat()*17000;
-        float y = posy.nextFloat()*34000;
-        float rotation = rRotation.nextFloat()*15 + 10;
-        double titan = rTitan.nextDouble();
-        double grafen = rGrafen.nextFloat();
-        double woter = rWoter.nextDouble();
-        double fuell = rFuell.nextDouble();
-
-        planets.add(new Planet(game, hud, x, y, "planet_"+rtexture, StarNames[starsName], rotation, titan,grafen,woter,fuell));
+        planets.add(new Planet(game, hud, x, y, "planet_"+rtexture, StarNames[numberStarName], rotation, titan,grafen,woter,fuell));
 
         int z = planets.size();
         for (int planetCounter = z; planetCounter <= 300; planetCounter++){
             do {
                 newRandom = false;
-                xl = posx.nextFloat()*17000;
-                yl = posy.nextFloat()*34000;
+                xl = MathUtils.random(500, 17000);
+                yl = MathUtils.random(500, 34000);
+                numberStarName = MathUtils.random(1, 1212);
                 for (int i = 0; i < z ; i++){
                     this.distance = Math.sqrt(Math.pow(((double)xl - planets.get(i).getX()),2) + (Math.pow(((double)yl - planets.get(i).getY()),2)));
-                            //this.distance = Vector2.dst2(xl,yl,planets.get(i).getX(), planets.get(i).getY());
-                    if (distance < 400){
+
+                    if ((distance < 400) || (planets.get(i).getSpaceObjectName().equals(numberStarName))){
                         newRandom = true;
                         System.out.println("NEW_RND");
                     }
                 }
             }
             while(newRandom);
-            int texturel = texture.nextInt(21)+1;
-            int starsNamel = rStarsName.nextInt(1212);
-            float rotationl = rRotation.nextFloat()*15 + 10;
-            double titanl = rTitan.nextDouble()*10;
-            double grafenl = rGrafen.nextFloat()*10;
-            double woterl = rWoter.nextDouble()*10;
-            double fuelll = rFuell.nextDouble()*10;
+            int texturel = MathUtils.random(1, 16);
+            float rotationl = MathUtils.random(10, 15);
+            double titanl = MathUtils.random(10, 15);
+            double grafenl = MathUtils.random(15, 20);
+            double woterl = MathUtils.random(50, 60);
+            double fuelll = MathUtils.random(5,10);
 
-            planets.add(new Planet(game, hud, xl, yl, "planet_"+texturel, StarNames[starsNamel], rotationl, titanl,grafenl,woterl,fuelll));
+            planets.add(new Planet(game, hud, xl, yl, "planet_"+texturel, StarNames[numberStarName], rotationl, titanl,grafenl,woterl,fuelll));
 
             z = planets.size();
         }
