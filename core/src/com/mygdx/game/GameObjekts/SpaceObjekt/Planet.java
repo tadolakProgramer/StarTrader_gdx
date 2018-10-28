@@ -85,7 +85,7 @@ public class Planet extends SpaceObject {
         priceGrafen = priceGrafen + MathUtils.random((float)priceGrafen*-0.049f, (float)priceGrafen*0.051f);
         priceWoter = priceWoter + MathUtils.random((float)priceWoter*-0.049f, (float)priceWoter*0.051f);
 
-        ModifiedXML.writeNewPriceToXml(spaceObjectName, 10);
+        ModifiedXML.writeNewPriceToXml(spaceObjectName, priceTitan, priceGrafen, priceWoter, priceFuell);
 
         hud.showDlgNewPrice(spaceObjectName);
 

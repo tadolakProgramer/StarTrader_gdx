@@ -104,7 +104,7 @@ public class ModifiedXML {
         return true;
     }
 
-    public static Boolean writeNewPriceToXml(String planetName, double titanPrice) {
+    public static Boolean writeNewPriceToXml(String planetName, double titanPrice, double priceGrafen, double priceWoter, double priceFuell) {
 
         setDocument(FILE_PLANETS);
 
@@ -119,6 +119,15 @@ public class ModifiedXML {
                         Node element = nodes.item(j);
                         if ("Titan".equals(element.getNodeName())) {
                             element.setTextContent(Double.toString(titanPrice));
+                        }
+                        if ("Grafen".equals(element.getNodeName())) {
+                            element.setTextContent(Double.toString(priceGrafen));
+                        }
+                        if ("Woter".equals(element.getNodeName())) {
+                            element.setTextContent(Double.toString(priceWoter));
+                        }
+                        if ("Fuell".equals(element.getNodeName())) {
+                            element.setTextContent(Double.toString(priceFuell));
                         }
                     }
                         writeDocument(FILE_PLANETS);
