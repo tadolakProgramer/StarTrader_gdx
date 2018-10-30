@@ -7,7 +7,6 @@ import com.mygdx.game.Screenns.Hud.Hud;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class CreateSpace {
 
@@ -21,17 +20,11 @@ public class CreateSpace {
 
         List<Planet> planets = new ArrayList<Planet>();
 
-        int rtexture = MathUtils.random(1, 16);
         numberStarName = MathUtils.random(1, 1212);
         float x = MathUtils.random(500, 17000);
         float y = MathUtils.random(500, 34000);
-        float rotation = MathUtils.random(10, 15);
-        double titan = MathUtils.random(10, 15);
-        double grafen = MathUtils.random(15, 20);
-        double woter = MathUtils.random(50, 60);
-        double fuell = MathUtils.random(5,10);
 
-        planets.add(new Planet(game, hud, x, y, "planet_"+rtexture, StarNames[numberStarName], rotation, titan,grafen,woter,fuell));
+        planets.add(new Planet(game, hud, x, y, StarNames[numberStarName]));
 
         int z = planets.size();
         for (int planetCounter = z; planetCounter <= 300; planetCounter++){
@@ -50,14 +43,8 @@ public class CreateSpace {
                 }
             }
             while(newRandom);
-            int texturel = MathUtils.random(1, 16);
-            float rotationl = MathUtils.random(10, 15);
-            double titanl = MathUtils.random(10, 15);
-            double grafenl = MathUtils.random(15, 20);
-            double woterl = MathUtils.random(50, 60);
-            double fuelll = MathUtils.random(5,10);
 
-            planets.add(new Planet(game, hud, xl, yl, "planet_"+texturel, StarNames[numberStarName], rotationl, titanl,grafenl,woterl,fuelll));
+            planets.add(new Planet(game, hud, xl, yl, StarNames[numberStarName]));
 
             z = planets.size();
         }

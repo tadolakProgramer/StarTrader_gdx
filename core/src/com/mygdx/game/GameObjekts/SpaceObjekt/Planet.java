@@ -22,7 +22,7 @@ public class Planet extends SpaceObject {
     private double priceWoter;
     private double priceFuell;
     private MyGdxGame game;
-    private float timeToRandom;
+    private float timeToChangePrice;
     private Ware ware;
     private CargoType cargoType;
 
@@ -30,6 +30,25 @@ public class Planet extends SpaceObject {
 
     private Hud hud;
 
+    /** For create new space **/
+    public Planet(final MyGdxGame game, Hud hud, float x, float y, String name) {
+        super(game);
+        this.path = "planet_"+MathUtils.random(1, 16);
+        this.hud = hud;
+        setScale(GAME_SCALE);
+        setPosition(x,y);
+        rotationSpeed = MathUtils.random(10, 15);
+        setSpaceObjectName(name);
+        priceTitan = MathUtils.random(10, 15);
+        priceGrafen = MathUtils.random(15, 20);
+        priceWoter = MathUtils.random(50, 60);
+        priceFuell  = MathUtils.random(5,10);
+        setTexture(path);
+        newRandom();
+        addClickListener();
+        }
+
+        /** For read from XML **/
     public Planet(final MyGdxGame game, Hud hud, float x, float y, String path, String name, float speedRot, double priceT, double priceG, double priceW, double priceF) {
         super(game);
         this.path = path;
@@ -41,15 +60,17 @@ public class Planet extends SpaceObject {
         priceTitan = priceT;
         priceGrafen = priceG;
         priceWoter = priceW;
-        priceFuell = priceF;
+        priceFuell  = priceF;
         setTexture(path);
         newRandom();
         addClickListener();
-        }
+    }
 
     private void newRandom() {
 
-        wares.add(new Ware(CargoType.FUEL));
+        //To Do
+
+        wares.add(new Ware(cargoType.values()[MathUtils.random(1, CargoType.values().length)-1]));
     }
 
     private void addClickListener(){
@@ -70,11 +91,11 @@ public class Planet extends SpaceObject {
         setLabelPosition();
         setActualSize();
 
-        timeToRandom = timeToRandom + dt;
+        timeToChangePrice = timeToChangePrice + dt;
 
-        if (timeToRandom > rotationSpeed*100){
+        if (timeToChangePrice > rotationSpeed * 100){
             changePrice();
-            timeToRandom = 0;
+            timeToChangePrice = 0;
         }
 
     }
