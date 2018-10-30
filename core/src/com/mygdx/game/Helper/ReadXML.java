@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType;
-import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.Captain;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.Crow;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.CrowType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.ExperienceLevel;
@@ -20,20 +19,20 @@ public class ReadXML {
 
     public static double readPlayerMoney(){
 
-        Element root = new XmlReader().parse(Gdx.files.internal("player.xml"));
+        Element root = new XmlReader().parse(Gdx.files.internal(MyGdxGame.FILE_PLAYER));
         return root.getFloat("money");
     }
 
     public static int readPlayerPlanetCount(){
 
-        Element root = new XmlReader().parse(Gdx.files.internal("player.xml"));
+        Element root = new XmlReader().parse(Gdx.files.internal(MyGdxGame.FILE_PLAYER));
         return root.getInt("planetCount");
     }
 
 
     public static  Boolean setShipFromXML(SpaceShipPlayer spaceShipPlayer) {
 
-        Element root = new XmlReader().parse(Gdx.files.internal("spaceship.xml"));
+        Element root = new XmlReader().parse(Gdx.files.internal(MyGdxGame.FILE_SPACE_SHIP));
 
         Element position = root.getChildByName("pos");
         spaceShipPlayer.setPositionOrgin(position.getFloat("x"), position.getFloat("y"));
@@ -64,16 +63,22 @@ public class ReadXML {
 
             Element person = root.getChild(i);
 
-            spaceShipPlayer.persosns.add(new Crow(
+            ExperienceLevel ex1 = new ExperienceLevel(ExperienceType.valueOf(person.get("fet")), person.getFloat("fel"));
+            ExperienceLevel ex2 = new ExperienceLevel(ExperienceType.valueOf(person.get("set")), person.getFloat("sel"));
+
+            spaceShipPlayer.persosns.add( new Crow(
                     CrowType.valueOf(root.getChild(i).getName()),
                     person.get("name"),
                     person.getInt("age"),
                     person.getFloat("height"),
                     person.get("gender"),
                     new ExperienceLevel(ExperienceType.valueOf(person.get("fet")), person.getFloat("fel")),
+                    new ExperienceLevel(ExperienceType.valueOf(person.get("set")), person.getFloat("sel")),
                     person.getFloat("pay")
             ));
 
+            spaceShipPlayer.addExperience(ex1);
+            spaceShipPlayer.addExperience(ex2);
             spaceShipPlayer.housingModuleFill++;
             spaceShipPlayer.modifyFailureRate();
         }
@@ -84,11 +89,11 @@ public class ReadXML {
 
     public static boolean readPlanets(MyGdxGame game, GameScreen screen, Hud hud){
 
-        Element root = new XmlReader().parse(Gdx.files.internal("cars.xml"));
+        Element root = new XmlReader().parse(Gdx.files.internal(MyGdxGame.FILE_PLANETS));
 
         int j = root.getChildCount();
-        for (int i=1; i <= j; i++) {
-            Element planet = root.getChildByName("planet" + i);
+        for (int i=0; i < j; i++) {
+            Element planet = root.getChild(i);
             screen.planets.add(new Planet
                     (game, hud,
                             planet.getFloat("posx"),

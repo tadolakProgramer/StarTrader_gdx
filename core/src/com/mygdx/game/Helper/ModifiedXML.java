@@ -1,5 +1,7 @@
 package com.mygdx.game.Helper;
 
+import com.mygdx.game.MyGdxGame;
+
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,9 +17,6 @@ import org.w3c.dom.NodeList;
 
 public class ModifiedXML {
 
-    private final static String FILE_SPACE_SHIP = ("spaceship.xml");
-    private final static String FILE_PLAYER = ("player.xml");
-    private final static String FILE_PLANETS = ("cars.xml");
 
     private static Document doc;
 
@@ -45,7 +44,7 @@ public class ModifiedXML {
 
     public static Boolean writePositionToXml(float x, float y) {
 
-        setDocument(FILE_SPACE_SHIP);
+        setDocument(MyGdxGame.FILE_SPACE_SHIP);
 
         Node ship = doc.getFirstChild();
         Node ship1 = doc.getElementsByTagName("pos").item(0);
@@ -55,7 +54,7 @@ public class ModifiedXML {
         Node PosY = attr.getNamedItem("y");
         PosY.setTextContent(Float.toString(y));
 
-        writeDocument(FILE_SPACE_SHIP);
+        writeDocument(MyGdxGame.FILE_SPACE_SHIP);
 
         return true;
 
@@ -64,7 +63,7 @@ public class ModifiedXML {
     public static Boolean writeTargetPositionToXml(float x, float y) {
 
 
-        setDocument(FILE_SPACE_SHIP);
+        setDocument(MyGdxGame.FILE_SPACE_SHIP);
 
         Node ship = doc.getFirstChild();
         Node ship1 = doc.getElementsByTagName("target").item(0);
@@ -74,7 +73,7 @@ public class ModifiedXML {
         Node targetY = attr.getNamedItem("y");
         targetY.setTextContent(Float.toString(y));
 
-        writeDocument(FILE_SPACE_SHIP);
+        writeDocument(MyGdxGame.FILE_SPACE_SHIP);
 
 
         return true;
@@ -83,30 +82,30 @@ public class ModifiedXML {
 
     public static Boolean writeMoneyToXml(double m) {
 
-        setDocument(FILE_PLAYER);
+        setDocument(MyGdxGame.FILE_PLAYER);
         Node ship = doc.getFirstChild();
         Node player = doc.getElementsByTagName("money").item(0);
         player.setTextContent(Double.toString(m));
 
-        writeDocument(FILE_PLAYER);
+        writeDocument(MyGdxGame.FILE_PLAYER);
 
         return true;
     }
 
     public static Boolean writePlanetCountTripToXml(int m) {
 
-        setDocument(FILE_PLAYER);
+        setDocument(MyGdxGame.FILE_PLAYER);
         Node ship = doc.getFirstChild();
         Node player = doc.getElementsByTagName("planetCount").item(0);
         player.setTextContent(Integer.toString(m));
 
-        writeDocument(FILE_PLAYER);
+        writeDocument(MyGdxGame.FILE_PLAYER);
         return true;
     }
 
     public static Boolean writeNewPriceToXml(String planetName, double titanPrice, double priceGrafen, double priceWoter, double priceFuell) {
 
-        setDocument(FILE_PLANETS);
+        setDocument(MyGdxGame.FILE_PLANETS);
 
         NodeList planets = doc.getElementsByTagName("planet");
         for (int i = 0; i < planets.getLength(); i++) {
@@ -130,7 +129,7 @@ public class ModifiedXML {
                             element.setTextContent(Double.toString(priceFuell));
                         }
                     }
-                        writeDocument(FILE_PLANETS);
+                        writeDocument(MyGdxGame.FILE_PLANETS);
                         break;
                 }
             }
@@ -141,15 +140,10 @@ public class ModifiedXML {
 
     private
     static String getTagValue(String s, Element e) {
-        // lista “dzieci” e o nazwie s
         NodeList nl = e.getElementsByTagName(s)
-        // pierwszy wpis z tej listy
                 .item(0)
-        // to co on zawiera – jego “dzieci”
                 .getChildNodes();
-        // pierwsze z tych dzieci
-        Node n = (Node) nl.item(0);
-        // zawartosc, ktora tam jest
+                Node n = (Node) nl.item(0);
         return
                 n.getNodeValue();
     }

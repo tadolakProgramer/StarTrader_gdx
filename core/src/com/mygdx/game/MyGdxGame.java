@@ -31,7 +31,13 @@ public class MyGdxGame extends Game {
 	public final static float SPACE_OBJECT_SCALIBG = GAME_WIDTH/1522;
 	public final static float GAME_SCALE = 0.25f;
 	public final static float SCROLL_SPEED =10f;
+
+	//Files
 	public final static String FILE_SPRITE_ATLAS = "planets.pack";
+	public final static String FILE_SPACE_SHIP = ("spaceship.xml");
+	public final static String FILE_PLAYER = ("player.xml");
+	public final static String FILE_PLANETS = ("cars.xml");
+
 	public Deque<Screen> kolejka = new ArrayDeque<Screen>();
 	public BitmapFont myFont;
 //	public final static Skin SKIN = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));

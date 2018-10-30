@@ -26,13 +26,12 @@ public class CreateXmlFile {
 
     public static void crateSpace(MyGdxGame game, GameScreen screen, Hud hud) {
 
-        List<Planet> planets = new ArrayList<Planet>();
+        List<Planet> planets; //= new ArrayList<Planet>();
 
         CreateSpace createSpace1 = new CreateSpace();
 
         try {
-            DocumentBuilderFactory dbFactory =
-                    DocumentBuilderFactory.newInstance();
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.newDocument();
 
@@ -47,7 +46,7 @@ public class CreateXmlFile {
                             String path = planets.get(z).getPath();
 
                             // supercars element
-                            Element planeta = doc.createElement("planet"+z);
+                            Element planeta = doc.createElement("planet");
                             rootElement.appendChild(planeta);
 
                             Node nanme = doc.createElement("name");
@@ -87,6 +86,7 @@ public class CreateXmlFile {
                 Node nWoter = doc.createElement("Woter");
                 double rWoter = planets.get(z).getPriceWoter();
                 nWoter.appendChild(doc.createTextNode(Double.toString(rWoter)));
+                nWoter.setTextContent("123");
                 planeta.appendChild(nWoter);
 
                 Node nFuell = doc.createElement("Fuell");
@@ -101,7 +101,7 @@ public class CreateXmlFile {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(("cars.xml")));
+            StreamResult result = new StreamResult(new File((MyGdxGame.FILE_PLANETS)));
             transformer.transform(source, result);
 
         } catch (Exception e) {
