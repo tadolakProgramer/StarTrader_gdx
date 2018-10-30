@@ -15,6 +15,9 @@ import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleActor;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType;
 import com.mygdx.game.MyGdxGame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.EMPTY;
 
 public class SpaceShipScreen extends AbstractScreen {
@@ -33,7 +36,9 @@ public class SpaceShipScreen extends AbstractScreen {
     private ProgressBar fuelFillBar;
     protected Skin skin;
     private Table table;
+    private Table tableCrows;
 
+    private List<Table> crowTables = new ArrayList<>();
 
     private float time = 0;
     private int fps = 0;
@@ -44,11 +49,14 @@ public class SpaceShipScreen extends AbstractScreen {
         this.spaceShipPlayer = spaceShipPlayer;
         game.kolejka.addFirst(this);
         table = new Table();
+        tableCrows = new Table();
         isVisible = true;
         skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
         intSpaceShipDraft(spaceShipPlayer);
         createTableWithCargo();
+        createTableCrows();
     }
+
 
 
     private void intSpaceShipDraft(final SpaceShipPlayer spaceShipPlayer) {
@@ -95,6 +103,43 @@ public class SpaceShipScreen extends AbstractScreen {
 
     }
 
+    private void createTableCrows() {
+
+        tableCrows.bottom().center().pad(10f);
+        //tableCrows.debug();
+        //make the table fill the entire stage
+        tableCrows.setFillParent(false);
+
+        //tableCrows.setWidth(200f);
+        tableCrows.setColor(255,1,1,255);
+        //Label.LabelStyle labelStyle = new Label.LabelStyle(new BitmapFont(), Color.CORAL);
+
+
+        //Define dataLabel
+        int personsNumber = spaceShipPlayer.persosns.size();
+
+        for (int tn=0; tn<personsNumber; tn++) {
+
+            crowTables.add(new Table());
+
+            crowTables.get(tn).row().pad(5);
+            crowTables.get(tn).add(new Label("Specjalist:", skin));
+            crowTables.get(tn).add(new Label(spaceShipPlayer.persosns.get(tn).getCrowType().name(), skin));
+            crowTables.get(tn).row().pad(5);
+            crowTables.get(tn).add(new Label("Name:", skin));
+            crowTables.get(tn).add(new Label(spaceShipPlayer.persosns.get(tn).getName(), skin));
+            crowTables.get(tn).row().pad(5);
+            crowTables.get(tn).add(new Label(spaceShipPlayer.persosns.get(tn).getFirstExperienceLevel().getExperienceType().name(), skin));
+            crowTables.get(tn).add(new Label(Float.toString(spaceShipPlayer.persosns.get(tn).getFirstExperienceLevel().getLevel()), skin));
+            crowTables.get(tn).row().pad(5);
+            crowTables.get(tn).add(new Label(spaceShipPlayer.persosns.get(tn).getSecondExperienceLevel().getExperienceType().name(), skin));
+            crowTables.get(tn).add(new Label(Float.toString(spaceShipPlayer.persosns.get(tn).getSecondExperienceLevel().getLevel()), skin));
+
+            crowTables.get(tn).setPosition(100 + 200 * tn+1, 100);
+            stage.addActor(crowTables.get(tn));
+        }
+    }
+
     private void createTableWithCargo() {
 
         table.top().pad(10f);
@@ -104,25 +149,18 @@ public class SpaceShipScreen extends AbstractScreen {
         table.setPosition(5, MyGdxGame.GAME_HEIGHT);
         table.setWidth(200f);
         table.setColor(255,1,1,255);
-        float x = table.getX();
-        float y = table.getY();
-/*
-        ProgressBar.ProgressBarStyle progressBarStyle = skin.get("fancy", ProgressBar.ProgressBarStyle.class);
-        TiledDrawable tiledDrawable = skin.getTiledDrawable("slider-fancy-knob").tint(skin.getColor("fuell"));
-        tiledDrawable.setMinWidth(0);
-        progressBarStyle.knobBefore = tiledDrawable;
-*/
 
-        moneyLabelText = new Label("Money", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        fuelLabelText = new Label("Fuel: ", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        titanLabelText = new Label("Titan:", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        worldLabel = new Label("WORLD: ", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
+
+        moneyLabelText = new Label("Money", skin);
+        fuelLabelText = new Label("Fuel: ", skin);
+        titanLabelText = new Label("Titan:", skin);
+        worldLabel = new Label("WORLD: ", skin);
 
 
         //define our labels using the String, and a Label style consisting of a font and color
-        moneyLabel = new Label(String.format("%.2f", spaceShipPlayer.getMoney()), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        fuellLabel =new Label(String.format("%.2f", spaceShipPlayer.fuelFill), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        titanLabel = new Label(String.format("%.2f",spaceShipPlayer.titanFill), new Label.LabelStyle(new BitmapFont(), skin.getColor("titan")));
+        moneyLabel = new Label(String.format("%.2f", spaceShipPlayer.getMoney()), skin);
+        fuellLabel =new Label(String.format("%.2f", spaceShipPlayer.fuelFill), skin);
+        titanLabel = new Label(String.format("%.2f",spaceShipPlayer.titanFill), skin);
 
         //fuelFillBar = new ProgressBar(0.0f, (float) spaceShipPlayer.fuelCapacity, 1, false, skin, "fancy");
 
