@@ -68,9 +68,29 @@ public class Planet extends SpaceObject {
 
     private void newRandom() {
 
-        //To Do
+        boolean rerandom;
 
-        wares.add(new Ware(cargoType.values()[MathUtils.random(1, CargoType.values().length)-1]));
+        wares.add(new Ware(cargoType.values()[MathUtils.random(2, CargoType.values().length) - 1]));
+
+        int z = wares.size();
+
+        for (int w = z; w < 3; w++) {
+            rerandom = false;
+            do {
+                rerandom = false;
+                cargoType = (cargoType.values()[MathUtils.random(2, CargoType.values().length) - 1]);
+                for (int i = 0; i < w ; i++){
+                    if (cargoType.equals(wares.get(i).getCargoType())){
+                        rerandom = true;
+                    }
+                }
+
+            }
+            while (rerandom);
+            wares.add(new Ware(cargoType));
+        }
+
+        wares.add(new Ware(CargoType.FUEL));
     }
 
     private void addClickListener(){
