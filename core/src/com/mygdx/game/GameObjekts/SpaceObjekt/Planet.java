@@ -54,7 +54,7 @@ public class Planet extends SpaceObject {
         this.path = path;
         this.hud = hud;
         setScale(GAME_SCALE);
-        setPosition(x,y);
+        setPosition(x, y);
         rotationSpeed = speedRot;
         setSpaceObjectName(name);
         priceTitan = priceT;
@@ -71,6 +71,7 @@ public class Planet extends SpaceObject {
         boolean rerandom;
 
         wares.add(new Ware(cargoType.values()[MathUtils.random(2, CargoType.values().length) - 1]));
+        setPrice(0);
 
         int z = wares.size();
 
@@ -84,13 +85,18 @@ public class Planet extends SpaceObject {
                         rerandom = true;
                     }
                 }
-
             }
             while (rerandom);
             wares.add(new Ware(cargoType));
+            setPrice(w);
         }
 
         wares.add(new Ware(CargoType.FUEL));
+        setPrice(3);
+    }
+
+    private void setPrice(int i2) {
+        wares.get(i2).setPrice(wares.get(i2).randomPrice(wares.get(i2).getCargoType()));
     }
 
     private void addClickListener(){
