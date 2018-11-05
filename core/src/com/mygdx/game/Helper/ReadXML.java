@@ -82,9 +82,7 @@ public class ReadXML {
             spaceShipPlayer.housingModuleFill++;
             spaceShipPlayer.modifyFailureRate();
         }
-
         return true;
-
     }
 
     public static boolean readPlanets(MyGdxGame game, GameScreen screen, Hud hud){
