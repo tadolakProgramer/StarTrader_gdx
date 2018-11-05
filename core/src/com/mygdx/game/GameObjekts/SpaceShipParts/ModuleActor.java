@@ -1,16 +1,11 @@
 package com.mygdx.game.GameObjekts.SpaceShipParts;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
 import com.mygdx.game.MyGdxGame;
-
-import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.COKPIT;
-import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.EMPTY;
 
 public class ModuleActor extends Actor {
 
@@ -48,13 +43,18 @@ public class ModuleActor extends Actor {
                     setPosition(349 + (index-1)*93.3f,270);
                     break;
                 }
+                case LOSE: {
+                    textureName = "CargoTitan";
+                    setTexture(textureName);
+                    setScale(scale);
+                    setPosition(349 + (index - 1) * 93.3f, 270);
+                }
                 default:{
                     textureName = "CargoTitan";
                     setTexture(textureName);
                 }
 
             }
-
     }
 
     private void setTexture(String textureName){
