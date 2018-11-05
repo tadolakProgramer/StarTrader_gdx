@@ -241,9 +241,9 @@ public class SpaceShipPlayer extends SpaceObject {
             moveVector.set((float) Math.cos(angle), (float) Math.sin(angle));
             korekt = true;
             Action startAction = Actions.parallel(
-                    Actions.rotateTo((float) rotation, 1.2f)
+                    Actions.rotateTo((float) rotation, 1.2f),
                     //Actions.scaleTo(0.5f, 0.5f, 1.2f)
-                    //Actions.(moveVector.x ,moveVector.y ,20f)
+                    Actions.moveBy(moveVector.x ,moveVector.y ,20f)
             );
 
             this.addAction(startAction);
@@ -256,7 +256,6 @@ public class SpaceShipPlayer extends SpaceObject {
         setActualSize();
         setNewPosition(dt);
         updateShipModule(dt);
-
     }
 
     private void updateShipModule(float dt) {
@@ -265,23 +264,31 @@ public class SpaceShipPlayer extends SpaceObject {
             schipModules.get(i).update(dt);
         }
 
+
     }
 
     private void setNewPosition(float dt){
 
         float distance = Vector2.dst(targetX, targetY, positionC.x, positionC.y);
+        float stepDistance = Vector2.dst(positionC.x + moveVector.x, positionC.y + moveVector.y, positionC.x, positionC.y);
+
+        //System.out.println("Distance: "+ distance);
 
         if (isRun) {
-            if (distance <= 1 * spaceShipEngine.getSpeedActual() * dt) {
+            System.out.println("Distance: " + distance + " SD: "+ stepDistance  + " L: "+  (4 * stepDistance * spaceShipEngine.getSpeedActual() * dt));
+            if (distance <= stepDistance ) {
+
                 setStop();
             } else {
-                if (distance < navigationFactor*2){setNewTarget();}
+                if (distance < navigationFactor * 10){setNewTarget();}
                 if (fuelFill <= 0) {
-                    spaceShipEngine.setSpeedActual(1f);
+                    spaceShipEngine.setSpeedActual(spaceShipEngine.getSpeedEngineSlow());
+                    //spaceShipEngine.addDistance(Vector2.dst( positionC.x, moveVector.x * dt * spaceShipEngine.getSpeedActual() + positionC.x, positionC.y, moveVector.y * dt * spaceShipEngine.getSpeedActual() + positionC.y ));
                     setPositionOrgin(moveVector.x * dt * spaceShipEngine.getSpeedActual() + positionC.x, moveVector.y * dt * spaceShipEngine.getSpeedActual() + positionC.y);
                     fuelFill = 0;
                 } else {
-                    float stepDistance = Vector2.dst2(positionC.x + moveVector.x, positionC.y + moveVector.y, positionC.x, positionC.y);
+                    //System.out.println("Distance: "+ stepDistance*dt*spaceShipEngine.getSpeedActual());
+                    spaceShipEngine.addDistance(stepDistance);
                     setPositionOrgin(moveVector.x * dt * spaceShipEngine.getSpeedActual() + positionC.x, moveVector.y * dt * spaceShipEngine.getSpeedActual() + positionC.y);
                     fuelFill = fuelFill - stepDistance * spaceShipEngine.getConsumptionFuel() / 100;
                 }
