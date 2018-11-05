@@ -3,9 +3,11 @@ package com.mygdx.game.GameObjekts.SpaceShipParts;
 
 public enum CargoType {
 
+    FUEL(ModuleType.FUEL),
     TITAN(ModuleType.LOSE),
     WATER(ModuleType.LIQUID),
-    FUEL(ModuleType.FUEL);
+    GRAFEN(ModuleType.LOSE),
+    HELIUM3(ModuleType.GAS);
 
     private final ModuleType moduleType;
 
@@ -16,4 +18,5 @@ public enum CargoType {
     public ModuleType getModuleType() {
         return moduleType;
     }
+
 }
