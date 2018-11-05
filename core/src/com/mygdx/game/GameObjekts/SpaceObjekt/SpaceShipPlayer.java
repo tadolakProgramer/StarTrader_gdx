@@ -11,7 +11,6 @@ import com.mygdx.game.GameObjekts.SpaceShipParts.Contener;
 import com.mygdx.game.GameObjekts.SpaceShipParts.Empty;
 import com.mygdx.game.GameObjekts.SpaceShipParts.HousingModule;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType;
-import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.Crow;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.ExperienceLevel;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.ExperienceType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.Person;
@@ -22,18 +21,15 @@ import com.mygdx.game.Helper.ModifiedXML;
 import com.mygdx.game.Helper.ReadXML;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.GameScreen;
-
-import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import com.badlogic.gdx.math.MathUtils;
 
 import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.EMPTY;
 import static com.mygdx.game.MyGdxGame.GAME_SCALE;
-import static java.lang.Enum.valueOf;
+
 
 
 public class SpaceShipPlayer extends SpaceObject {
@@ -41,7 +37,6 @@ public class SpaceShipPlayer extends SpaceObject {
 
     public List<ShipModule> schipModules = new ArrayList<ShipModule>();
     public List<Person> persosns = new ArrayList<Person>();
-    public List<ExperienceLevel> experiencesLevels = new ArrayList<>();
     public Map<ExperienceType, Float> elMap = new HashMap<ExperienceType, Float>();
 
     public double fuelCapacity;
@@ -82,7 +77,6 @@ public class SpaceShipPlayer extends SpaceObject {
         this.gameScreen = gameScreen;
         setScale(GAME_SCALE);
         this.path = "aliensprite2";
-        //this.setTexture(game.textureAtlas.findRegion("aliensprite2").name);
         setTexture(this.path);
         moveVector = new Vector2();
         initialize();
@@ -109,11 +103,10 @@ public class SpaceShipPlayer extends SpaceObject {
         for (int i = 0; i < 14; i++) {
             schipModules.add(i, new Empty(EMPTY, "Empty", 0, 0));
         }
+
         ReadXML.setShipFromXML(this);
 
         ReadXML.readCaptain(this);
-
-
 
         spaceShipEngine = new SpaceShipEngine(ModuleType.SPACE_SHIP_ENGINE, "Golem", 1, 1, 100);
 
@@ -130,6 +123,7 @@ public class SpaceShipPlayer extends SpaceObject {
             switch (moduleType) {
                 case COKPIT: {
                     schipModules.set(index, new SpaceShipCocpit(ModuleType.COKPIT, name, capacity, fill, cost, baseFailureRate));
+                    //Contener contener = new Contener.Builder().setBaseFailureRate()
                     break;
                 }
                 case GAS: {
@@ -261,6 +255,16 @@ public class SpaceShipPlayer extends SpaceObject {
         setLabelPosition();
         setActualSize();
         setNewPosition(dt);
+        updateShipModule(dt);
+
+    }
+
+    private void updateShipModule(float dt) {
+
+        for (int i=0; i < schipModules.size(); i++){
+            schipModules.get(i).update(dt);
+        }
+
     }
 
     private void setNewPosition(float dt){
@@ -370,9 +374,7 @@ public class SpaceShipPlayer extends SpaceObject {
     }
 
     private boolean checkMoney(int quantity, double cost) {
-        if (quantity * cost < money) {
-            return true;
-        } else return false;
+        return quantity * cost < money;
     }
 
     private boolean checkFill(CargoType cargoType, int quantity) {
@@ -419,26 +421,15 @@ public class SpaceShipPlayer extends SpaceObject {
     }
 
 
-
     public void modifyFailureRate() {
 
-        for (int p = 0; p < persosns.size(); p++) {
-            ExperienceType firstExperienceType = persosns.get(p).getFirstExperienceLevel().getExperienceType();
-            ExperienceType secondExperienceType = persosns.get(p).getSecondExperienceLevel().getExperienceType();
-
-            ExperienceType set = secondExperienceType;
-
-            for (int i = 1; i < schipModules.size(); i++) {
+    for (int i = 1; i < schipModules.size(); i++) {
                 ModuleType md = schipModules.get(i).moduleType;
                 switch (md) {
                     case FUEL: {
-                        if (firstExperienceType == ExperienceType.MECHANIKS) {
-                            schipModules.get(i).setFailureRate(persosns.get(p).getFirstExperienceLevel().getLevel());
+                        if (elMap.containsKey(ExperienceType.MECHANIKS)) {
+                            schipModules.get(i).setFailureRate(elMap.get(ExperienceType.MECHANIKS));
                         }
-                        if (secondExperienceType == ExperienceType.MECHANIKS) {
-                            schipModules.get(i).setFailureRate(persosns.get(p).getSecondExperienceLevel().getLevel());
-                        }
-                    }
                 }
             }
 
