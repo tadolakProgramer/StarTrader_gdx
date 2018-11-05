@@ -1,8 +1,5 @@
 package com.mygdx.game.GameObjekts.SpaceShipParts;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-
 public class HousingModule extends ShipModule{
 
 
