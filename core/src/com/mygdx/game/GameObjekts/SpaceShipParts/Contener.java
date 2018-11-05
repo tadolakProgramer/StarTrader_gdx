@@ -16,6 +16,19 @@ public class Contener extends ShipModule {
         this.baseFailureRate = baseFailureRate;
     }
 
+    @Override
+    public void update(float dt){
+        timeToFailtre = + dt;
+        setFailure();
+    }
+
+    private void setFailure() {
+
+        if (timeToFailtre > (11 - failureRate) * 100){
+
+        }
+    }
+
 
     public Contener build(){
         return new Contener(moduleType, name, capacity, fill, cost, baseFailureRate);
