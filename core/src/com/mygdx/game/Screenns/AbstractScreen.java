@@ -5,14 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.MyGdxGame;
-
-import static com.badlogic.gdx.scenes.scene2d.InputEvent.Type.touchDragged;
 
 /**
  * Created by User on 2018-03-07.
@@ -31,6 +26,7 @@ public abstract class AbstractScreen implements Screen {
         this.game = game;
         createCamera();
         stage = new Stage(new FitViewport(MyGdxGame.GAME_WIDTH, MyGdxGame.GAME_HEIGHT, camera));
+        //stage = new Stage(new ScreenViewport(camera));//MyGdxGame.GAME_WIDTH, MyGdxGame.GAME_HEIGHT, camera));
         spriteBatch = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
     }
@@ -59,7 +55,6 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void show() {
-
     }
 
     @Override
