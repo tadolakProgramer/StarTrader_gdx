@@ -29,6 +29,10 @@ public class SpaceShipEngine extends ShipModule{
 
     }
 
+    public void addDistance(double distance){
+        TotalDistance =+ distance;
+    }
+
     public float getSpeedEngine() {
         return SpeedEngine;
     }
