@@ -1,7 +1,6 @@
 package com.mygdx.game.GameObjekts.SpaceShipParts;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public abstract class ShipModule {
 
@@ -14,7 +13,7 @@ public abstract class ShipModule {
     public double baseFailureRate;
     public double failureRate;
     protected Texture texture;
-    public Sprite sprite;
+    protected float timeToFailure;
 
     public ShipModule(ModuleType moduleType, String name, double capacity, double cost){
         this.failureRate = this.baseFailureRate;
@@ -35,6 +34,10 @@ public abstract class ShipModule {
     public void setFailureRate(double experienceLevel) {
 
         this.failureRate = baseFailureRate - (baseFailureRate * experienceLevel/100);
+
+    }
+
+    public void update(float dt){
 
     }
 }
