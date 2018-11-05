@@ -27,6 +27,7 @@ public abstract class AbstractHUD {
 
     public TextureRegion region;
     protected Skin skin;
+    protected Skin skin2;
     protected Window window;
     protected int windowInfoPlanetMarket = 0;
     protected MyGdxGame game;
@@ -43,6 +44,7 @@ public abstract class AbstractHUD {
         this.game = game;
         this.sb = sb;
         skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
+        skin2 = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(GAME_WIDTH, GAME_HEIGHT, camera);
