@@ -1,67 +1,82 @@
 package com.mygdx.game.GameObjekts.SpaceShipParts;
 
-import java.util.Random;
+
+import com.badlogic.gdx.math.MathUtils;
 
 public class SpaceShipEngine extends ShipModule{
 
-    private static final int MAX_DISTANCE_NO_ERROR = 1000;
+    private static final int MAX_DISTANCE_NO_ERROR = 10000;
 
-
-    private float SpeedEngine;
-    private float ConsumptionFuel;
-    private float SpeedEngineSllow;
-    private float SpeedActual;
+    private float speedEngine;
+    private float consumptionFuel;
+    private float speedEngineSlow;
+    private float speedActual;
     private double eventDistance;
-    private double TotalDistance;
-    private double CurrentDistance;
-    private boolean EngineError;
+    private double totalDistance;
+    private double currentDistance;
+    private boolean engineError;
     private int eventType;
-    //private MessageFragment mMessageFragment;
 
-    //Activity mActivity = MainGKActivity;
 
-    Random event = new Random();
-
-    public SpaceShipEngine(ModuleType moduleType, String name, double capacity, double cost, double baseFailureRate) {
+    public SpaceShipEngine(ModuleType moduleType, String name, double capacity, double cost, int baseFailureRate) {
         super(moduleType, name, capacity, cost);
-        SpeedEngine = 40;
-        ConsumptionFuel = 20.50f;
+        speedEngine = 40;
+        speedEngineSlow = 2;
+        consumptionFuel = 20.50f;
+        this. baseFailureRate = baseFailureRate;
+    }
 
+    public void update(float dt) {
+        distanceControl();
+    }
+
+    private void distanceControl() {
+
+        if (failureRate > 0) {
+            if (totalDistance > MAX_DISTANCE_NO_ERROR / failureRate) {
+                System.out.println("Losowanie: ");
+                if (MathUtils.random(1, 20) < failureRate) {
+                    engineError = true;
+                } else {
+                    engineError = false;
+                }
+            }
+        }
     }
 
     public void addDistance(double distance){
-        TotalDistance =+ distance;
+        this.totalDistance = this.totalDistance + distance;
     }
 
     public float getSpeedEngine() {
-        return SpeedEngine;
+        return speedEngine;
     }
 
     public void setSpeedEngine(float speedEngine) {
-        SpeedEngine = speedEngine;
+        this.speedEngine = speedEngine;
     }
 
     public float getConsumptionFuel() {
-        return ConsumptionFuel;
+        return consumptionFuel;
     }
 
     public void setConsumptionFuel(float consumptionFuel) {
-        ConsumptionFuel = consumptionFuel;
+        this.consumptionFuel = consumptionFuel;
     }
 
-    public float getSpeedEngineSllow() {
-        return SpeedEngineSllow;
+    public float getSpeedEngineSlow() {
+        return speedEngineSlow;
     }
 
-    public void setSpeedEngineSllow(float speedEngineSllow) {
-        SpeedEngineSllow = speedEngineSllow;
+    public void setSpeedEngineSlow(float speedEngineSlow) {
+        this.speedEngineSlow = speedEngineSlow;
     }
 
     public float getSpeedActual() {
-        return SpeedActual;
+        return speedActual;
     }
 
     public void setSpeedActual(float speedActual) {
-        SpeedActual = speedActual;
+        this.speedActual = speedActual;
     }
 }
