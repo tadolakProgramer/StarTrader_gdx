@@ -90,8 +90,8 @@ public class WindowPlanetInfo extends AbstractHUD {
             fuellLabel.setFontScale(1.5f);
 
 
-            TextButton textButton1 = new TextButton("Start", skin);
-            TextButton textButton2 = new TextButton("Close", skin);
+            TextButton textButton1 = new TextButton("Start", skin2);
+            TextButton textButton2 = new TextButton("Close", skin2);
 
             window.row().pad(5);
             winTable.row().colspan(2);
