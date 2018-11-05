@@ -10,8 +10,8 @@ public abstract class ShipModule {
     public double capacity;
     public double fill;
     public double cost;
-    public double baseFailureRate;
-    public double failureRate;
+    public int baseFailureRate;
+    public int failureRate; //lower i beater
     protected Texture texture;
     protected float timeToFailure;
 
@@ -31,9 +31,12 @@ public abstract class ShipModule {
         this.fill =-i;}
     }
 
-    public void setFailureRate(double experienceLevel) {
+    public void setFailureRate(int experienceLevel) {
 
-        this.failureRate = baseFailureRate - (baseFailureRate * experienceLevel/100);
+        this.failureRate = baseFailureRate - experienceLevel;
+        if (failureRate < 1) {
+            failureRate =1;
+        }
 
     }
 

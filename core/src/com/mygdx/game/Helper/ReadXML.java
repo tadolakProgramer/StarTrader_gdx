@@ -45,7 +45,7 @@ public class ReadXML {
                     spaceShipPlayer.addModule( k, ModuleType.valueOf(Slot.get("ModuleType")),
                             Slot.get("Name"), Slot.getFloat("Capacity"),
                             Slot.getFloat("Fill"), Slot.getFloat("Cost"),
-                            Slot.getFloat("BaseFailureRate"));
+                            Slot.getInt("BaseFailureRate"));
                     }
                     else spaceShipPlayer.addModule(k, ModuleType.EMPTY,"Empty", 0,0,0,0);
                 }
@@ -63,8 +63,8 @@ public class ReadXML {
 
             Element person = root.getChild(i);
 
-            ExperienceLevel ex1 = new ExperienceLevel(ExperienceType.valueOf(person.get("fet")), person.getFloat("fel"));
-            ExperienceLevel ex2 = new ExperienceLevel(ExperienceType.valueOf(person.get("set")), person.getFloat("sel"));
+            ExperienceLevel ex1 = new ExperienceLevel(ExperienceType.valueOf(person.get("fet")), person.getInt("fel"));
+            ExperienceLevel ex2 = new ExperienceLevel(ExperienceType.valueOf(person.get("set")), person.getInt("sel"));
 
             spaceShipPlayer.persosns.add( new Crow(
                     CrowType.valueOf(root.getChild(i).getName()),
@@ -72,8 +72,8 @@ public class ReadXML {
                     person.getInt("age"),
                     person.getFloat("height"),
                     person.get("gender"),
-                    new ExperienceLevel(ExperienceType.valueOf(person.get("fet")), person.getFloat("fel")),
-                    new ExperienceLevel(ExperienceType.valueOf(person.get("set")), person.getFloat("sel")),
+                    new ExperienceLevel(ExperienceType.valueOf(person.get("fet")), person.getInt("fel")),
+                    new ExperienceLevel(ExperienceType.valueOf(person.get("set")), person.getInt("sel")),
                     person.getFloat("pay")
             ));
 

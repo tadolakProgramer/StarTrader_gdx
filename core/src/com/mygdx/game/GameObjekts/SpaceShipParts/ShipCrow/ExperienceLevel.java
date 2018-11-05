@@ -3,22 +3,23 @@ package com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow;
 public class ExperienceLevel {
 
     private ExperienceType experienceType;
-    private float level;
+    private int level;
 
-    public ExperienceLevel(ExperienceType experienceType, float level) {
+    public ExperienceLevel(ExperienceType experienceType, int level) {
         this.experienceType = experienceType;
         this.level = level;
     }
 
-    public float getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(float level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
     public ExperienceType getExperienceType() {
         return experienceType;
     }
+
 }

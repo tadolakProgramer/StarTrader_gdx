@@ -35,9 +35,9 @@ import static com.mygdx.game.MyGdxGame.GAME_SCALE;
 public class SpaceShipPlayer extends SpaceObject {
 
 
-    public List<ShipModule> schipModules = new ArrayList<ShipModule>();
+    public List<ShipModule> shipModules = new ArrayList<ShipModule>();
     public List<Person> persosns = new ArrayList<Person>();
-    public Map<ExperienceType, Float> elMap = new HashMap<ExperienceType, Float>();
+    public Map<ExperienceType, Integer> elMap = new HashMap<ExperienceType, Integer>();
 
     public double fuelCapacity;
     public double fuelFill;
@@ -101,14 +101,13 @@ public class SpaceShipPlayer extends SpaceObject {
     private void initialize() {
 
         for (int i = 0; i < 14; i++) {
-            schipModules.add(i, new Empty(EMPTY, "Empty", 0, 0));
+            shipModules.add(i, new Empty(EMPTY, "Empty", 0, 0));
         }
+        spaceShipEngine = new SpaceShipEngine(ModuleType.SPACE_SHIP_ENGINE, "Golem", 1, 1, 10);
 
         ReadXML.setShipFromXML(this);
 
         ReadXML.readCaptain(this);
-
-        spaceShipEngine = new SpaceShipEngine(ModuleType.SPACE_SHIP_ENGINE, "Golem", 1, 1, 100);
 
         setSpaceObjectName("Tado-044");
 
@@ -116,46 +115,46 @@ public class SpaceShipPlayer extends SpaceObject {
         setPlanetTripCounter();
     }
 
-    public void addModule(int index, ModuleType moduleType, String name, double capacity, double fill, double cost, double baseFailureRate) {
+    public void addModule(int index, ModuleType moduleType, String name, double capacity, double fill, double cost, int baseFailureRate) {
 
-        if (schipModules.get(index).moduleType == EMPTY) {
+        if (shipModules.get(index).moduleType == EMPTY) {
 
             switch (moduleType) {
                 case COKPIT: {
-                    schipModules.set(index, new SpaceShipCocpit(ModuleType.COKPIT, name, capacity, fill, cost, baseFailureRate));
+                    shipModules.set(index, new SpaceShipCocpit(ModuleType.COKPIT, name, capacity, fill, cost, baseFailureRate));
                     //Contener contener = new Contener.Builder().setBaseFailureRate()
                     break;
                 }
                 case GAS: {
-                    schipModules.set(index, new Contener(ModuleType.GAS, name, capacity, fill, cost, baseFailureRate));
+                    shipModules.set(index, new Contener(ModuleType.GAS, name, capacity, fill, cost, baseFailureRate));
                     break;
                 }
                 case LIQUID: {
-                    schipModules.set(index, new Contener(ModuleType.LIQUID, name, capacity, fill, cost, baseFailureRate));
+                    shipModules.set(index, new Contener(ModuleType.LIQUID, name, capacity, fill, cost, baseFailureRate));
                     break;
                 }
                 case LOSE: {
-                    schipModules.set(index, new Contener(ModuleType.LOSE, name, capacity, fill, cost, baseFailureRate));
+                    shipModules.set(index, new Contener(ModuleType.LOSE, name, capacity, fill, cost, baseFailureRate));
                     addLoseCapacity(capacity);
                     break;
                 }
                 case SPACE_SHIP_ENGINE: {
-                    schipModules.set(index, new SpaceShipEngine(ModuleType.SPACE_SHIP_ENGINE, name, capacity, cost, baseFailureRate));
+                    shipModules.set(index, new SpaceShipEngine(ModuleType.SPACE_SHIP_ENGINE, name, capacity, cost, baseFailureRate));
                     break;
                 }
                 case FUEL: {
-                    schipModules.set(index, new Contener(ModuleType.FUEL, name, capacity, fill, cost, baseFailureRate));
+                    shipModules.set(index, new Contener(ModuleType.FUEL, name, capacity, fill, cost, baseFailureRate));
                     addFuelCapacity(capacity);
                     addFuelFill(fill);
                     break;
                 }
                 case HOUSING_MODULE: {
-                    schipModules.set(index, new HousingModule(ModuleType.HOUSING_MODULE, name, capacity, fill, cost, baseFailureRate));
+                    shipModules.set(index, new HousingModule(ModuleType.HOUSING_MODULE, name, capacity, fill, cost, baseFailureRate));
                     addHousingCapacity(capacity);
                     break;
                 }
                 case EMPTY: {
-                    schipModules.set(index, new Empty(EMPTY, name, capacity, cost));
+                    shipModules.set(index, new Empty(EMPTY, name, capacity, cost));
                     break;
                 }
             }
@@ -260,8 +259,11 @@ public class SpaceShipPlayer extends SpaceObject {
 
     private void updateShipModule(float dt) {
 
-        for (int i=0; i < schipModules.size(); i++){
-            schipModules.get(i).update(dt);
+        if (isRun){
+        for (int i = 0; i < shipModules.size(); i++) {
+            shipModules.get(i).update(dt);
+        }
+        spaceShipEngine.update(dt);
         }
 
 
@@ -269,13 +271,15 @@ public class SpaceShipPlayer extends SpaceObject {
 
     private void setNewPosition(float dt){
 
+
+
         float distance = Vector2.dst(targetX, targetY, positionC.x, positionC.y);
         float stepDistance = Vector2.dst(positionC.x + moveVector.x, positionC.y + moveVector.y, positionC.x, positionC.y);
 
         //System.out.println("Distance: "+ distance);
 
         if (isRun) {
-            System.out.println("Distance: " + distance + " SD: "+ stepDistance  + " L: "+  (4 * stepDistance * spaceShipEngine.getSpeedActual() * dt));
+            //System.out.println("Distance: " + distance + " SD: "+ stepDistance  + " L: "+  (4 * stepDistance * spaceShipEngine.getSpeedActual() * dt));
             if (distance <= stepDistance ) {
 
                 setStop();
@@ -430,14 +434,18 @@ public class SpaceShipPlayer extends SpaceObject {
 
     public void modifyFailureRate() {
 
-    for (int i = 1; i < schipModules.size(); i++) {
-                ModuleType md = schipModules.get(i).moduleType;
+    for (int i = 1; i < shipModules.size(); i++) {
+                ModuleType md = shipModules.get(i).moduleType;
                 switch (md) {
                     case FUEL: {
                         if (elMap.containsKey(ExperienceType.MECHANIKS)) {
-                            schipModules.get(i).setFailureRate(elMap.get(ExperienceType.MECHANIKS));
+                            shipModules.get(i).setFailureRate(elMap.get(ExperienceType.MECHANIKS));
                         }
                 }
+                    case SPACE_SHIP_ENGINE:
+                        if (elMap.containsKey(ExperienceType.MECHANIKS)){
+                            spaceShipEngine.setFailureRate(elMap.get(ExperienceType.MECHANIKS));
+                        }
             }
 
         }

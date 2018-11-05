@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class Contener extends ShipModule {
 
 
-    public Contener(ModuleType moduleType, String name, double capacity, double fill, double cost, double baseFailureRate){
+    public Contener(ModuleType moduleType, String name, double capacity, double fill, double cost, int baseFailureRate){
         super(moduleType, name, capacity, cost);
         this.moduleType = moduleType;
         this.name = name;
@@ -18,13 +18,13 @@ public class Contener extends ShipModule {
 
     @Override
     public void update(float dt){
-        timeToFailtre = + dt;
+        timeToFailure = + dt;
         setFailure();
     }
 
     private void setFailure() {
 
-        if (timeToFailtre > (11 - failureRate) * 100){
+        if (timeToFailure > (11 - failureRate) * 100){
 
         }
     }

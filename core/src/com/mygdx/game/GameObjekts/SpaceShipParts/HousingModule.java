@@ -3,7 +3,7 @@ package com.mygdx.game.GameObjekts.SpaceShipParts;
 public class HousingModule extends ShipModule{
 
 
-    public HousingModule(ModuleType moduleType, String name, double capacity, double fill, double cost, double baseFailureRate) {
+    public HousingModule(ModuleType moduleType, String name, double capacity, double fill, double cost, int baseFailureRate) {
         super(moduleType, name, capacity, cost);
         this.capacity = capacity;
         this.cost = cost;
