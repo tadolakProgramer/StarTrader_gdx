@@ -60,12 +60,13 @@ public class SpaceShipPlayer extends SpaceObject {
     public String targetName;
 
     private double money;
-    private MyGdxGame game;
     private GameScreen gameScreen;
     private int planetTripCounter;  //Do zdobywania nagród
     private double loseCapacity;
     private double loseFill;
     private double waterFill;
+
+
 
     //test
     private float navigationFactor;
@@ -73,7 +74,6 @@ public class SpaceShipPlayer extends SpaceObject {
 
     public SpaceShipPlayer(final MyGdxGame game, final GameScreen gameScreen) {
         super(game);
-        //this.game = game;
         this.gameScreen = gameScreen;
         setScale(GAME_SCALE);
         this.path = "aliensprite2";
@@ -89,6 +89,7 @@ public class SpaceShipPlayer extends SpaceObject {
                 if (isRun) {
                     gameScreen.createSpaceShipScreen();
                 } else {
+                    //gameScreen.createSpaceShipScreen();
                     gameScreen.createMarketWindow();
                 }
 
@@ -255,7 +256,9 @@ public class SpaceShipPlayer extends SpaceObject {
         setActualSize();
         setNewPosition(dt);
         updateShipModule(dt);
+
     }
+
 
     private void updateShipModule(float dt) {
 
@@ -266,12 +269,9 @@ public class SpaceShipPlayer extends SpaceObject {
         spaceShipEngine.update(dt);
         }
 
-
     }
 
     private void setNewPosition(float dt){
-
-
 
         float distance = Vector2.dst(targetX, targetY, positionC.x, positionC.y);
         float stepDistance = Vector2.dst(positionC.x + moveVector.x, positionC.y + moveVector.y, positionC.x, positionC.y);
@@ -374,7 +374,7 @@ public class SpaceShipPlayer extends SpaceObject {
         titanFill = titanFill + quantity;
     }
 
-    private void subMoney(double v) {
+    public void subMoney(double v) {
         money = money - v;
         ModifiedXML.writeMoneyToXml(money);
     }
