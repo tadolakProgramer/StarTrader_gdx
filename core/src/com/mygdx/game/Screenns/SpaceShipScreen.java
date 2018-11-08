@@ -173,8 +173,8 @@ public class SpaceShipScreen extends AbstractScreen {
 
         if (spaceShipPlayer.titanFill > 0) {
 
-            titanLabelText = new Label("Titan:", skin);
-            titanLabel = new Label(" "+spaceShipPlayer.titanFill, skin);
+            titanLabelText = new Label("Titan:", skin, "titan");
+            titanLabel = new Label(" "+spaceShipPlayer.titanFill, skin, "titan");
 
             table.row();
             table.add(titanLabelText).expandX().left();
@@ -182,8 +182,8 @@ public class SpaceShipScreen extends AbstractScreen {
         }
         if (spaceShipPlayer.grafenFill > 0) {
 
-            grafenLabelText = new Label("Grafen", skin);
-            grafelLabel = new Label(" "+spaceShipPlayer.grafenFill ,skin);
+            grafenLabelText = new Label("Grafen", skin, "grafen");
+            grafelLabel = new Label(" "+spaceShipPlayer.grafenFill ,skin, "grafen");
 
             table.row();
             table.add(grafenLabelText).expandX().left();
