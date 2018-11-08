@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.badlogic.gdx.math.MathUtils;
-import com.mygdx.game.Screenns.Hud.Hud;
 
 import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.EMPTY;
 import static com.mygdx.game.MyGdxGame.GAME_SCALE;
@@ -42,9 +41,9 @@ public class SpaceShipPlayer extends SpaceObject {
 
     public double fuelCapacity;
     public double fuelFill;
-
     public double titanFill;
     public int grafenFill;
+    public double waterFill;
 
     public double housingModuleCapacity;
     public double housingModuleFill;
@@ -65,8 +64,10 @@ public class SpaceShipPlayer extends SpaceObject {
     private GameScreen gameScreen;
     private int planetTripCounter;  //Do zdobywania nagród
     private double loseCapacity;
+    private double liquideCapacity;
     private double loseFill;
-    private double waterFill;
+    private double liquidFill;
+
 
 
 
@@ -380,6 +381,10 @@ public class SpaceShipPlayer extends SpaceObject {
                 addFuelFill(quantity);
                 break;
             }
+            case LIQUID: {
+                liquidFill = liquidFill + quantity;
+                break;
+            }
         }
     }
 
@@ -390,6 +395,7 @@ public class SpaceShipPlayer extends SpaceObject {
     private void addGrafen(int quantity){
         grafenFill = grafenFill + quantity;
     }
+
 
     public void subMoney(double v) {
         money = money - v;
@@ -416,6 +422,12 @@ public class SpaceShipPlayer extends SpaceObject {
             }
             case FUEL: {
                 if (fuelFill + quantity <= fuelCapacity) {
+                    return true;
+                }
+                break;
+            }
+            case LIQUID: {
+                if (liquidFill + quantity <= liquideCapacity){
                     return true;
                 }
                 break;
