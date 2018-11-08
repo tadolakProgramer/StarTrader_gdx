@@ -37,9 +37,6 @@ public class SpaceShipScreen extends AbstractScreen {
 
     private List<Table> crowTables = new ArrayList<>();
 
-    private float time = 0;
-    private int fps = 0;
-
 
     public SpaceShipScreen(final MyGdxGame game, final SpaceShipPlayer spaceShipPlayer) {
         super(game);
@@ -58,12 +55,12 @@ public class SpaceShipScreen extends AbstractScreen {
 
     private void intSpaceShipDraft(final SpaceShipPlayer spaceShipPlayer) {
         spaceShipDraft = new SpaceShipDraft(game);
-        for(int i = 1; i <= 10 /*spaceShipPlayer.schipModules.size()-1*/ ; i++){
+        for(int i = 1; i <= 10 /*spaceShipPlayer.shipModules.size()-1*/ ; i++){
 
-            if (spaceShipPlayer.schipModules.get(i).moduleType !=  EMPTY) {
+            if (spaceShipPlayer.shipModules.get(i).moduleType !=  EMPTY) {
 
                 int index = i;
-                ModuleType moduleType = spaceShipPlayer.schipModules.get(i).moduleType;
+                ModuleType moduleType = spaceShipPlayer.shipModules.get(i).moduleType;
                 moduleActor = new ModuleActor(game, moduleType, index, spaceShipDraft.getScale());
                 stage.addActor(spaceShipDraft);
                 stage.addActor(moduleActor);
