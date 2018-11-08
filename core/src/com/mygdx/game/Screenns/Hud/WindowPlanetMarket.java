@@ -105,6 +105,11 @@ public class WindowPlanetMarket extends AbstractHUD {
             final TextField textFieldGrafen = new TextField("0", skin2);
             TextButton textButtonSellGrafen =  new TextButton("Sell", skin2);
 
+            //Water
+            TextButton textButtonBuyWater =  new TextButton("Buy", skin2);
+            final TextField textFieldWater = new TextField("0", skin2);
+            TextButton textButtonSellWater =  new TextButton("Sell", skin2);
+
             //Fuell
             TextButton textButtonBuyFuel =  new TextButton("Buy", skin2);
             final TextField textFieldFuell = new TextField("0", skin2);
@@ -190,10 +195,45 @@ public class WindowPlanetMarket extends AbstractHUD {
                 }
             });
 
+            //Water
             winTable.row().pad(5);
             winTable.add(woterLabel).expandX().left();
             winTable.add(woterPriceLabel).expandX().right();
 
+            winTable.add(textButtonBuyWater).left().pad(5);
+            winTable.add(textFieldWater).size(100,30).pad(5.0f);
+            winTable.add(textButtonSellWater).left().pad(5);
+
+            textFieldWater.setTextFieldFilter(new TextField.TextFieldFilter() {
+                // Accepts only digits
+                public boolean acceptChar(TextField textField, char c) {
+                    return Character.toString(c).matches("^[0-9]");
+                }
+            });
+
+            textButtonBuyWater.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    String t = textFieldWater.getText();
+                    int i = Integer.valueOf(t);
+                    gameScreen.spaceShipPlayer.buy(CargoType.WATER, i, planet.getPriceWoter());
+                    textFieldWater.setText("0");
+                    return true;
+                }
+            });
+
+            textButtonSellWater.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    String t = textFieldWater.getText();
+                    int i = Integer.valueOf(t);
+                    gameScreen.spaceShipPlayer.sell(CargoType.WATER, i, planet.getPriceWoter());
+                    textFieldWater.setText("0");
+                    return true;
+                }
+            });
+
+            //Fuel
             winTable.row().pad(5);
             winTable.add(fuellLabel).expandX().left();
             winTable.add(fuellPriceLabel).expand().right();
