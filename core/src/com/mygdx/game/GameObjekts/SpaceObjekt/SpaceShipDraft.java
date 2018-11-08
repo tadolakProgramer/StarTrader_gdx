@@ -32,8 +32,8 @@ public class SpaceShipDraft extends Image {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                actScreen = game.kolejka.pollFirst();
-                game.setScreen(game.kolejka.getFirst());
+                //actScreen = game.kolejka.pollFirst();
+                game.setScreen(game.gameScreen);
 
                 return super.touchDown(event, x, y, pointer, button);
             }
@@ -42,9 +42,9 @@ public class SpaceShipDraft extends Image {
 /*
     private void drawMOdule(final MyGdxGame game) {
                    for (int slot = 0; slot<9; slot++){
-                if (spaceShipPlayer.schipModules.get(slot).moduleType!= ModuleType.EMPTY){
+                if (spaceShipPlayer.shipModules.get(slot).moduleType!= ModuleType.EMPTY){
                     batch.begin();
-                    game.spaceShipPlayer.schipModules.get(slot).sprite.draw(batch);
+                    game.spaceShipPlayer.shipModules.get(slot).sprite.draw(batch);
                     batch.end();
                 }
             }
