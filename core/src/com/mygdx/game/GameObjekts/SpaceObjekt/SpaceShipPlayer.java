@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.badlogic.gdx.math.MathUtils;
+import com.mygdx.game.Screenns.Hud.Hud;
 
 import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.EMPTY;
 import static com.mygdx.game.MyGdxGame.GAME_SCALE;
@@ -43,6 +44,7 @@ public class SpaceShipPlayer extends SpaceObject {
     public double fuelFill;
 
     public double titanFill;
+    public int grafenFill;
 
     public double housingModuleCapacity;
     public double housingModuleFill;
@@ -68,9 +70,11 @@ public class SpaceShipPlayer extends SpaceObject {
 
 
 
+
     //test
     private float navigationFactor;
     private boolean korekt;
+
 
     public SpaceShipPlayer(final MyGdxGame game, final GameScreen gameScreen) {
         super(game);
@@ -90,7 +94,12 @@ public class SpaceShipPlayer extends SpaceObject {
                     gameScreen.createSpaceShipScreen();
                 } else {
                     //gameScreen.createSpaceShipScreen();
-                    gameScreen.createMarketWindow();
+                    if (targetName == null){
+                        gameScreen.createSpaceShipScreen();
+                    }
+                    else {
+                        gameScreen.createMarketWindow();
+                    }
                 }
 
                 System.out.println("KLIK");
@@ -327,6 +336,9 @@ public class SpaceShipPlayer extends SpaceObject {
             fillingModule(moduleType, quantity);
             addCargo(cargoType, quantity);
         }
+        else{
+
+        }
     }
 
     public void sell(CargoType cargoType, int quantity, double cost) {
@@ -342,9 +354,10 @@ public class SpaceShipPlayer extends SpaceObject {
                 addTitan(quantity);
                 break;
             }
-            /*case FUEL:{
-                addFuelFill(quantity);
-                break;}*/
+            case GRAFEN:{
+                addGrafen(quantity);
+                break;
+            }
             case WATER: {
                 addWater(quantity);
                 break;
@@ -372,6 +385,10 @@ public class SpaceShipPlayer extends SpaceObject {
 
     private void addTitan(int quantity) {
         titanFill = titanFill + quantity;
+    }
+
+    private void addGrafen(int quantity){
+        grafenFill = grafenFill + quantity;
     }
 
     public void subMoney(double v) {
