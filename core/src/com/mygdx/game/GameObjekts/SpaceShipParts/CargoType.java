@@ -7,7 +7,8 @@ public enum CargoType {
     TITAN(ModuleType.LOSE),
     WATER(ModuleType.LIQUID),
     GRAFEN(ModuleType.LOSE),
-    HELIUM3(ModuleType.GAS);
+    HELIUM3(ModuleType.GAS),
+    PERSON(ModuleType.HOUSING_MODULE);
 
     private final ModuleType moduleType;
 
