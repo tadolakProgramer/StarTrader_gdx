@@ -1,5 +1,9 @@
 package com.mygdx.game.Helper;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.XmlWriter;
 import com.mygdx.game.MyGdxGame;
 
 import java.io.File;
@@ -14,6 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 
 public class ModifiedXML {
 
@@ -83,7 +88,7 @@ public class ModifiedXML {
     public static Boolean writeMoneyToXml(double m) {
 
         setDocument(MyGdxGame.FILE_PLAYER);
-        Node ship = doc.getFirstChild();
+        //Node ship = doc.getFirstChild();
         Node player = doc.getElementsByTagName("money").item(0);
         player.setTextContent(Double.toString(m));
 
@@ -94,8 +99,9 @@ public class ModifiedXML {
 
     public static Boolean writePlanetCountTripToXml(int m) {
 
+
         setDocument(MyGdxGame.FILE_PLAYER);
-        Node ship = doc.getFirstChild();
+        //Node ship = doc.getFirstChild();
         Node player = doc.getElementsByTagName("planetCount").item(0);
         player.setTextContent(Integer.toString(m));
 
