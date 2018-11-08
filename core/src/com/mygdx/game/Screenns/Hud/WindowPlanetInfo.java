@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.MyGdxGame;
@@ -35,7 +36,6 @@ public class WindowPlanetInfo extends AbstractHUD {
         if (windowInfoPlanetCount <= 1) {
 
             gameScreen.multiplexer.addProcessor(stage);
-
 
             window = new Window(planetName, skin);
             region = new TextureRegion();
