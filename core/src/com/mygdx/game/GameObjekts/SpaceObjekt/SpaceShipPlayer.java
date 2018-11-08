@@ -126,26 +126,27 @@ public class SpaceShipPlayer extends SpaceObject {
         setPlanetTripCounter();
     }
 
-    public void addModule(int index, ModuleType moduleType, String name, double capacity, double fill, double cost, int baseFailureRate) {
+    public void addModule(int index, ModuleType moduleType, String name, double capacity, /*double fill,*/ double cost, int baseFailureRate) {
 
         if (shipModules.get(index).moduleType == EMPTY) {
 
             switch (moduleType) {
                 case COKPIT: {
-                    shipModules.set(index, new SpaceShipCocpit(ModuleType.COKPIT, name, capacity, fill, cost, baseFailureRate));
+                    shipModules.set(index, new SpaceShipCocpit(ModuleType.COKPIT, name, capacity,  cost, baseFailureRate));
                     //Contener contener = new Contener.Builder().setBaseFailureRate()
                     break;
                 }
                 case GAS: {
-                    shipModules.set(index, new Contener(ModuleType.GAS, name, capacity, fill, cost, baseFailureRate));
+                    shipModules.set(index, new Contener(ModuleType.GAS, name, capacity,  cost, baseFailureRate));
                     break;
                 }
                 case LIQUID: {
-                    shipModules.set(index, new Contener(ModuleType.LIQUID, name, capacity, fill, cost, baseFailureRate));
+                    shipModules.set(index, new Contener(ModuleType.LIQUID, name, capacity,  cost, baseFailureRate));
+                    addLiqidCapacity(capacity);
                     break;
                 }
                 case LOSE: {
-                    shipModules.set(index, new Contener(ModuleType.LOSE, name, capacity, fill, cost, baseFailureRate));
+                    shipModules.set(index, new Contener(ModuleType.LOSE, name, capacity,  cost, baseFailureRate));
                     addLoseCapacity(capacity);
                     break;
                 }
@@ -154,13 +155,12 @@ public class SpaceShipPlayer extends SpaceObject {
                     break;
                 }
                 case FUEL: {
-                    shipModules.set(index, new Contener(ModuleType.FUEL, name, capacity, fill, cost, baseFailureRate));
+                    shipModules.set(index, new Contener(ModuleType.FUEL, name, capacity,  cost, baseFailureRate));
                     addFuelCapacity(capacity);
-                    addFuelFill(fill);
                     break;
                 }
                 case HOUSING_MODULE: {
-                    shipModules.set(index, new HousingModule(ModuleType.HOUSING_MODULE, name, capacity, fill, cost, baseFailureRate));
+                    shipModules.set(index, new HousingModule(ModuleType.HOUSING_MODULE, name, capacity,  cost, baseFailureRate));
                     addHousingCapacity(capacity);
                     break;
                 }
@@ -178,6 +178,10 @@ public class SpaceShipPlayer extends SpaceObject {
 
     private void addLoseCapacity(double capacity) {
         this.loseCapacity = this.loseCapacity + capacity;
+    }
+
+    private void addLiqidCapacity(double capacity){
+        this.liquideCapacity = this.liquideCapacity + capacity;
     }
 
     public void addFuelCapacity(double fuelCapacity) {
@@ -371,7 +375,7 @@ public class SpaceShipPlayer extends SpaceObject {
     }
 
 
-    private void fillingModule(ModuleType moduleType, int quantity) {
+    private void fillingModule(ModuleType moduleType, double quantity) {
         switch (moduleType) {
             case LOSE: {
                 loseFill = loseFill + quantity;
@@ -388,8 +392,15 @@ public class SpaceShipPlayer extends SpaceObject {
         }
     }
 
-    private void addTitan(int quantity) {
+    private void addTitan(double quantity) {
+
         titanFill = titanFill + quantity;
+
+        for (int i = 0; i < shipModules.size(); i++) {
+            if (shipModules.get(i).getModuleType().equals(ModuleType.LOSE)) {
+                quantity = shipModules.get(i).addCargo(CargoType.TITAN, quantity);
+            }
+        }
     }
 
     private void addGrafen(int quantity){

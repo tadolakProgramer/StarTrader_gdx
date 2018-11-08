@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class Contener extends ShipModule {
 
 
-    public Contener(ModuleType moduleType, String name, double capacity, double fill, double cost, int baseFailureRate){
+    public Contener(ModuleType moduleType, String name, double capacity,  double cost, int baseFailureRate){
         super(moduleType, name, capacity, cost);
         this.moduleType = moduleType;
         this.name = name;
@@ -31,7 +31,7 @@ public class Contener extends ShipModule {
 
 
     public Contener build(){
-        return new Contener(moduleType, name, capacity, fill, cost, baseFailureRate);
+        return new Contener(moduleType, name, capacity,  cost, baseFailureRate);
     }
 
     public static class Builder{

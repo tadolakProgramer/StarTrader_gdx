@@ -38,7 +38,8 @@ public class SpaceShipScreen extends AbstractScreen {
     private Table tableCrows;
 
     private List<Table> crowTables = new ArrayList<>();
-
+    private Label waterLabelText;
+    private Label waterlLabel;
 
 
     public SpaceShipScreen(final MyGdxGame game, final SpaceShipPlayer spaceShipPlayer) {
@@ -53,7 +54,6 @@ public class SpaceShipScreen extends AbstractScreen {
         createTableWithCargo();
         createTableCrows();
     }
-
 
 
     private void intSpaceShipDraft(final SpaceShipPlayer spaceShipPlayer) {
@@ -188,6 +188,16 @@ public class SpaceShipScreen extends AbstractScreen {
             table.row();
             table.add(grafenLabelText).expandX().left();
             table.add(grafelLabel).expandX();
+        }
+
+        if (spaceShipPlayer.waterFill > 0) {
+
+            waterLabelText = new Label("Grafen", skin, "water");
+            waterlLabel = new Label(" "+spaceShipPlayer.waterFill ,skin, "water");
+
+            table.row();
+            table.add(waterLabelText).expandX().left();
+            table.add(waterlLabel).expandX();
         }
 
         stage.addActor(table);
