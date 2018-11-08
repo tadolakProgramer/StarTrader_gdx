@@ -27,7 +27,9 @@ public class SpaceShipScreen extends AbstractScreen {
     private static Label fuellLabel;
     private Label moneyLabelText;
     private Label titanLabelText;
+    private Label grafenLabelText;
     private Label titanLabel;
+    private Label grafelLabel;
     private Label worldLabel;
     private Label fuelLabelText;
     private ProgressBar fuelFillBar;
@@ -36,6 +38,7 @@ public class SpaceShipScreen extends AbstractScreen {
     private Table tableCrows;
 
     private List<Table> crowTables = new ArrayList<>();
+
 
 
     public SpaceShipScreen(final MyGdxGame game, final SpaceShipPlayer spaceShipPlayer) {
@@ -147,14 +150,16 @@ public class SpaceShipScreen extends AbstractScreen {
 
         moneyLabelText = new Label("Money", skin);
         fuelLabelText = new Label("Fuel: ", skin);
-        titanLabelText = new Label("Titan:", skin);
+
+
         worldLabel = new Label("WORLD: ", skin);
 
 
         //define our labels using the String, and a Label style consisting of a font and color
         moneyLabel = new Label(String.format("%.2f", spaceShipPlayer.getMoney()), skin);
         fuellLabel =new Label(String.format("%.2f", spaceShipPlayer.fuelFill), skin);
-        titanLabel = new Label(String.format("%.2f",spaceShipPlayer.titanFill), skin);
+
+
 
         //fuelFillBar = new ProgressBar(0.0f, (float) spaceShipPlayer.fuelCapacity, 1, false, skin, "fancy");
 
@@ -167,9 +172,22 @@ public class SpaceShipScreen extends AbstractScreen {
         table.add(fuellLabel).expandX();
 
         if (spaceShipPlayer.titanFill > 0) {
+
+            titanLabelText = new Label("Titan:", skin);
+            titanLabel = new Label(" "+spaceShipPlayer.titanFill, skin);
+
             table.row();
             table.add(titanLabelText).expandX().left();
             table.add(titanLabel).expandX();
+        }
+        if (spaceShipPlayer.grafenFill > 0) {
+
+            grafenLabelText = new Label("Grafen", skin);
+            grafelLabel = new Label(" "+spaceShipPlayer.grafenFill ,skin);
+
+            table.row();
+            table.add(grafenLabelText).expandX().left();
+            table.add(grafelLabel).expandX();
         }
 
         stage.addActor(table);
