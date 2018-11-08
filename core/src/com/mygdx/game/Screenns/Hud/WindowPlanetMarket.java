@@ -23,6 +23,7 @@ public class WindowPlanetMarket extends AbstractHUD {
     private  double fuelPrice;
     private Label titanPriceLabel;
     private double titanPrice;
+    private double grafenPrice;
     private Label grafenPriceLabel;
     private Label woterPriceLabel;
     private Label fuellPriceLabel;
@@ -66,13 +67,13 @@ public class WindowPlanetMarket extends AbstractHUD {
                     planetImage.setSize(10,10);
                     titanPrice = planet.getPriceTitan();
                     fuelPrice =  planet.getPriceFuell();
-                    titanPriceLabel = new Label(String.format("%.2f", titanPrice)+" T$", skin, "titan");
+                    titanPriceLabel = new Label(String.format("%.2f", planet.getPriceTitan())+" T$", skin, "titan");
                     titanPriceLabel.setFontScale(1.5f);
-                    grafenPriceLabel = new Label(String.format("%.2f", planet.getPriceGrafen()), skin, "grafen");
+                    grafenPriceLabel = new Label(String.format("%.2f", planet.getPriceGrafen())+" T$", skin, "grafen");
                     grafenPriceLabel.setFontScale(1.5f);
-                    woterPriceLabel = new Label(String.format("%.2f", planet.getPriceWoter()), skin, "woter");
+                    woterPriceLabel = new Label(String.format("%.2f", planet.getPriceWoter())+" T$", skin, "woter");
                     woterPriceLabel.setFontScale(1.5f);
-                    fuellPriceLabel = new Label(String.format("%.2f", planet.getPriceFuell()), skin, "fuell");
+                    fuellPriceLabel = new Label(String.format("%.2f", planet.getPriceFuell())+" T$", skin, "fuell");
                     fuellPriceLabel.setFontScale(1.5f);
                     break;
                 }
@@ -94,25 +95,33 @@ public class WindowPlanetMarket extends AbstractHUD {
 
             TextButton textButtonClose = new TextButton("Close", skin2);
 
+            //Titan
             TextButton textButtonBuyTitan =  new TextButton("Buy", skin2);
-            final TextField textFieldTitan = new TextField("0", skin);
+            final TextField textFieldTitan = new TextField("0", skin2);
             TextButton textButtonSellTitan =  new TextButton("Sell", skin2);
 
+            //Grafen
+            TextButton textButtonBuyGrafen =  new TextButton("Buy", skin2);
+            final TextField textFieldGrafen = new TextField("0", skin2);
+            TextButton textButtonSellGrafen =  new TextButton("Sell", skin2);
+
+            //Fuell
             TextButton textButtonBuyFuel =  new TextButton("Buy", skin2);
-            final TextField textFieldFuell = new TextField("0", skin);
+            final TextField textFieldFuell = new TextField("0", skin2);
             //TextButton textButtonSellFuel =  new TextButton("Sell", skin2);
 
+            /** Planet Image */
             window.row().pad(5);
             winTable.row().colspan(5);
             winTable.add(planetImage).size(100,100);
 
+            /** Titan row */
             winTable.row().pad(5);
             winTable.add(titanLabel).expandX().left();
             winTable.add(titanPriceLabel).expandX().right();
             winTable.add(textButtonBuyTitan).left().pad(5);
             winTable.add(textFieldTitan).size(100,30).pad(5.0f);
             winTable.add(textButtonSellTitan).left().pad(5);
-
 
             textFieldTitan.setTextFieldFilter(new TextField.TextFieldFilter() {
                 // Accepts only digits
@@ -126,7 +135,7 @@ public class WindowPlanetMarket extends AbstractHUD {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     String t = textFieldTitan.getText();
                     int i = Integer.valueOf(t);
-                    gameScreen.spaceShipPlayer.buy(CargoType.TITAN, i, titanPrice);
+                    gameScreen.spaceShipPlayer.buy(CargoType.TITAN, i, planet.getPriceTitan());
                     textFieldTitan.setText("0");
                     return true;
                 }
@@ -137,17 +146,49 @@ public class WindowPlanetMarket extends AbstractHUD {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     String t = textFieldTitan.getText();
                     int i = Integer.valueOf(t);
-                    gameScreen.spaceShipPlayer.sell(CargoType.TITAN, i, titanPrice);
+                    gameScreen.spaceShipPlayer.sell(CargoType.TITAN, i, planet.getPriceTitan());
                     textFieldTitan.setText("0");
                     return true;
                 }
             });
 
 
+            /** Grafen row **/
             winTable.row().pad(5);
             winTable.add(grafenLabel).expandX().left();
             winTable.add(grafenPriceLabel).expandX().right();
+            winTable.add(textButtonBuyGrafen).left().pad(5);
+            winTable.add(textFieldGrafen).size(100,30).pad(5.0f);
+            winTable.add(textButtonSellGrafen).left().pad(5);
 
+            textFieldGrafen.setTextFieldFilter(new TextField.TextFieldFilter() {
+                // Accepts only digits
+                public boolean acceptChar(TextField textField, char c) {
+                    return Character.toString(c).matches("^[0-9]");
+                }
+            });
+
+            textButtonBuyGrafen.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    String t = textFieldGrafen.getText();
+                    int i = Integer.valueOf(t);
+                    gameScreen.spaceShipPlayer.buy(CargoType.GRAFEN, i, planet.getPriceGrafen());
+                    textFieldGrafen.setText("0");
+                    return true;
+                }
+            });
+
+            textButtonSellGrafen.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    String t = textFieldGrafen.getText();
+                    int i = Integer.valueOf(t);
+                    gameScreen.spaceShipPlayer.sell(CargoType.GRAFEN, i, planet.getPriceGrafen());
+                    textFieldGrafen.setText("0");
+                    return true;
+                }
+            });
 
             winTable.row().pad(5);
             winTable.add(woterLabel).expandX().left();
