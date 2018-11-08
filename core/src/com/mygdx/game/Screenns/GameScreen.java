@@ -3,9 +3,11 @@ package com.mygdx.game.Screenns;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
+import com.mygdx.game.Helper.CreateXmlFile;
 import com.mygdx.game.Helper.ModifiedXML;
 import com.mygdx.game.Helper.ReadXML;
 import com.mygdx.game.MyGdxGame;
@@ -14,8 +16,11 @@ import com.mygdx.game.Screenns.Hud.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mygdx.game.MyGdxGame.FILE_PLANETS;
+import static com.mygdx.game.MyGdxGame.FILE_PLAYER;
 import static com.mygdx.game.MyGdxGame.GAME_HEIGHT;
 import static com.mygdx.game.MyGdxGame.GAME_WIDTH;
+import static com.mygdx.game.MyGdxGame.TIME_TO_PAYMENT;
 
 
 public class GameScreen extends AbstractScreen implements InputProcessor {
@@ -23,7 +28,15 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     public List<Planet> planets = new ArrayList<Planet>();
     public List<Planet> viewPlanets = new ArrayList<Planet>();
+
     public SpaceShipPlayer spaceShipPlayer;
+
+    private float timeToPayment;
+    private float gameTime;
+    private String dateOfGame;
+    private int month;
+    private int year = 2400;
+
     private Planet planet;
 
     private Hud hud;
@@ -32,17 +45,18 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     public InputMultiplexer multiplexer;
 
 
-
     public GameScreen(final MyGdxGame game) {
         super(game);
         multiplexer = new InputMultiplexer(this, stage);
         Gdx.input.setInputProcessor(multiplexer);
         init();
     }
+
     private void init() {
         backgroundInit();
         initSpaceShipPlayer();
         initHUD();
+        setDateOfGame();
         spaceInit();
         setCameraToSpaceSchip();
     }
@@ -60,7 +74,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             stage.addActor(planets.get(i));
         }
         stage.addActor(spaceShipPlayer);
-
     }
 
     private void initHUD() {
@@ -87,10 +100,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         }
 
 
-
     @Override
     public void render(float delta){
         super.render(delta);
+        update(delta);
         //System.out.println("KLIK: " + delta);
 
         background.render(backgroundCam);
@@ -101,7 +114,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         spriteBatch.end();
 
         hud.stage.draw();
-        update(delta);
+        //update(delta);
         }
 
         private void setViewPlanets(){
@@ -131,25 +144,52 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             }
 
 
-    private void update(float delta) {
+    private void update(float dt) {
 
         backgroundCam.update();
-        hud.update(delta);
+        hud.update(dt);
         stage.act();
         setViewPlanets();
-
+        updateTime(dt);
 
         //System.out.println("Cam_pos: "+camera.position.x+"  "+camera.position.y);
         }
 
+    private void updateTime(float dt) {
+        gameTime = gameTime + dt;
+        timeToPayment = timeToPayment+ dt;
+        if (timeToPayment >= TIME_TO_PAYMENT){
+            timeToPayment =0;
+            for (int i=0; i < spaceShipPlayer.persosns.size(); i++){
+                spaceShipPlayer.subMoney(spaceShipPlayer.persosns.get(i).getPay());
+                setDateOfGame();
+            }
+            hud.showDlgPayment();
+        }
+
+    }
+
+    private void setDateOfGame() {
+        month++;
+        if (month>12){
+            month = 1;
+            year++;
+        }
+        dateOfGame = (Integer.toString(year)+"."+Integer.toString(month));
+    }
+
+    public String getDateOfGame() {
+        return dateOfGame;
+    }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(multiplexer);
     }
     @Override
+
     public  void dispose(){
-        ModifiedXML.setPosition(spaceShipPlayer.getOriginX(), spaceShipPlayer.getOriginY());
+        ModifiedXML.writePositionToXml(spaceShipPlayer.getOriginX(), spaceShipPlayer.getOriginY());
     }
 
 

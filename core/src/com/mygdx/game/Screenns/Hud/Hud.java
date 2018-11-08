@@ -2,12 +2,14 @@ package com.mygdx.game.Screenns.Hud;
 
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 
@@ -21,7 +23,9 @@ import static com.mygdx.game.MyGdxGame.GAME_WIDTH;
 public class Hud extends  AbstractHUD {
 
 
+
     //Scene2D widgets
+    private final Label dateLabel;
     private Label moneyLabel;
     private static Label fuellLabel;
     private Label timeLabel;
@@ -29,6 +33,7 @@ public class Hud extends  AbstractHUD {
     private Label worldLabel;
     private Label marioLabel;
     private ProgressBar fuelFillBar;
+
 
 
     private float time = 0;
@@ -58,6 +63,8 @@ public class Hud extends  AbstractHUD {
         moneyLabel = new Label(String.format("%.2f", gameScreen.spaceShipPlayer.getMoney()), skin, "grafen");
         fuellLabel =new Label(String.format("%.2f", gameScreen.spaceShipPlayer.fuelFill), skin, "grafen");
         fuelFillBar = new ProgressBar(0.0f, (float) gameScreen.spaceShipPlayer.fuelCapacity, 1, false, skin, "fancy");
+        dateLabel = new Label(gameScreen.getDateOfGame(),skin, "grafen");
+
 
         timeLabel = new Label("Money", skin, "grafen");
         levelLabel = new Label("1-1: ", skin, "grafen");
@@ -68,12 +75,14 @@ public class Hud extends  AbstractHUD {
         table.add(marioLabel).expandX().padTop(1);
         table.add(worldLabel).expandX().padTop(1);
         table.add(timeLabel).expandX().padTop(1);
+        table.add(new Label("Date: ", skin, "grafen")).expandX();
         //add a second row to our table
         table.row();
         table.add(fuellLabel).expandX();
         stage.addActor(fuelFillBar);
         table.add(levelLabel).expandX();
         table.add(moneyLabel).expandX();
+        table.add(dateLabel).expandX();
 
         //add
 
@@ -115,9 +124,15 @@ public class Hud extends  AbstractHUD {
 
     }
 
+    public void showDlgPayment() {
+        WindowPaymentList windowPaymentList = new WindowPaymentList(gameScreen, game, sb);
+        stage.addActor(windowPaymentList.dlgListPayment);
+    }
+
     public void update(float dt) {
         progressBarUpdate();
         moneyLabel.setText(String.format("%.2f", gameScreen.spaceShipPlayer.getMoney()));
+        dateLabel.setText(gameScreen.getDateOfGame());
         time = time +dt;
         fps ++;
         if (time >= 1){
@@ -151,6 +166,5 @@ public class Hud extends  AbstractHUD {
         dlgNewPrice.setPosition(GAME_WIDTH / 2.0f - 100, GAME_HEIGHT / 2.0f - 100);
         stage.addActor(dlgNewPrice);
     }
-
 
 }
