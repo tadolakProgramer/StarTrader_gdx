@@ -37,7 +37,7 @@ public class WindowPlanetMarket extends AbstractHUD {
 
             gameScreen.multiplexer.addProcessor(stage);
 
-            window = new Window(planetName, skin);
+            window = new Window(planetName, skin2);
             region = new TextureRegion();
 
             window.setColor(Color.BLACK);
@@ -92,15 +92,15 @@ public class WindowPlanetMarket extends AbstractHUD {
             fuellLabel.setFontScale(1.5f);
 
 
-            TextButton textButtonClose = new TextButton("Close", skin);
+            TextButton textButtonClose = new TextButton("Close", skin2);
 
-            TextButton textButtonBuyTitan =  new TextButton("Buy", skin);
+            TextButton textButtonBuyTitan =  new TextButton("Buy", skin2);
             final TextField textFieldTitan = new TextField("0", skin);
-            TextButton textButtonSellTitan =  new TextButton("Sell", skin);
+            TextButton textButtonSellTitan =  new TextButton("Sell", skin2);
 
-            TextButton textButtonBuyFuel =  new TextButton("Buy", skin);
+            TextButton textButtonBuyFuel =  new TextButton("Buy", skin2);
             final TextField textFieldFuell = new TextField("0", skin);
-            //TextButton textButtonSellFuel =  new TextButton("Sell", skin);
+            //TextButton textButtonSellFuel =  new TextButton("Sell", skin2);
 
             window.row().pad(5);
             winTable.row().colspan(5);
@@ -114,14 +114,10 @@ public class WindowPlanetMarket extends AbstractHUD {
             winTable.add(textButtonSellTitan).left().pad(5);
 
 
-
             textFieldTitan.setTextFieldFilter(new TextField.TextFieldFilter() {
                 // Accepts only digits
                 public boolean acceptChar(TextField textField, char c) {
-                    if (Character.toString(c).matches("^[0-9]")) {
-                        return true;
-                    }
-                    return false;
+                    return Character.toString(c).matches("^[0-9]");
                 }
             });
 
