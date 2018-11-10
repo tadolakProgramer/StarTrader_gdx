@@ -1,5 +1,6 @@
 package com.mygdx.game.GameObjekts.SpaceObjekt;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -37,12 +38,12 @@ public class Planet extends SpaceObject {
         this.hud = hud;
         setScale(GAME_SCALE);
         setPosition(x,y);
-        rotationSpeed = MathUtils.random(10, 15);
+        rotationSpeed = MathUtils.random(10f, 15f);
         setSpaceObjectName(name);
-        priceTitan = MathUtils.random(10, 15);
-        priceGrafen = MathUtils.random(15, 20);
-        priceWoter = MathUtils.random(50, 60);
-        priceFuell  = MathUtils.random(5,10);
+        priceTitan = MathUtils.random(10f, 15f);
+        priceGrafen = MathUtils.random(15f, 20f);
+        priceWoter = MathUtils.random(150f, 160f);
+        priceFuell  = MathUtils.random(5f,10f);
         setTexture(path);
         newRandom();
         addClickListener();
