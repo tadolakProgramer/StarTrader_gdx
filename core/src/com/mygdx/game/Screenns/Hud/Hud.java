@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 
+import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.GameScreen;
 
@@ -144,7 +145,7 @@ public class Hud extends  AbstractHUD {
         }
 
     private void progressBarUpdate() {
-        fuellLabel.setText(String.format("%.2f", gameScreen.spaceShipPlayer.fuelFill)+"  "+String.format("%.2f", gameScreen.spaceShipPlayer.fuelFill/gameScreen.spaceShipPlayer.fuelCapacity*100)+"$");
+        fuellLabel.setText(String.format("%.2f", gameScreen.spaceShipPlayer.getFill(CargoType.FUEL))+"  "+String.format("%.2f", gameScreen.spaceShipPlayer.fuelFill/gameScreen.spaceShipPlayer.fuelCapacity*100)+"$");
         fuelFillBar.setRange(0,(float)gameScreen.spaceShipPlayer.fuelCapacity);
         fuelFillBar.setValue((float)gameScreen.spaceShipPlayer.fuelFill);
         fuelFillBar.setPosition(fuellLabel.getX() + fuellLabel.getWidth()/2 - fuelFillBar.getWidth()/2, fuellLabel.getY()+5 );
@@ -160,6 +161,19 @@ public class Hud extends  AbstractHUD {
         TextButton btnMain = new TextButton("Main", skin);
         TextButton btnTryAgain = new TextButton("Try Again", skin);
         dlgNewPrice.text("New price on "+ planetName);
+        dlgNewPrice.button(btnTryAgain);
+        dlgNewPrice.button(btnMain);
+        dlgNewPrice.setSize(200,200);
+        dlgNewPrice.setPosition(GAME_WIDTH / 2.0f - 100, GAME_HEIGHT / 2.0f - 100);
+        stage.addActor(dlgNewPrice);
+    }
+
+    public void showDlgLowMony() {
+
+        Dialog dlgNewPrice = new Dialog("Pozor! ", skin);
+        TextButton btnMain = new TextButton("Main", skin);
+        TextButton btnTryAgain = new TextButton("Try Again", skin);
+        dlgNewPrice.text("To low money or capacity ");
         dlgNewPrice.button(btnTryAgain);
         dlgNewPrice.button(btnMain);
         dlgNewPrice.setSize(200,200);
