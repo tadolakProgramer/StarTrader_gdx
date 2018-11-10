@@ -1,7 +1,6 @@
 package com.mygdx.game.GameObjekts.SpaceShipParts;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.ExperienceType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +40,7 @@ public abstract class ShipModule {
                     for (int i = 0; i < capacitys.size(); quantity++) {
                         if (capacitys.containsKey(cargoType)) {
                             capacitys.put(cargoType, quantity + capacitys.get(cargoType));
+                            quantity =0;
                             break;
                         } else {
                             capacitys.put(cargoType, quantity);
@@ -68,9 +68,23 @@ public abstract class ShipModule {
         return quantity;
     }
 
-    public void subCargo(int i){
-        if(capacity - i >= 0){
-        this.fill =-i;}
+    public double subCargo(CargoType cargoType, double quantity){
+
+        double q = quantity;
+
+        if ((capacitys.containsKey(cargoType))) {
+            if (capacitys.get(cargoType) < quantity){
+                q = quantity - fill;
+                capacitys.put(cargoType, 0.0);
+                fill = 0;
+            }
+            else{
+                fill = fill - quantity;
+                capacitys.put(cargoType, capacitys.get(cargoType)-quantity);
+                q = 0;
+            }
+        }
+        return q;
     }
 
     public void setFailureRate(int experienceLevel) {
@@ -83,12 +97,23 @@ public abstract class ShipModule {
     }
 
 
-
     public void update(float dt){
 
     }
 
     public ModuleType getModuleType() {
         return moduleType;
+    }
+
+    public double getCapacity() {
+        return capacity;
+    }
+
+    public double getFill() {
+        return fill;
+    }
+
+    public double getFillCargoType(CargoType cargoType){
+        return capacitys.get(cargoType);
     }
 }
