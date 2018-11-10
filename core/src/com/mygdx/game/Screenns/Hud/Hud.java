@@ -157,15 +157,21 @@ public class Hud extends  AbstractHUD {
 
     public void showDlgNewPrice(String planetName) {
 
-        Dialog dlgNewPrice = new Dialog("New price ", skin);
-        TextButton btnMain = new TextButton("Main", skin);
-        TextButton btnTryAgain = new TextButton("Try Again", skin);
+        final Dialog dlgNewPrice = new Dialog("New price ", skin);
+        TextButton btnMain = new TextButton("Close", skin);
         dlgNewPrice.text("New price on "+ planetName);
-        dlgNewPrice.button(btnTryAgain);
         dlgNewPrice.button(btnMain);
         dlgNewPrice.setSize(200,200);
         dlgNewPrice.setPosition(GAME_WIDTH / 2.0f - 100, GAME_HEIGHT / 2.0f - 100);
         stage.addActor(dlgNewPrice);
+
+        btnMain.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                dlgNewPrice.remove();
+                return true;
+            }
+        });
     }
 
     public void showDlgLowMony() {
