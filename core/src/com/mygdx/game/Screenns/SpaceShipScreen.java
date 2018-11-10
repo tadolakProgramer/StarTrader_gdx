@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipDraft;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
+import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleActor;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType;
 import com.mygdx.game.MyGdxGame;
@@ -157,7 +158,7 @@ public class SpaceShipScreen extends AbstractScreen {
 
         //define our labels using the String, and a Label style consisting of a font and color
         moneyLabel = new Label(String.format("%.2f", spaceShipPlayer.getMoney()), skin);
-        fuellLabel =new Label(String.format("%.2f", spaceShipPlayer.fuelFill), skin);
+        fuellLabel =new Label(String.format("%.2f", spaceShipPlayer.getFill(CargoType.FUEL)), skin);
 
 
 
@@ -171,29 +172,29 @@ public class SpaceShipScreen extends AbstractScreen {
         table.add(fuelLabelText).expandX().left();
         table.add(fuellLabel).expandX();
 
-        if (spaceShipPlayer.titanFill > 0) {
+        if (spaceShipPlayer.getFill(CargoType.TITAN) > 0) {
 
             titanLabelText = new Label("Titan:", skin, "titan");
-            titanLabel = new Label(" "+spaceShipPlayer.titanFill, skin, "titan");
+            titanLabel = new Label(" "+spaceShipPlayer.getFill(CargoType.TITAN), skin, "titan");
 
             table.row();
             table.add(titanLabelText).expandX().left();
             table.add(titanLabel).expandX();
         }
-        if (spaceShipPlayer.grafenFill > 0) {
+        if (spaceShipPlayer.getFill(CargoType.GRAFEN) > 0) {
 
             grafenLabelText = new Label("Grafen", skin, "grafen");
-            grafelLabel = new Label(" "+spaceShipPlayer.grafenFill ,skin, "grafen");
+            grafelLabel = new Label(" "+spaceShipPlayer.getFill(CargoType.GRAFEN) ,skin, "grafen");
 
             table.row();
             table.add(grafenLabelText).expandX().left();
             table.add(grafelLabel).expandX();
         }
 
-        if (spaceShipPlayer.waterFill > 0) {
+        if (spaceShipPlayer.getFill(CargoType.WATER) > 0) {
 
             waterLabelText = new Label("Grafen", skin, "water");
-            waterlLabel = new Label(" "+spaceShipPlayer.waterFill ,skin, "water");
+            waterlLabel = new Label(" "+spaceShipPlayer.getFill(CargoType.WATER) ,skin, "water");
 
             table.row();
             table.add(waterLabelText).expandX().left();
