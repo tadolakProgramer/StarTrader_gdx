@@ -41,15 +41,10 @@ public class SpaceShipPlayer extends SpaceObject {
 
     public double fuelCapacity;
     public double fuelFill;
-    public double titanFill;
-    public int grafenFill;
-    public double waterFill;
 
     public double housingModuleCapacity;
     public double housingModuleFill;
 
-    private SpaceShipCocpit spaceShipCocpit;
-    private HousingModule housingModule;
     private SpaceShipEngine spaceShipEngine;
     private boolean isRun;
 
@@ -65,11 +60,6 @@ public class SpaceShipPlayer extends SpaceObject {
     private int planetTripCounter;  //Do zdobywania nagród
     private double loseCapacity;
     private double liquideCapacity;
-    private double loseFill;
-    private double liquidFill;
-
-
-
 
 
     //test
@@ -142,12 +132,10 @@ public class SpaceShipPlayer extends SpaceObject {
                 }
                 case LIQUID: {
                     shipModules.set(index, new Contener(ModuleType.LIQUID, name, capacity,  cost, baseFailureRate));
-                    addLiqidCapacity(capacity);
                     break;
                 }
                 case LOSE: {
                     shipModules.set(index, new Contener(ModuleType.LOSE, name, capacity,  cost, baseFailureRate));
-                    addLoseCapacity(capacity);
                     break;
                 }
                 case SPACE_SHIP_ENGINE: {
@@ -156,12 +144,10 @@ public class SpaceShipPlayer extends SpaceObject {
                 }
                 case FUEL: {
                     shipModules.set(index, new Contener(ModuleType.FUEL, name, capacity,  cost, baseFailureRate));
-                    addFuelCapacity(capacity);
                     break;
                 }
                 case HOUSING_MODULE: {
                     shipModules.set(index, new HousingModule(ModuleType.HOUSING_MODULE, name, capacity,  cost, baseFailureRate));
-                    addHousingCapacity(capacity);
                     break;
                 }
                 case EMPTY: {
@@ -170,22 +156,6 @@ public class SpaceShipPlayer extends SpaceObject {
                 }
             }
         }
-    }
-
-    private void addHousingCapacity(double capacity) {
-        this.housingModuleCapacity = this.housingModuleCapacity + capacity;
-    }
-
-    private void addLoseCapacity(double capacity) {
-        this.loseCapacity = this.loseCapacity + capacity;
-    }
-
-    private void addLiqidCapacity(double capacity){
-        this.liquideCapacity = this.liquideCapacity + capacity;
-    }
-
-    public void addFuelCapacity(double fuelCapacity) {
-        this.fuelCapacity = this.fuelCapacity + fuelCapacity;
     }
 
 
@@ -285,7 +255,7 @@ public class SpaceShipPlayer extends SpaceObject {
 
                 setStop();
             } else {
-                if (distance < navigationFactor * 10){setNewTarget();}
+                if (distance < navigationFactor * 5){setNewTarget();}
                 if (getFill(CargoType.FUEL) <= 0) {
                     spaceShipEngine.setSpeedActual(spaceShipEngine.getSpeedEngineSlow());
                     //spaceShipEngine.addDistance(Vector2.dst( positionC.x, moveVector.x * dt * spaceShipEngine.getSpeedActual() + positionC.x, positionC.y, moveVector.y * dt * spaceShipEngine.getSpeedActual() + positionC.y ));
@@ -381,9 +351,6 @@ public class SpaceShipPlayer extends SpaceObject {
 
     private boolean checkFill(CargoType cargoType, int quantity) {
 
-        double d = (getCapacity(cargoType));
-        double z = getFill(cargoType);
-
         if (getCapacity(cargoType) <= (quantity + getFill(cargoType))) {
             return false;
         }
@@ -403,6 +370,18 @@ public class SpaceShipPlayer extends SpaceObject {
         return fill;
     }
 
+    public double getFillModule(CargoType cargoType) {
+
+        double fill = 0;
+        for (int i = 0; i < shipModules.size(); i++) {
+            if (shipModules.get(i).getModuleType().equals(cargoType.getModuleType())) {
+                fill = shipModules.get(i).getFill() + fill;
+            }
+        }
+        return fill;
+    }
+
+
     public double getCapacity(CargoType cargoType) {
 
         double capacity = 0;
@@ -417,7 +396,6 @@ public class SpaceShipPlayer extends SpaceObject {
 
 
     public void addExperience(ExperienceLevel ex) {
-
 
         if (elMap.size() == 0) {
             elMap.put(ex.getExperienceType(),ex.getLevel());
