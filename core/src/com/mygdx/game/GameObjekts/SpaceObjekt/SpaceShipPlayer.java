@@ -188,18 +188,6 @@ public class SpaceShipPlayer extends SpaceObject {
         this.fuelCapacity = this.fuelCapacity + fuelCapacity;
     }
 
-    public void subFuelCapacity(double fuelCapacity) {
-        this.fuelCapacity -= fuelCapacity;
-    }
-
-    public void addFuelFill(double fuel) {
-        if ((fuel + fuelFill) > this.fuelCapacity) {
-            this.fuelFill = fuelCapacity;
-        } else {
-            this.fuelFill = this.fuelFill + fuel;
-        }
-
-    }
 
     public void addPerson() {
 
@@ -270,7 +258,6 @@ public class SpaceShipPlayer extends SpaceObject {
         setActualSize();
         setNewPosition(dt);
         updateShipModule(dt);
-
     }
 
 
@@ -299,16 +286,17 @@ public class SpaceShipPlayer extends SpaceObject {
                 setStop();
             } else {
                 if (distance < navigationFactor * 10){setNewTarget();}
-                if (fuelFill <= 0) {
+                if (getFill(CargoType.FUEL) <= 0) {
                     spaceShipEngine.setSpeedActual(spaceShipEngine.getSpeedEngineSlow());
                     //spaceShipEngine.addDistance(Vector2.dst( positionC.x, moveVector.x * dt * spaceShipEngine.getSpeedActual() + positionC.x, positionC.y, moveVector.y * dt * spaceShipEngine.getSpeedActual() + positionC.y ));
                     setPositionOrgin(moveVector.x * dt * spaceShipEngine.getSpeedActual() + positionC.x, moveVector.y * dt * spaceShipEngine.getSpeedActual() + positionC.y);
-                    fuelFill = 0;
+                    //fuelFill = 0;
                 } else {
                     //System.out.println("Distance: "+ stepDistance*dt*spaceShipEngine.getSpeedActual());
                     spaceShipEngine.addDistance(stepDistance);
                     setPositionOrgin(moveVector.x * dt * spaceShipEngine.getSpeedActual() + positionC.x, moveVector.y * dt * spaceShipEngine.getSpeedActual() + positionC.y);
-                    fuelFill = fuelFill - stepDistance * spaceShipEngine.getConsumptionFuel() / 100;
+                    subCargo(CargoType.FUEL, stepDistance * spaceShipEngine.getConsumptionFuel() / 100);
+                    //fuelFill = fuelFill - stepDistance * spaceShipEngine.getConsumptionFuel() / 100;
                 }
             }
         }
@@ -335,78 +323,46 @@ public class SpaceShipPlayer extends SpaceObject {
     public void buy(CargoType cargoType, int quantity, double cost) {
 
         if (checkMoney(quantity, cost) && checkFill(cargoType, quantity)) {
-
             subMoney(quantity * cost);
-            ModuleType moduleType = cargoType.getModuleType();
-            fillingModule(moduleType, quantity);
             addCargo(cargoType, quantity);
         }
         else{
+
+            /** TO DO
+             * Make dialogBox on HUD
+             */
 
         }
     }
 
     public void sell(CargoType cargoType, int quantity, double cost) {
-        addMoney(quantity * cost);
-        ModuleType moduleType = cargoType.getModuleType();
-        addCargo(cargoType, quantity * (-1));
-        fillingModule(moduleType, quantity * (-1));
-    }
 
-    private void addCargo(CargoType cargoType, int quantity) {
-        switch (cargoType) {
-            case TITAN: {
-                addTitan(quantity);
-                break;
-            }
-            case GRAFEN:{
-                addGrafen(quantity);
-                break;
-            }
-            case WATER: {
-                addWater(quantity);
-                break;
-            }
+        if (getFill(cargoType) >= quantity) {
+            addMoney(quantity * cost);
+            subCargo(cargoType, quantity);
         }
     }
 
-    private void addWater(int quantity) {
-        waterFill = waterFill + quantity;
-    }
-
-
-    private void fillingModule(ModuleType moduleType, double quantity) {
-        switch (moduleType) {
-            case LOSE: {
-                loseFill = loseFill + quantity;
-                break;
-            }
-            case FUEL: {
-                addFuelFill(quantity);
-                break;
-            }
-            case LIQUID: {
-                liquidFill = liquidFill + quantity;
-                break;
-            }
-        }
-    }
-
-    private void addTitan(double quantity) {
-
-        titanFill = titanFill + quantity;
+    private void addCargo(CargoType cargoType, double quantity) {
 
         for (int i = 0; i < shipModules.size(); i++) {
-            if (shipModules.get(i).getModuleType().equals(ModuleType.LOSE)) {
-                quantity = shipModules.get(i).addCargo(CargoType.TITAN, quantity);
+            if (shipModules.get(i).getModuleType().equals(cargoType.getModuleType())) {
+                quantity = shipModules.get(i).addCargo(cargoType, quantity);
             }
         }
     }
 
-    private void addGrafen(int quantity){
-        grafenFill = grafenFill + quantity;
-    }
+    private void subCargo(CargoType cargoType, double quantity) {
 
+        for (int i = 0; i < shipModules.size(); i++) {
+            if (shipModules.get(i).getModuleType().equals(cargoType.getModuleType())) {
+                quantity = shipModules.get(i).subCargo(cargoType, quantity);
+            }
+        }
+    }
+    /**
+     *
+     */
 
     public void subMoney(double v) {
         money = money - v;
@@ -422,30 +378,43 @@ public class SpaceShipPlayer extends SpaceObject {
         return quantity * cost < money;
     }
 
+
     private boolean checkFill(CargoType cargoType, int quantity) {
-        ModuleType moduleType = cargoType.getModuleType();
-        switch (moduleType) {
-            case LOSE: {
-                if (loseFill + quantity <= loseCapacity) {
-                    return true;
-                }
-                break;
+
+        double d = (getCapacity(cargoType));
+        double z = getFill(cargoType);
+
+        if (getCapacity(cargoType) <= (quantity + getFill(cargoType))) {
+            return false;
+        }
+         else{
+            return true;
             }
-            case FUEL: {
-                if (fuelFill + quantity <= fuelCapacity) {
-                    return true;
-                }
-                break;
-            }
-            case LIQUID: {
-                if (liquidFill + quantity <= liquideCapacity){
-                    return true;
-                }
-                break;
+    }
+
+    public double getFill(CargoType cargoType) {
+
+        double fill = 0;
+        for (int i = 0; i < shipModules.size(); i++) {
+            if (shipModules.get(i).getModuleType().equals(cargoType.getModuleType())) {
+                fill = shipModules.get(i).getFillCargoType(cargoType) + fill;
             }
         }
-        return false;
+        return fill;
     }
+
+    public double getCapacity(CargoType cargoType) {
+
+        double capacity = 0;
+        for (int i = 0; i < shipModules.size(); i++) {
+            if (shipModules.get(i).getModuleType().equals(cargoType.getModuleType())) {
+                capacity = shipModules.get(i).getCapacity() + capacity;
+            }
+        }
+        return capacity;
+    }
+
+
 
     public void addExperience(ExperienceLevel ex) {
 
