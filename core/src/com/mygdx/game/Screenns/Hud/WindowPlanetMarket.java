@@ -67,29 +67,29 @@ public class WindowPlanetMarket extends AbstractHUD {
                     planetImage.setSize(10,10);
                     titanPrice = planet.getPriceTitan();
                     fuelPrice =  planet.getPriceFuell();
-                    titanPriceLabel = new Label(String.format("%.2f", planet.getPriceTitan())+" T$", skin, "titan");
+                    titanPriceLabel = new Label(String.format("%.2f", planet.wares.get(0).getPrice())+" T$", skin, "titan");
                     titanPriceLabel.setFontScale(1.5f);
-                    grafenPriceLabel = new Label(String.format("%.2f", planet.getPriceGrafen())+" T$", skin, "grafen");
+                    grafenPriceLabel = new Label(String.format("%.2f", planet.wares.get(1).getPrice())+" T$", skin, "grafen");
                     grafenPriceLabel.setFontScale(1.5f);
-                    woterPriceLabel = new Label(String.format("%.2f", planet.getPriceWoter())+" T$", skin, "woter");
+                    woterPriceLabel = new Label(String.format("%.2f", planet.wares.get(2).getPrice())+" T$", skin, "woter");
                     woterPriceLabel.setFontScale(1.5f);
-                    fuellPriceLabel = new Label(String.format("%.2f", planet.getPriceFuell())+" T$", skin, "fuell");
+                    fuellPriceLabel = new Label(String.format("%.2f", planet.wares.get(3).getPrice())+" T$", skin, "fuell");
                     fuellPriceLabel.setFontScale(1.5f);
                     break;
                 }
             }
 
 
-            Label titanLabel = new Label("Titan: ", skin, "titan");
+            Label titanLabel = new Label(planet.wares.get(0).getCargoType().name(), skin, "titan");
             titanLabel.setFontScale(1.5f);
 
-            Label grafenLabel = new Label("Grafen", skin, "grafen");
+            Label grafenLabel = new Label(planet.wares.get(1).getCargoType().name(), skin, "grafen");
             grafenLabel.setFontScale(1.5f);
 
-            Label woterLabel = new Label("Woter", skin, "woter");
+            Label woterLabel = new Label(planet.wares.get(2).getCargoType().name(), skin, "woter");
             woterLabel.setFontScale(1.5f);
 
-            Label fuellLabel = new Label("Fuell", skin, "fuell");
+            Label fuellLabel = new Label(planet.wares.get(3).getCargoType().name(), skin, "fuell");
             fuellLabel.setFontScale(1.5f);
 
 
@@ -140,7 +140,7 @@ public class WindowPlanetMarket extends AbstractHUD {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     String t = textFieldTitan.getText();
                     int i = Integer.valueOf(t);
-                    gameScreen.spaceShipPlayer.buy(CargoType.TITAN, i, planet.getPriceTitan());
+                    gameScreen.spaceShipPlayer.buy(planet.wares.get(0).getCargoType(), i, planet.wares.get(0).getPrice());
                     textFieldTitan.setText("0");
                     return true;
                 }
@@ -151,7 +151,7 @@ public class WindowPlanetMarket extends AbstractHUD {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     String t = textFieldTitan.getText();
                     int i = Integer.valueOf(t);
-                    gameScreen.spaceShipPlayer.sell(CargoType.TITAN, i, planet.getPriceTitan());
+                    gameScreen.spaceShipPlayer.sell(planet.wares.get(0).getCargoType(), i, planet.wares.get(0).getPrice());
                     textFieldTitan.setText("0");
                     return true;
                 }
@@ -178,7 +178,7 @@ public class WindowPlanetMarket extends AbstractHUD {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     String t = textFieldGrafen.getText();
                     int i = Integer.valueOf(t);
-                    gameScreen.spaceShipPlayer.buy(CargoType.GRAFEN, i, planet.getPriceGrafen());
+                    gameScreen.spaceShipPlayer.buy(planet.wares.get(1).getCargoType(), i, planet.wares.get(1).getPrice());
                     textFieldGrafen.setText("0");
                     return true;
                 }
@@ -189,7 +189,7 @@ public class WindowPlanetMarket extends AbstractHUD {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     String t = textFieldGrafen.getText();
                     int i = Integer.valueOf(t);
-                    gameScreen.spaceShipPlayer.sell(CargoType.GRAFEN, i, planet.getPriceGrafen());
+                    gameScreen.spaceShipPlayer.sell(planet.wares.get(1).getCargoType(), i, planet.wares.get(1).getPrice());
                     textFieldGrafen.setText("0");
                     return true;
                 }
@@ -216,7 +216,7 @@ public class WindowPlanetMarket extends AbstractHUD {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     String t = textFieldWater.getText();
                     int i = Integer.valueOf(t);
-                    gameScreen.spaceShipPlayer.buy(CargoType.WATER, i, planet.getPriceWoter());
+                    gameScreen.spaceShipPlayer.buy(planet.wares.get(2).getCargoType(), i, planet.wares.get(2).getPrice());
                     textFieldWater.setText("0");
                     return true;
                 }
@@ -227,7 +227,7 @@ public class WindowPlanetMarket extends AbstractHUD {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     String t = textFieldWater.getText();
                     int i = Integer.valueOf(t);
-                    gameScreen.spaceShipPlayer.sell(CargoType.WATER, i, planet.getPriceWoter());
+                    gameScreen.spaceShipPlayer.sell(planet.wares.get(2).getCargoType(), i, planet.wares.get(2).getPrice());
                     textFieldWater.setText("0");
                     return true;
                 }
@@ -256,7 +256,7 @@ public class WindowPlanetMarket extends AbstractHUD {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     String t = textFieldFuell.getText();
                     int i = Integer.valueOf(t);
-                    gameScreen.spaceShipPlayer.buy(CargoType.FUEL, i, fuelPrice);
+                    gameScreen.spaceShipPlayer.buy(CargoType.FUEL, i, planet.wares.get(3).getPrice());
                     textFieldFuell.setText("0");
                     return true;
                 }
