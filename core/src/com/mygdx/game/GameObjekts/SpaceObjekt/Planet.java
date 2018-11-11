@@ -27,7 +27,7 @@ public class Planet extends SpaceObject {
     private Ware ware;
     private CargoType cargoType;
 
-    private List <Ware> wares = new ArrayList<>();
+    public List <Ware> wares = new ArrayList<>();
 
     private Hud hud;
 
@@ -50,7 +50,7 @@ public class Planet extends SpaceObject {
         }
 
         /** For read from XML **/
-    public Planet(final MyGdxGame game, Hud hud, float x, float y, String path, String name, float speedRot, double priceT, double priceG, double priceW, double priceF) {
+    public Planet(final MyGdxGame game, Hud hud, float x, float y, String path, String name, float speedRot, List wares) {
         super(game);
         this.path = path;
         this.hud = hud;
@@ -58,10 +58,7 @@ public class Planet extends SpaceObject {
         setPosition(x, y);
         rotationSpeed = speedRot;
         setSpaceObjectName(name);
-        priceTitan = priceT;
-        priceGrafen = priceG;
-        priceWoter = priceW;
-        priceFuell  = priceF;
+        this.wares = wares;
         setTexture(path);
         newRandom();
         addClickListener();
