@@ -1,6 +1,8 @@
 package com.mygdx.game.Helper;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.GameScreen;
@@ -13,6 +15,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.omg.CORBA.Environment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -72,35 +75,43 @@ public class CreateXmlFile {
                             nrot.appendChild(doc.createTextNode(Float.toString(rRotation)));
                             planeta.appendChild(nrot);
 
-                Node nTitan = doc.createElement("Titan");
-                double rTitan = planets.get(z).getPriceTitan();
-                nTitan.appendChild(doc.createTextNode(Double.toString(rTitan)));
+                Node nTitan = doc.createElement("CargoType1");
+                String sTitan = planets.get(z).wares.get(0).getCargoType().name();
+                double rTitan = planets.get(z).wares.get(0).getPrice();
+                ((Element) nTitan).setAttribute( "cargotype", sTitan);
+                ((Element) nTitan).setAttribute( "price", Double.toString(rTitan));
                 planeta.appendChild(nTitan);
 
-                Node nRgafen = doc.createElement("Grafen");
-                double rGrafen = planets.get(z).getPriceGrafen();
-                nRgafen.appendChild(doc.createTextNode(Double.toString(rGrafen)));
+                Node nRgafen = doc.createElement("CargoType2");
+                String sGrafen = planets.get(z).wares.get(1).getCargoType().name();
+                double rGrafen = planets.get(z).wares.get(1).getPrice();
+                ((Element) nRgafen).setAttribute("cargotype", sGrafen);
+                ((Element) nRgafen).setAttribute("price", (Double.toString(rGrafen)));
                 planeta.appendChild(nRgafen);
 
-                Node nWoter = doc.createElement("Woter");
-                double rWoter = planets.get(z).getPriceWoter();
-                nWoter.appendChild(doc.createTextNode(Double.toString(rWoter)));
-                nWoter.setTextContent("123");
+                Node nWoter = doc.createElement("CargoType3");
+                String sWater = planets.get(z).wares.get(2).getCargoType().name();
+                double rWoter = planets.get(z).wares.get(2).getPrice();
+                ((Element) nWoter).setAttribute ("cargotype", sWater);
+                ((Element) nWoter).setAttribute ("price", (Double.toString(rWoter)));
                 planeta.appendChild(nWoter);
 
-                Node nFuell = doc.createElement("Fuell");
-                double rFuell = planets.get(z).getPriceFuell();
-                nFuell.appendChild(doc.createTextNode(Double.toString(rFuell)));
+                Node nFuell = doc.createElement("CargoType4");
+                double rFuell = planets.get(z).wares.get(3).getPrice();
+                ((Element) nFuell).setAttribute("cargotype", "FUEL");
+                ((Element) nFuell).setAttribute("price", (Double.toString(rFuell)));
                 planeta.appendChild(nFuell);
 
             }
 
-
             // write the content into xml file
+
+            String localDir = Gdx.files.getLocalStoragePath();
+
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File((MyGdxGame.FILE_PLANETS)));
+            StreamResult result = new StreamResult(new File((localDir + MyGdxGame.FILE_PLANETS)));
             transformer.transform(source, result);
 
         } catch (Exception e) {
