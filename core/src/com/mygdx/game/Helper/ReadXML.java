@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
+import com.mygdx.game.GameObjekts.SpaceObjekt.Ware;
+import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.Crow;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.CrowType;
@@ -13,6 +15,9 @@ import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.GameScreen;
 import com.mygdx.game.Screenns.Hud.Hud;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ReadXML {
@@ -41,13 +46,22 @@ public class ReadXML {
                 Element Slot = root.getChildByName("SLOT" + k);
 
                 String TEXT = (Slot.get("ModuleType"));
-                if (!TEXT.equals("Empty")){
-                    spaceShipPlayer.addModule( k, ModuleType.valueOf(Slot.get("ModuleType")),
-                            Slot.get("Name"), Slot.getFloat("Capacity"),
-                            Slot.getFloat("Fill"), Slot.getFloat("Cost"),
+                if (!TEXT.equals("Empty")) {
+                    spaceShipPlayer.addModule(k, ModuleType.valueOf(Slot.get("ModuleType")),
+                            Slot.get("Name"),
+                            Slot.getInt("Capacity"),
+                            //Slot.getInt("Fill"),
+                            Slot.getFloat("Cost"),
                             Slot.getInt("BaseFailureRate"));
+
+                    Element Fill = Slot.getChildByName("Fill");
+                    int zzz = Fill.getChildCount();
+                    for (int j = 0; j < zzz; j++) {
+
+                        spaceShipPlayer.shipModules.get(k).addCargo(CargoType.valueOf(Fill.getChild(j).get("cargotype")), Fill.getChild(j).getFloat("fill"));
                     }
-                    else spaceShipPlayer.addModule(k, ModuleType.EMPTY,"Empty", 0,0,0,0);
+                }
+                    else spaceShipPlayer.addModule(k, ModuleType.EMPTY,"Empty", 0,0,0);
                 }
 
         return true;
@@ -87,22 +101,24 @@ public class ReadXML {
 
     public static boolean readPlanets(MyGdxGame game, GameScreen screen, Hud hud){
 
+        List<Ware> wares = new ArrayList<>();
         Element root = new XmlReader().parse(Gdx.files.internal(MyGdxGame.FILE_PLANETS));
 
         int j = root.getChildCount();
         for (int i=0; i < j; i++) {
             Element planet = root.getChild(i);
+            for (int k=1; k<5; k++) {
+                Element cargo = planet.getChildByName("CargoType"+k);
+                wares.add(new Ware(CargoType.valueOf(cargo.getAttribute("cargotype")), cargo.getFloatAttribute(("price"))));
+            }
             screen.planets.add(new Planet
                     (game, hud,
                             planet.getFloat("posx"),
                             planet.getFloat("posy"),
-                            (planet.get("texture")),
-                            (planet.get("name")),
+                            planet.get("texture"),
+                            planet.get("name"),
                             planet.getFloat("rot"),
-                            planet.getFloat("Titan"),
-                            planet.getFloat("Grafen"),
-                            planet.getFloat("Woter"),
-                            planet.getFloat("Fuell")));
+                            wares));
         }
         return true;
     }
