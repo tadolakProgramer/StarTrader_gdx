@@ -105,21 +105,25 @@ public class ReadXML {
         Element root = new XmlReader().parse(Gdx.files.internal(MyGdxGame.FILE_PLANETS));
 
         int j = root.getChildCount();
+
         for (int i=0; i < j; i++) {
             Element planet = root.getChild(i);
-            for (int k=1; k<5; k++) {
-                Element cargo = planet.getChildByName("CargoType"+k);
-                wares.add(new Ware(CargoType.valueOf(cargo.getAttribute("cargotype")), cargo.getFloatAttribute(("price"))));
-            }
+            wares.clear();
+
             screen.planets.add(new Planet
                     (game, hud,
                             planet.getFloat("posx"),
                             planet.getFloat("posy"),
                             planet.get("texture"),
                             planet.get("name"),
-                            planet.getFloat("rot"),
-                            wares));
+                            planet.getFloat("rot")));
+            for (int k=1; k<=4; k++) {
+
+                Element cargo = planet.getChildByName("CargoType"+k);
+                screen.planets.get(i).wares.add(new Ware(CargoType.valueOf(cargo.getAttribute("cargotype")), cargo.getFloatAttribute(("price"))));
+            }
         }
+
         return true;
     }
 }
