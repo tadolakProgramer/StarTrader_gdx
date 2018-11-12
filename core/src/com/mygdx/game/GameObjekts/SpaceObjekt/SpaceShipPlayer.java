@@ -288,6 +288,10 @@ public class SpaceShipPlayer extends SpaceObject {
                 Actions.scaleTo(0.25f, 0.25f, 1.2f)
         );
         this.addAction(stopAction);
+
+        if (spaceShipEngine.isEngineError()){
+            spaceShipEngine.resetFailure();
+        }
     }
 
     public void buy(CargoType cargoType, int quantity, double cost) {
@@ -426,12 +430,14 @@ public class SpaceShipPlayer extends SpaceObject {
                 switch (md) {
                     case FUEL: {
                         if (elMap.containsKey(ExperienceType.MECHANIKS)) {
-                            shipModules.get(i).setFailureRate(elMap.get(ExperienceType.MECHANIKS));
+                            //shipModules.get(i).setFailureRate(elMap.get(ExperienceType.MECHANIKS));
+                            shipModules.get(i).setExpirenceLevel(elMap.get(ExperienceType.MECHANIKS));
                         }
                 }
                     case SPACE_SHIP_ENGINE:
                         if (elMap.containsKey(ExperienceType.MECHANIKS)){
-                            spaceShipEngine.setFailureRate(elMap.get(ExperienceType.MECHANIKS));
+                            //spaceShipEngine.setFailureRate(elMap.get(ExperienceType.MECHANIKS));
+                            shipModules.get(i).setExpirenceLevel(elMap.get(ExperienceType.MECHANIKS));
                         }
             }
 
