@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class SpaceShipEngine extends ShipModule{
 
-    private static final int MAX_DISTANCE_NO_ERROR = 10000;
+    private static final int MAX_DISTANCE_NO_ERROR = 1000;
 
     private float speedEngine;
     private float consumptionFuel;
@@ -14,7 +14,7 @@ public class SpaceShipEngine extends ShipModule{
     private double eventDistance;
     private double totalDistance;
     private double currentDistance;
-    private boolean engineError;
+
     private int eventType;
 
 
@@ -32,20 +32,83 @@ public class SpaceShipEngine extends ShipModule{
 
     private void distanceControl() {
 
-        if (failureRate > 0) {
-            if (totalDistance > MAX_DISTANCE_NO_ERROR / failureRate) {
-                System.out.println("Losowanie: ");
+        if ((failureRate > 0) && (!isEngineError())){
+            if (currentDistance > MAX_DISTANCE_NO_ERROR / failureRate) {
+                currentDistance = 0;
                 if (MathUtils.random(1, 20) < failureRate) {
-                    engineError = true;
+                    randomFailure();
                 } else {
-                    engineError = false;
+                    moduleError = false;
                 }
+            }
+
+        }
+    }
+
+    private void randomFailure() {
+        int error = MathUtils.random(0 ,100) + experienceLevel;
+        System.out.println("Losowanie: "+ error);
+        switch (error){
+            case 0: {
+                setSpeedActual(getSpeedActual()*0.9f);
+                textEror = "Engine speed has decreased by 90%";
+                moduleError = true;
+                break;
+            }
+            case 1: {
+                setSpeedActual(getSpeedActual()*0.8f);
+                textEror = "Engine speed has decreased by 80%";
+                moduleError = true;
+                break;
+            }
+            case 2: {
+                setSpeedActual(getSpeedActual()*0.7f);
+                textEror = "Engine speed has decreased by 70%";
+                moduleError = true;
+                break;
+            }
+            case 3: {
+                setSpeedActual(getSpeedActual()*0.6f);
+                textEror = "Engine speed has decreased by 60%";
+                moduleError = true;
+                break;
+            }
+            case 4: {
+                setSpeedActual(getSpeedActual()*0.5f);
+                textEror = "Engine speed has decreased by 50%";
+                moduleError = true;
+                break;
+            }
+            case 5: {
+                setSpeedActual(getSpeedActual()*0.4f);
+                textEror = "Engine speed has decreased by 40%";
+                moduleError = true;
+                break;
+            }
+            case 6: {
+                setSpeedActual(getSpeedActual()*0.3f);
+                textEror = "Engine speed has decreased by 30%";
+                moduleError = true;
+                break;
+            }
+            case 7: {
+                setSpeedActual(getSpeedActual()*0.2f);
+                textEror = "Engine speed has decreased by 20%";
+                moduleError = true;
+                break;
             }
         }
     }
 
+    public void resetFailure(){
+        setEngineError(false);
+        textEror = " ";
+        setSpeedActual(getSpeedEngine());
+    }
+
     public void addDistance(double distance){
         this.totalDistance = this.totalDistance + distance;
+        currentDistance = currentDistance + distance;
     }
 
     public float getSpeedEngine() {
@@ -78,5 +141,13 @@ public class SpaceShipEngine extends ShipModule{
 
     public void setSpeedActual(float speedActual) {
         this.speedActual = speedActual;
+    }
+
+    public boolean isEngineError() {
+        return moduleError;
+    }
+
+    public void setEngineError(boolean engineError) {
+        this.moduleError = engineError;
     }
 }
