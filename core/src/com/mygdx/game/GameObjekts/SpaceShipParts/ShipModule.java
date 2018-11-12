@@ -15,8 +15,11 @@ public abstract class ShipModule {
     public double cost;
     public int baseFailureRate;
     public int failureRate; //lower i beater
+    public int experienceLevel;
     protected Texture texture;
     protected float timeToFailure;
+    protected boolean moduleError;
+    protected String textEror;
     private CargoType cargoType;
 
     public Map<CargoType, Double> capacitys = new HashMap<CargoType, Double>();
@@ -103,6 +106,11 @@ public abstract class ShipModule {
 
     public ModuleType getModuleType() {
         return moduleType;
+    }
+
+    public void setExperienceLevel(int level){
+        experienceLevel = level;
+        setFailureRate(level);
     }
 
     public double getCapacity() {
