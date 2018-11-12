@@ -36,7 +36,7 @@ public class CreateSpace {
                 for (int i = 0; i < z ; i++){
                     this.distance = Math.sqrt(Math.pow(((double)xl - planets.get(i).getX()),2) + (Math.pow(((double)yl - planets.get(i).getY()),2)));
 
-                    if ((distance < 400) || (planets.get(i).getSpaceObjectName().equals(numberStarName))){
+                    if ((distance < 400) || (planets.get(i).getSpaceObjectName().equals(StarNames[numberStarName]))){
                         newRandom = true;
                         System.out.println("NEW_RND");
                     }
