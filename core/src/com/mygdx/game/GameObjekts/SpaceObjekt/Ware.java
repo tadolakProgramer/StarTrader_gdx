@@ -13,6 +13,11 @@ public class Ware {
         this.price = randomPrice(cargoType);
     }
 
+    public Ware(CargoType cargoType, double price){
+        this.cargoType = cargoType;
+        this.price = price;
+    }
+
     public CargoType getCargoType() {
         return cargoType;
     }
@@ -51,6 +56,10 @@ public class Ware {
                 rmin = 500;
                 rmax = 510;
                 break;
+            }
+            case PERSON:{
+                rmin = 5000;
+                rmax = 5500;
             }
         }
         return this.price = MathUtils.random((float) rmin, (float) rmax);
