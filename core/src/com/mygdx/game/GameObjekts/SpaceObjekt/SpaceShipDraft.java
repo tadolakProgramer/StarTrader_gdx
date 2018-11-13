@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.MyGdxGame;
 
+import static com.mygdx.game.MyGdxGame.FILE_SPACESHIP;
 import static com.mygdx.game.MyGdxGame.GAME_WIDTH;
 
 
@@ -24,9 +25,8 @@ public class SpaceShipDraft extends Image {
 
 
     public SpaceShipDraft(final MyGdxGame game) {
-        super(new Texture("SpaceShip_Empty.png"));
+        super(new Texture(FILE_SPACESHIP));
         initialize();
-
 
         this.addListener(new ClickListener(){
             @Override
@@ -39,18 +39,6 @@ public class SpaceShipDraft extends Image {
             }
         });
     }
-/*
-    private void drawMOdule(final MyGdxGame game) {
-                   for (int slot = 0; slot<9; slot++){
-                if (spaceShipPlayer.shipModules.get(slot).moduleType!= ModuleType.EMPTY){
-                    batch.begin();
-                    game.spaceShipPlayer.shipModules.get(slot).sprite.draw(batch);
-                    batch.end();
-                }
-            }
-
-    }
-    */
 
     private void initialize(){
         scale = GAME_WIDTH / this.getWidth() ;
