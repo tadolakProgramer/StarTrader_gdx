@@ -218,52 +218,59 @@ public class SpaceShipScreen extends AbstractScreen {
 
     }
 
+
     public void createWindowShipModuleInfo(ShipModule shipModule){
 
-
-        int wares = shipModule.capacitys.size();
         windowShipModuleInfo = new Window(shipModule.getModuleType().name(), skin2);
         TextButton btnClose = new TextButton("Close", skin2);
+        TextButton btnSale = new TextButton("Sale", skin2);
         Table table = new Table();
 
         table.align(1);
         table.top();
 
         table.row();
-        table.add(new Label("Name: ", skin2)).pad(5);
+        table.add(new Label("Name: ", skin2)).left().pad(5);
         table.add(new Label(shipModule.name, skin2)).pad(5);
 
         table.row();
-        table.add(new Label("Capacity: ", skin2)).pad(5);
+        table.add(new Label("Capacity: ", skin2)).left().pad(5);
         table.add(new Label(""+shipModule.getCapacity(), skin2)).pad(5);
 
         for (int i =0; i < CargoType.values().length; i++){
             if (shipModule.capacitys.containsKey(CargoType.values()[i])){
                 table.row();
-                table.add(new Label((CargoType.values()[i]).toString(), skin2)).pad(5);
-                table.add(new Label(shipModule.capacitys.get(CargoType.values()[i]).toString(), skin2)).pad(5);
+                table.add(new Label((CargoType.values()[i]).toString(), skin2)).left().pad(5);
+                table.add(new Label(String.format("%.2f",shipModule.capacitys.get(CargoType.values()[i])), skin2)).pad(5);
                 //
             }
         }
 
         table.row();
-        table.add(new Label("Fill: ", skin2)).pad(5);
+        table.add(new Label("Fill: ", skin2)).left().pad(5);
         table.add(new Label(String.format("%.2f",shipModule.getFill()), skin2)).pad(5);
 
         table.row();
-        table.add(new Label("Base failure rate: ", skin2)).pad(5);
+        table.add(new Label("Base failure rate: ", skin2)).left().pad(5);
         table.add(new Label(""+shipModule.baseFailureRate, skin2)).pad(5);
 
         table.row();
-        table.add(new Label("Factor failure rate: ", skin2)).pad(5);
+        table.add(new Label("Factor failure rate: ", skin2)).left().pad(5);
         table.add(new Label(""+shipModule.experienceLevel, skin2)).pad(5);
 
         table.row();
-        table.add(new Label("Cost: ", skin2)).pad(5);
+        table.add(new Label("Cost: ", skin2)).left().pad(5);
         table.add(new Label(""+shipModule.cost, skin2)).pad(5);
 
-        table.row().colspan(2).pad(10);
-        table.add(btnClose);
+        if (spaceShipPlayer.isRun()) {
+            table.row().colspan(2).pad(10);
+            table.add(btnClose);
+        }else
+        {
+            table.row().pad(10);
+            table.add(btnClose);
+            table.add(btnSale);
+        }
 
         windowShipModuleInfo.setSize(300,400);
         windowShipModuleInfo.setPosition(GAME_WIDTH / 2.0f - 100, GAME_HEIGHT / 2.0f - 100);
@@ -278,5 +285,9 @@ public class SpaceShipScreen extends AbstractScreen {
                 //gameScreen.multiplexer.removeProcessor(stage);
             }
         });
+    }
+
+    public void createWindowBayNewModule(){
+
     }
 }
