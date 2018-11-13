@@ -11,12 +11,14 @@ import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
 import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleActor;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType;
+import com.mygdx.game.GameObjekts.SpaceShipParts.ShipModule;
 import com.mygdx.game.MyGdxGame;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.EMPTY;
+import static com.mygdx.game.MyGdxGame.FILE_EARTH_SKIN;
 
 public class SpaceShipScreen extends AbstractScreen {
 
@@ -50,7 +52,7 @@ public class SpaceShipScreen extends AbstractScreen {
         table = new Table();
         tableCrows = new Table();
         isVisible = true;
-        skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
+        skin = new Skin(Gdx.files.internal(FILE_EARTH_SKIN));
         intSpaceShipDraft(spaceShipPlayer);
         createTableWithCargo();
         createTableCrows();
@@ -59,16 +61,14 @@ public class SpaceShipScreen extends AbstractScreen {
 
     private void intSpaceShipDraft(final SpaceShipPlayer spaceShipPlayer) {
         spaceShipDraft = new SpaceShipDraft(game);
-        for(int i = 1; i <= 10 /*spaceShipPlayer.shipModules.size()-1*/ ; i++){
-
-            if (spaceShipPlayer.shipModules.get(i).moduleType !=  EMPTY) {
+        for(int i = 1; i <= 10 ; i++){
 
                 int index = i;
-                ModuleType moduleType = spaceShipPlayer.shipModules.get(i).moduleType;
-                moduleActor = new ModuleActor(game, moduleType, index, spaceShipDraft.getScale());
+                ShipModule shipModule = spaceShipPlayer.shipModules.get(i);
+                moduleActor = new ModuleActor(game, shipModule , index, spaceShipDraft.getScale());
                 stage.addActor(spaceShipDraft);
                 stage.addActor(moduleActor);
-            }
+
         }
     }
 
