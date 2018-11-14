@@ -1,6 +1,5 @@
 package com.mygdx.game.GameObjekts.SpaceObjekt;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -40,10 +39,6 @@ public class Planet extends SpaceObject {
         setPosition(x,y);
         rotationSpeed = MathUtils.random(10f, 15f);
         setSpaceObjectName(name);
-        priceTitan = MathUtils.random(10f, 15f);
-        priceGrafen = MathUtils.random(15f, 20f);
-        priceWoter = MathUtils.random(150f, 160f);
-        priceFuell  = MathUtils.random(5f,10f);
         setTexture(path);
         newRandom();
         addClickListener();
@@ -126,15 +121,13 @@ public class Planet extends SpaceObject {
     }
 
     public void changePrice(){
-        priceFuell = priceFuell + MathUtils.random((float)priceFuell*-0.049f, (float)priceFuell*0.051f);
-        priceTitan = priceTitan + MathUtils.random((float)priceTitan*-0.049f, (float)priceTitan*0.051f);
-        priceGrafen = priceGrafen + MathUtils.random((float)priceGrafen*-0.049f, (float)priceGrafen*0.051f);
-        priceWoter = priceWoter + MathUtils.random((float)priceWoter*-0.049f, (float)priceWoter*0.051f);
+        for (int i=0; i< wares.size();i++){
+            wares.get(i).changePrice();
+        }
 
-        ModifiedXML.writeNewPriceToXml(spaceObjectName, priceTitan, priceGrafen, priceWoter, priceFuell);
+        ModifiedXML.writeNewPriceToXml(spaceObjectName, wares);
 
-        hud.showDlgNewPrice(spaceObjectName);
-
+        hud.showDlg(spaceObjectName + "New price on ", "New price");
     }
 
 
