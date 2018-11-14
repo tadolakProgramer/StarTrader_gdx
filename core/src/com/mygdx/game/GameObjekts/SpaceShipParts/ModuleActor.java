@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Screenns.SpaceShipScreen;
+import com.mygdx.game.Screenns.SpalshScreen;
 
 import static com.mygdx.game.MyGdxGame.FILE_CARGO_ATLAS;
 
@@ -16,13 +18,16 @@ public class ModuleActor extends Actor {
     private String textureName;
     public TextureRegion region;
     public TextureAtlas textureAtlas;
+    //private SpaceShipScreen spaceShipScreen;
+    protected ShipModule shipModule;
 
-    public ModuleActor(final MyGdxGame game, final ShipModule shipModule, int index, float scale) {
+    public ModuleActor(final SpaceShipScreen spaceShipScreen, final ShipModule shipModule, int index, float scale) {
         super();
+        this.shipModule = shipModule;
         textureAtlas = new TextureAtlas(FILE_CARGO_ATLAS);
         region = new TextureRegion();
 
-        switch (shipModule.moduleType) {
+        switch (this.shipModule.moduleType) {
                 case FUEL: {
                     textureName = "CargoFuel";
                     setTexture(textureName);
@@ -67,9 +72,11 @@ public class ModuleActor extends Actor {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (!shipModule.getModuleType().equals(ModuleType.EMPTY)) {
-                        System.out.println("Fuell: " + shipModule.capacitys.get(CargoType.FUEL));
+                    spaceShipScreen.createWindowShipModuleInfo(shipModule);
                 }
-
+                else {
+                    spaceShipScreen.createWindowBayNewModule(shipModule);
+                }
                 return super.touchDown(event, x, y, pointer, button);
             }
         });

@@ -16,18 +16,18 @@ public abstract class ShipModule {
     public int baseFailureRate;
     public int failureRate; //lower i beater
     public int experienceLevel;
-    protected Texture texture;
     protected float timeToFailure;
     protected boolean moduleError;
     protected String textEror;
-    private CargoType cargoType;
+    protected int index;
 
     public Map<CargoType, Double> capacitys = new HashMap<CargoType, Double>();
 
-    public ShipModule(ModuleType moduleType, String name, double capacity, double cost){
+    public ShipModule(ModuleType moduleType, String name, double capacity, double cost, int index){
         this.failureRate = this.baseFailureRate;
         this.moduleType = moduleType;
         this.name = name;
+        this.index = index;
     }
 
     public double addCargo(CargoType cargoType, double quantity){
@@ -99,7 +99,6 @@ public abstract class ShipModule {
 
     }
 
-
     public void update(float dt){
 
     }
@@ -123,5 +122,9 @@ public abstract class ShipModule {
 
     public double getFillCargoType(CargoType cargoType){
         return capacitys.get(cargoType);
+    }
+
+    public Map<CargoType, Double> getCapacitys() {
+        return capacitys;
     }
 }
