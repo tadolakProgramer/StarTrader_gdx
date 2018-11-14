@@ -2,9 +2,11 @@ package com.mygdx.game.Screenns;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -221,6 +223,8 @@ public class SpaceShipScreen extends AbstractScreen {
 
     public void createWindowShipModuleInfo(ShipModule shipModule){
 
+        ShapeRenderer shapeRander = new ShapeRenderer();
+
         windowShipModuleInfo = new Window(shipModule.getModuleType().name(), skin2);
         TextButton btnClose = new TextButton("Close", skin2);
         TextButton btnSale = new TextButton("Sale", skin2);
@@ -272,9 +276,12 @@ public class SpaceShipScreen extends AbstractScreen {
             table.add(btnSale);
         }
 
+
+
         windowShipModuleInfo.setSize(300,400);
         windowShipModuleInfo.setPosition(GAME_WIDTH / 2.0f - 100, GAME_HEIGHT / 2.0f - 100);
-        windowShipModuleInfo.add(table).grow().pad(10);
+        windowShipModuleInfo.add(table).grow().pad(5);
+
 
         stage.addActor(windowShipModuleInfo);
 
@@ -287,7 +294,81 @@ public class SpaceShipScreen extends AbstractScreen {
         });
     }
 
-    public void createWindowBayNewModule(){
+
+
+    public void createWindowBayNewModule(ShipModule shipModule){
+
+
+        List <Table> tables = new ArrayList<>();
+
+        windowShipModuleInfo = new Window(shipModule.getModuleType().name(), skin2);
+        TextButton btnClose = new TextButton("Close", skin2);
+        TextButton btnSale = new TextButton("Buy", skin2);
+
+        Table box = new Table();
+        Table tbButton = new Table();
+
+        ScrollPane scrollPane = new ScrollPane(box, skin2);
+
+        for (int itable=0; itable <3; itable++) {
+
+            tables.add(table = new Table());
+
+            box.row();
+
+            box.add(tables.get(itable));
+
+            table.align(1);
+            table.top();
+
+            table.row();
+            table.add(new Label("Name: ", skin2)).left().pad(5);
+            table.add(new Label(shipModule.name, skin2)).pad(5);
+
+            table.row();
+            table.add(new Label("Capacity: ", skin2)).left().pad(5);
+            table.add(new Label("" + shipModule.getCapacity(), skin2)).pad(5);
+
+            table.row();
+            table.add(new Label("Fill: ", skin2)).left().pad(5);
+            table.add(new Label(String.format("%.2f", shipModule.getFill()), skin2)).pad(5);
+
+            table.row();
+            table.add(new Label("Base failure rate: ", skin2)).left().pad(5);
+            table.add(new Label("" + shipModule.baseFailureRate, skin2)).pad(5);
+
+            table.row();
+            table.add(new Label("Factor failure rate: ", skin2)).left().pad(5);
+            table.add(new Label("" + shipModule.experienceLevel, skin2)).pad(5);
+
+            table.row();
+            table.add(new Label("Cost: ", skin2)).left().pad(5);
+            table.add(new Label("" + shipModule.cost, skin2)).pad(5);
+
+            if (spaceShipPlayer.isRun()) {
+                table.row().colspan(2).pad(10);
+                table.add(btnClose);
+            } else {
+                table.row().pad(10);
+                table.add(btnClose);
+                table.add(btnSale);
+            }
+        }
+        windowShipModuleInfo.setSize(300,400);
+        windowShipModuleInfo.setPosition(GAME_WIDTH / 2.0f - 100, GAME_HEIGHT / 2.0f - 100);
+        windowShipModuleInfo.add(scrollPane).grow().pad(5);
+        //windowShipModuleInfo.add(tbButton).grow().pad(5);
+
+
+        stage.addActor(windowShipModuleInfo);
+
+        btnClose.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                windowShipModuleInfo.remove();
+                //gameScreen.multiplexer.removeProcessor(stage);
+            }
+        });
 
     }
 }
