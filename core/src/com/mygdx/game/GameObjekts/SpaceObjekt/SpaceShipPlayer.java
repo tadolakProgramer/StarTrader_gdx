@@ -39,11 +39,7 @@ public class SpaceShipPlayer extends SpaceObject {
     public List<Person> persosns = new ArrayList<Person>();
     public Map<ExperienceType, Integer> elMap = new HashMap<ExperienceType, Integer>();
 
-    public double fuelCapacity;
-    public double fuelFill;
-
-    public double housingModuleCapacity;
-    public double housingModuleFill;
+   //public double housingModuleFill;
 
     private SpaceShipEngine spaceShipEngine;
     private boolean isRun;
@@ -58,8 +54,6 @@ public class SpaceShipPlayer extends SpaceObject {
     private double money;
     private GameScreen gameScreen;
     private int planetTripCounter;  //Do zdobywania nagród
-    private double loseCapacity;
-    private double liquideCapacity;
 
 
     //test
