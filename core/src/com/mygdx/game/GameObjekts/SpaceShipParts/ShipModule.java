@@ -1,7 +1,5 @@
 package com.mygdx.game.GameObjekts.SpaceShipParts;
 
-import com.badlogic.gdx.graphics.Texture;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -126,5 +124,13 @@ public abstract class ShipModule {
 
     public Map<CargoType, Double> getCapacitys() {
         return capacitys;
+    }
+
+    public boolean isModuleError() {
+        return moduleError;
+    }
+
+    public String getTextEror() {
+        return textEror;
     }
 }
