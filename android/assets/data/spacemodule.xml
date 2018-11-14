@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<modules>
+    <modul>
+    <ModuleType>COKPIT</ModuleType>
+    <Name>Cocpit1</Name>
+    <Capacity>2</Capacity>
+    <Cost>1000</Cost>
+    <BaseFailureRate>10</BaseFailureRate>
+    </modul>
+    <modul>
+        <ModuleType>COKPIT</ModuleType>
+        <Name>Cocpit2</Name>
+        <Capacity>2</Capacity>
+        <Cost>1200</Cost>
+        <BaseFailureRate>9</BaseFailureRate>
+    </modul>
+    <modul>
+        <ModuleType>FUEL</ModuleType>
+        <Name>FUEL_X2</Name>
+        <Capacity>2000</Capacity>
+        <Cost>2200</Cost>
+        <BaseFailureRate>10</BaseFailureRate>
+    </modul>
+</modules>
