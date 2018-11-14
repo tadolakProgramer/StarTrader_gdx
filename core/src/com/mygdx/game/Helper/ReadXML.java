@@ -69,7 +69,7 @@ public class ReadXML {
 
     public static boolean readCaptain(SpaceShipPlayer spaceShipPlayer){
 
-        Element root = new XmlReader().parse(Gdx.files.internal("crows.xml"));
+        Element root = new XmlReader().parse(Gdx.files.internal("data/crows.xml"));
 
         int personCount = root.getChildCount();
 
@@ -93,7 +93,6 @@ public class ReadXML {
 
             spaceShipPlayer.addExperience(ex1);
             spaceShipPlayer.addExperience(ex2);
-            spaceShipPlayer.housingModuleFill++;
             spaceShipPlayer.modifyFailureRate();
         }
         return true;
