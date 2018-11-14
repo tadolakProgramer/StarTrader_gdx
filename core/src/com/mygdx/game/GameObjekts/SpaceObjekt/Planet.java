@@ -50,7 +50,7 @@ public class Planet extends SpaceObject {
         }
 
         /** For read from XML **/
-    public Planet(final MyGdxGame game, Hud hud, float x, float y, String path, String name, float speedRot, List wares) {
+    public Planet(final MyGdxGame game, Hud hud, float x, float y, String path, String name, float speedRot) {
         super(game);
         this.path = path;
         this.hud = hud;
@@ -58,9 +58,10 @@ public class Planet extends SpaceObject {
         setPosition(x, y);
         rotationSpeed = speedRot;
         setSpaceObjectName(name);
+        this.wares.clear();
         this.wares = wares;
         setTexture(path);
-        newRandom();
+        //newRandom();
         addClickListener();
     }
 
@@ -139,14 +140,6 @@ public class Planet extends SpaceObject {
 
     public double getPriceTitan() {
         return priceTitan;
-    }
-
-    public double getPriceGrafen() {
-        return priceGrafen;
-    }
-
-    public double getPriceWoter() {
-        return priceWoter;
     }
 
     public double getPriceFuell() {
