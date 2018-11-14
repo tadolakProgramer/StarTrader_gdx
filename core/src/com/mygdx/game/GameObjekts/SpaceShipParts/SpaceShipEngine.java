@@ -18,8 +18,8 @@ public class SpaceShipEngine extends ShipModule{
     private int eventType;
 
 
-    public SpaceShipEngine(ModuleType moduleType, String name, double capacity, double cost, int baseFailureRate) {
-        super(moduleType, name, capacity, cost);
+    public SpaceShipEngine(ModuleType moduleType, String name, double capacity, double cost, int index, int baseFailureRate) {
+        super(moduleType, name, capacity, cost, index);
         speedEngine = 40;
         speedEngineSlow = 2;
         consumptionFuel = 20.50f;

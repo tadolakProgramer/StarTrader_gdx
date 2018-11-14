@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 public class Contener extends ShipModule {
 
 
-    public Contener(ModuleType moduleType, String name, double capacity,  double cost, int baseFailureRate){
-        super(moduleType, name, capacity, cost);
+    public Contener(ModuleType moduleType, String name, double capacity,  double cost, int index, int baseFailureRate){
+        super(moduleType, name, capacity, cost, index);
         this.moduleType = moduleType;
         this.name = name;
         this.capacity = capacity;
@@ -31,7 +31,7 @@ public class Contener extends ShipModule {
 
 
     public Contener build(){
-        return new Contener(moduleType, name, capacity,  cost, baseFailureRate);
+        return new Contener(moduleType, name, capacity,  cost, index, baseFailureRate);
     }
 
     public static class Builder{
@@ -44,6 +44,7 @@ public class Contener extends ShipModule {
         private double baseFailureRate;
         private double failureRate;
         private Texture texture;
+        private int index;
 
         public Builder(){
 
@@ -86,6 +87,11 @@ public class Contener extends ShipModule {
 
         public Builder setTexture(Texture texture) {
             this.texture = texture;
+            return this;
+        }
+
+        public Builder setIndex(int index) {
+            this.index = index;
             return this;
         }
     }

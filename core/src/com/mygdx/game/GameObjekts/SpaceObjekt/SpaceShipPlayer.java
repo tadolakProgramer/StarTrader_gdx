@@ -102,9 +102,9 @@ public class SpaceShipPlayer extends SpaceObject {
     private void initialize() {
 
         for (int i = 0; i < 14; i++) {
-            shipModules.add(i, new Empty(EMPTY, "Empty", 0, 0));
+            shipModules.add(i, new Empty(EMPTY, "Empty", 0, 0, i));
         }
-        spaceShipEngine = new SpaceShipEngine(ModuleType.SPACE_SHIP_ENGINE, "Golem", 1, 1, 10);
+        spaceShipEngine = new SpaceShipEngine(ModuleType.SPACE_SHIP_ENGINE, "Golem", 1, 1, 14, 10);
 
         ReadXML.setShipFromXML(this);
 
@@ -122,36 +122,36 @@ public class SpaceShipPlayer extends SpaceObject {
 
             switch (moduleType) {
                 case COKPIT: {
-                    shipModules.set(index, new SpaceShipCocpit(ModuleType.COKPIT, name, capacity,  cost, baseFailureRate));
+                    shipModules.set(index, new SpaceShipCocpit(ModuleType.COKPIT, name, capacity,  cost,index, baseFailureRate));
                     //Contener contener = new Contener.Builder().setBaseFailureRate()
                     break;
                 }
                 case GAS: {
-                    shipModules.set(index, new Contener(ModuleType.GAS, name, capacity,  cost, baseFailureRate));
+                    shipModules.set(index, new Contener(ModuleType.GAS, name, capacity,  cost, index, baseFailureRate));
                     break;
                 }
                 case LIQUID: {
-                    shipModules.set(index, new Contener(ModuleType.LIQUID, name, capacity,  cost, baseFailureRate));
+                    shipModules.set(index, new Contener(ModuleType.LIQUID, name, capacity,  cost, index, baseFailureRate));
                     break;
                 }
                 case LOSE: {
-                    shipModules.set(index, new Contener(ModuleType.LOSE, name, capacity,  cost, baseFailureRate));
+                    shipModules.set(index, new Contener(ModuleType.LOSE, name, capacity,  cost, index, baseFailureRate));
                     break;
                 }
                 case SPACE_SHIP_ENGINE: {
-                    shipModules.set(index, new SpaceShipEngine(ModuleType.SPACE_SHIP_ENGINE, name, capacity, cost, baseFailureRate));
+                    shipModules.set(index, new SpaceShipEngine(ModuleType.SPACE_SHIP_ENGINE, name, capacity, cost, index, baseFailureRate));
                     break;
                 }
                 case FUEL: {
-                    shipModules.set(index, new Contener(ModuleType.FUEL, name, capacity,  cost, baseFailureRate));
+                    shipModules.set(index, new Contener(ModuleType.FUEL, name, capacity,  cost, index, baseFailureRate));
                     break;
                 }
                 case HOUSING_MODULE: {
-                    shipModules.set(index, new HousingModule(ModuleType.HOUSING_MODULE, name, capacity,  cost, baseFailureRate));
+                    shipModules.set(index, new HousingModule(ModuleType.HOUSING_MODULE, name, capacity, cost, index, baseFailureRate));
                     break;
                 }
                 case EMPTY: {
-                    shipModules.set(index, new Empty(EMPTY, name, capacity, cost));
+                    shipModules.set(index, new Empty(EMPTY, name, capacity, cost, index));
                     break;
                 }
             }
@@ -431,13 +431,13 @@ public class SpaceShipPlayer extends SpaceObject {
                     case FUEL: {
                         if (elMap.containsKey(ExperienceType.MECHANIKS)) {
                             //shipModules.get(i).setFailureRate(elMap.get(ExperienceType.MECHANIKS));
-                            shipModules.get(i).setExpirenceLevel(elMap.get(ExperienceType.MECHANIKS));
+                            shipModules.get(i).setExperienceLevel(elMap.get(ExperienceType.MECHANIKS));
                         }
                 }
                     case SPACE_SHIP_ENGINE:
                         if (elMap.containsKey(ExperienceType.MECHANIKS)){
                             //spaceShipEngine.setFailureRate(elMap.get(ExperienceType.MECHANIKS));
-                            shipModules.get(i).setExpirenceLevel(elMap.get(ExperienceType.MECHANIKS));
+                            shipModules.get(i).setExperienceLevel(elMap.get(ExperienceType.MECHANIKS));
                         }
             }
 
@@ -461,5 +461,7 @@ public class SpaceShipPlayer extends SpaceObject {
         planetTripCounter = ReadXML.readPlayerPlanetCount();
     }
 
-
+    public boolean isRun() {
+        return isRun;
+    }
 }

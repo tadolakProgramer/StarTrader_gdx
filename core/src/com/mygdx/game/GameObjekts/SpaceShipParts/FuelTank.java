@@ -3,8 +3,8 @@ package com.mygdx.game.GameObjekts.SpaceShipParts;
 public class FuelTank extends ShipModule{
 
 
-    public FuelTank(ModuleType moduleType, String name, double capacity, double fill, double cost, int baseFailureRate){
-        super(moduleType, name, capacity, cost);
+    public FuelTank(ModuleType moduleType, String name, double capacity, double fill, double cost, int index, int baseFailureRate){
+        super(moduleType, name, capacity, cost, index);
         this.capacity = capacity;
         this.fill = fill;
         this.cost = cost;
