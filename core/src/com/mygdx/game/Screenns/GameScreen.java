@@ -157,13 +157,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     private void updateTime(float dt) {
         gameTime = gameTime + dt;
-        timeToPayment = timeToPayment+ dt;
+        timeToPayment = timeToPayment + dt;
         if (timeToPayment >= TIME_TO_PAYMENT){
-            timeToPayment =0;
+            timeToPayment = 0;
             for (int i=0; i < spaceShipPlayer.persosns.size(); i++){
                 spaceShipPlayer.subMoney(spaceShipPlayer.persosns.get(i).getPay());
-                setDateOfGame();
             }
+            setDateOfGame();
             hud.showDlgPayment();
         }
 
@@ -171,7 +171,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     private void setDateOfGame() {
         month++;
-        if (month>12){
+        if (month > 12){
             month = 1;
             year++;
         }
