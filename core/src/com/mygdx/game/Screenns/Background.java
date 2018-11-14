@@ -17,7 +17,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
         public Background() {
 
             scale = Gdx.graphics.getWidth()/800f;
-            map = new TmxMapLoader().load("mapa.tmx");
+            map = new TmxMapLoader().load("data/mapa.tmx");
             renderer = new OrthogonalTiledMapRenderer(map,scale);
 
         }
