@@ -16,12 +16,7 @@ import static com.mygdx.game.MyGdxGame.GAME_WIDTH;
 
 public class SpaceShipDraft extends Image {
 
-    public Screen actScreen;
     public float scale;
-
-
-    private SpriteBatch batch;
-    private Texture texture;
 
 
     public SpaceShipDraft(final MyGdxGame game) {
@@ -32,7 +27,6 @@ public class SpaceShipDraft extends Image {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                //actScreen = game.kolejka.pollFirst();
                 game.setScreen(game.gameScreen);
 
                 return super.touchDown(event, x, y, pointer, button);
