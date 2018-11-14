@@ -62,8 +62,8 @@ public class Hud extends  AbstractHUD {
 
         //define our labels using the String, and a Label style consisting of a font and color
         moneyLabel = new Label(String.format("%.2f", gameScreen.spaceShipPlayer.getMoney()), skin, "grafen");
-        fuellLabel =new Label(String.format("%.2f", gameScreen.spaceShipPlayer.fuelFill), skin, "grafen");
-        fuelFillBar = new ProgressBar(0.0f, (float) gameScreen.spaceShipPlayer.fuelCapacity, 1, false, skin, "fancy");
+        fuellLabel =new Label(String.format("%.2f", gameScreen.spaceShipPlayer.getFill(CargoType.FUEL)), skin, "grafen");
+        fuelFillBar = new ProgressBar(0.0f, (float) gameScreen.spaceShipPlayer.getCapacity(CargoType.FUEL), 1, false, skin, "fancy");
         dateLabel = new Label(gameScreen.getDateOfGame(),skin, "grafen");
 
 
@@ -145,9 +145,9 @@ public class Hud extends  AbstractHUD {
         }
 
     private void progressBarUpdate() {
-        fuellLabel.setText(String.format("%.2f", gameScreen.spaceShipPlayer.getFill(CargoType.FUEL))+"  "+String.format("%.2f", gameScreen.spaceShipPlayer.fuelFill/gameScreen.spaceShipPlayer.fuelCapacity*100)+"$");
-        fuelFillBar.setRange(0,(float)gameScreen.spaceShipPlayer.fuelCapacity);
-        fuelFillBar.setValue((float)gameScreen.spaceShipPlayer.fuelFill);
+        fuellLabel.setText(String.format("%.2f", gameScreen.spaceShipPlayer.getFill(CargoType.FUEL))+"  "+String.format("%.2f", (gameScreen.spaceShipPlayer.getFill(CargoType.FUEL)/(gameScreen.spaceShipPlayer.getCapacity(CargoType.FUEL))*100))+"$");
+        fuelFillBar.setRange(0,(float)gameScreen.spaceShipPlayer.getCapacity(CargoType.FUEL));
+        fuelFillBar.setValue((float)gameScreen.spaceShipPlayer.getFill(CargoType.FUEL));
         fuelFillBar.setPosition(fuellLabel.getX() + fuellLabel.getWidth()/2 - fuelFillBar.getWidth()/2, fuellLabel.getY()+5 );
     }
 
@@ -157,7 +157,7 @@ public class Hud extends  AbstractHUD {
 
     public void showDlgNewPrice(String planetName) {
 
-        final Dialog dlgNewPrice = new Dialog("New price ", skin);
+        final Dialog dlgNewPrice = new Dialog("New price ", skin2, "dialog");
         TextButton btnMain = new TextButton("Close", skin);
         dlgNewPrice.text("New price on "+ planetName);
         dlgNewPrice.button(btnMain);
@@ -176,9 +176,9 @@ public class Hud extends  AbstractHUD {
 
     public void showDlgLowMony() {
 
-        Dialog dlgNewPrice = new Dialog("Pozor! ", skin);
-        TextButton btnMain = new TextButton("Main", skin);
-        TextButton btnTryAgain = new TextButton("Try Again", skin);
+        Dialog dlgNewPrice = new Dialog("Pozor! ", skin2);
+        TextButton btnMain = new TextButton("Main", skin2);
+        TextButton btnTryAgain = new TextButton("Try Again", skin2);
         dlgNewPrice.text("To low money or capacity ");
         dlgNewPrice.button(btnTryAgain);
         dlgNewPrice.button(btnMain);
