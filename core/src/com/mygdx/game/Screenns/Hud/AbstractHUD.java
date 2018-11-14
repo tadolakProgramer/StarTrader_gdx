@@ -15,6 +15,8 @@ import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.GameScreen;
 
+import static com.mygdx.game.MyGdxGame.FILE_EARTH_SKIN;
+import static com.mygdx.game.MyGdxGame.FILE_UI_SKIN;
 import static com.mygdx.game.MyGdxGame.GAME_HEIGHT;
 import static com.mygdx.game.MyGdxGame.GAME_WIDTH;
 
@@ -43,8 +45,8 @@ public abstract class AbstractHUD {
         this.gameScreen = gameScreen;
         this.game = game;
         this.sb = sb;
-        skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
-        skin2 = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        skin = new Skin(Gdx.files.internal(FILE_EARTH_SKIN));
+        skin2 = new Skin(Gdx.files.internal(FILE_UI_SKIN));
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(GAME_WIDTH, GAME_HEIGHT, camera);
