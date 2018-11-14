@@ -132,6 +132,7 @@ public class Hud extends  AbstractHUD {
 
     public void update(float dt) {
         progressBarUpdate();
+        readShipError();
         moneyLabel.setText(String.format("%.2f", gameScreen.spaceShipPlayer.getMoney()));
         dateLabel.setText(gameScreen.getDateOfGame());
         time = time +dt;
@@ -144,6 +145,18 @@ public class Hud extends  AbstractHUD {
         }
         }
 
+    private void readShipError() {
+        for (int i=0; i<gameScreen.spaceShipPlayer.shipModules.size(); i++){
+            if (gameScreen.spaceShipPlayer.shipModules.get(i).isModuleError()){
+
+                String messageText = gameScreen.spaceShipPlayer.shipModules.get(i).getTextEror();
+                String titleText = "Error" + gameScreen.spaceShipPlayer.shipModules.get(i).getModuleType().name();
+
+                showDlg(messageText, titleText);
+            }
+        }
+    }
+
     private void progressBarUpdate() {
         fuellLabel.setText(String.format("%.2f", gameScreen.spaceShipPlayer.getFill(CargoType.FUEL))+"  "+String.format("%.2f", (gameScreen.spaceShipPlayer.getFill(CargoType.FUEL)/(gameScreen.spaceShipPlayer.getCapacity(CargoType.FUEL))*100))+"$");
         fuelFillBar.setRange(0,(float)gameScreen.spaceShipPlayer.getCapacity(CargoType.FUEL));
@@ -155,11 +168,11 @@ public class Hud extends  AbstractHUD {
 
     }
 
-    public void showDlgNewPrice(String planetName) {
+    public void showDlg(String messageText, String titleText) {
 
-        final Dialog dlgNewPrice = new Dialog("New price ", skin2, "dialog");
-        TextButton btnMain = new TextButton("Close", skin);
-        dlgNewPrice.text("New price on "+ planetName);
+        final Dialog dlgNewPrice = new Dialog(titleText, skin2, "dialog");
+        TextButton btnMain = new TextButton("Close", skin2);
+        dlgNewPrice.text(messageText);
         dlgNewPrice.button(btnMain);
         dlgNewPrice.setSize(200,200);
         dlgNewPrice.setPosition(GAME_WIDTH / 2.0f - 100, GAME_HEIGHT / 2.0f - 100);
