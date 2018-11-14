@@ -2,11 +2,15 @@ package com.mygdx.game.Helper;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.loaders.resolvers.LocalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlWriter;
+import com.mygdx.game.GameObjekts.SpaceObjekt.Ware;
 import com.mygdx.game.MyGdxGame;
 
 import java.io.File;
+import java.util.List;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -49,7 +53,8 @@ public class ModifiedXML {
 
     public static Boolean writePositionToXml(float x, float y) {
 
-        setDocument(MyGdxGame.FILE_SPACE_SHIP);
+        setDocument(((Gdx.files.internal(MyGdxGame.FILE_SPACE_SHIP)).path()));
+        //setDocument((((MyGdxGame.FILE_SPACE_SHIP))));
 
         Node ship = doc.getFirstChild();
         Node ship1 = doc.getElementsByTagName("pos").item(0);
@@ -67,10 +72,11 @@ public class ModifiedXML {
 
     public static Boolean writeTargetPositionToXml(float x, float y) {
 
+        String DIR = Gdx.files.getLocalStoragePath();
 
-        setDocument(MyGdxGame.FILE_SPACE_SHIP);
+        setDocument(((Gdx.files.internal(MyGdxGame.FILE_SPACE_SHIP)).path()));
 
-        Node ship = doc.getFirstChild();
+        //Node ship = doc.getFirstChild();
         Node ship1 = doc.getElementsByTagName("target").item(0);
         NamedNodeMap attr = ship1.getAttributes();
         Node targetX = attr.getNamedItem("x");
@@ -79,7 +85,6 @@ public class ModifiedXML {
         targetY.setTextContent(Float.toString(y));
 
         writeDocument(MyGdxGame.FILE_SPACE_SHIP);
-
 
         return true;
 
@@ -109,7 +114,7 @@ public class ModifiedXML {
         return true;
     }
 
-    public static Boolean writeNewPriceToXml(String planetName, double titanPrice, double priceGrafen, double priceWoter, double priceFuell) {
+    public static Boolean writeNewPriceToXml(String planetName, List<Ware> wares) {
 
         setDocument(MyGdxGame.FILE_PLANETS);
 
@@ -122,24 +127,16 @@ public class ModifiedXML {
                     NodeList nodes = planet.getChildNodes();
                     for (int j = 0; j < nodes.getLength(); j++) {
                         Node element = nodes.item(j);
-                        if ("Titan".equals(element.getNodeName())) {
-                            element.setTextContent(Double.toString(titanPrice));
+                        for (int it=0; it < wares.size() ;it++){
+                        if (wares.get(it).getCargoType().equals(element.getNodeName())) {
+                            element.setTextContent(Double.toString(wares.get(it).getPrice()));
                         }
-                        if ("Grafen".equals(element.getNodeName())) {
-                            element.setTextContent(Double.toString(priceGrafen));
-                        }
-                        if ("Woter".equals(element.getNodeName())) {
-                            element.setTextContent(Double.toString(priceWoter));
-                        }
-                        if ("Fuell".equals(element.getNodeName())) {
-                            element.setTextContent(Double.toString(priceFuell));
-                        }
+                       }
                     }
-                        writeDocument(MyGdxGame.FILE_PLANETS);
-                        break;
+                    writeDocument(MyGdxGame.FILE_PLANETS);
+                    break;
                 }
             }
-
         }
         return true;
     }
