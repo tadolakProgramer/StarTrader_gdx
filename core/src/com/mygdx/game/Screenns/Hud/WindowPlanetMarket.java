@@ -14,9 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
 import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.GameScreen;
+import com.mygdx.game.Screenns.SpaceShipScreen;
 
 public class WindowPlanetMarket extends AbstractHUD {
 
@@ -29,7 +31,7 @@ public class WindowPlanetMarket extends AbstractHUD {
     private Label fuellPriceLabel;
     private TextField.TextFieldFilter filter;
 
-    public WindowPlanetMarket(final GameScreen gameScreen, MyGdxGame game, SpriteBatch sb, String planetName ) {
+    public WindowPlanetMarket(final GameScreen gameScreen, final MyGdxGame game, SpriteBatch sb, String planetName ) {
         super(gameScreen, game, sb);
 
         windowInfoPlanetMarket=1;
@@ -38,7 +40,7 @@ public class WindowPlanetMarket extends AbstractHUD {
 
             gameScreen.multiplexer.addProcessor(stage);
 
-            window = new Window(planetName, skin2);
+            window = new Window(planetName, skin2, "dialog");
             region = new TextureRegion();
 
             window.setColor(Color.BLACK);
@@ -94,6 +96,7 @@ public class WindowPlanetMarket extends AbstractHUD {
 
 
             TextButton textButtonClose = new TextButton("Close", skin2);
+            final TextButton tbCreateSpaceShipWindow = new TextButton("Space ship", skin2);
 
             //Titan
             TextButton textButtonBuyTitan =  new TextButton("Buy", skin2);
@@ -263,8 +266,9 @@ public class WindowPlanetMarket extends AbstractHUD {
             });
 
             winTable.row();
-            winTable.row().colspan(5);
+            winTable.row().colspan(3);
             winTable.add(textButtonClose).expand().center().pad(10);
+            winTable.add(tbCreateSpaceShipWindow).pad(10);
 
 
             textButtonClose.addListener(new ClickListener() {
@@ -273,6 +277,14 @@ public class WindowPlanetMarket extends AbstractHUD {
                     window.remove();
                     windowInfoPlanetMarket--;
                     gameScreen.multiplexer.removeProcessor(stage);
+                }
+            });
+
+            tbCreateSpaceShipWindow.addListener(new ClickListener() {
+                @Override
+                public void  touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    game.setScreen(new SpaceShipScreen(game, gameScreen.spaceShipPlayer));
+                    //gameScreen.multiplexer.removeProcessor(stage);
                 }
             });
         }
