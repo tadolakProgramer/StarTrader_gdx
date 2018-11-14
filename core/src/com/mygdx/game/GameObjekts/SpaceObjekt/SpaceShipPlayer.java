@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.Contener;
-import com.mygdx.game.GameObjekts.SpaceShipParts.Empty;
 import com.mygdx.game.GameObjekts.SpaceShipParts.HousingModule;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.ExperienceLevel;
@@ -26,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.badlogic.gdx.math.MathUtils;
+import com.mygdx.game.Screenns.Hud.Hud;
 
 import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.EMPTY;
 import static com.mygdx.game.MyGdxGame.GAME_SCALE;
@@ -52,6 +52,7 @@ public class SpaceShipPlayer extends SpaceObject {
     public String targetName;
 
     private double money;
+    private boolean noMoney;
     private GameScreen gameScreen;
     private int planetTripCounter;  //Do zdobywania nagród
 
@@ -96,7 +97,7 @@ public class SpaceShipPlayer extends SpaceObject {
     private void initialize() {
 
         for (int i = 0; i < 14; i++) {
-            shipModules.add(i, new Empty(EMPTY, "Empty", 0, 0, i));
+            shipModules.add(i, new Contener(EMPTY, "Empty", 0, 0, i,0));
         }
         spaceShipEngine = new SpaceShipEngine(ModuleType.SPACE_SHIP_ENGINE, "Golem", 1, 1, 14, 10);
 
@@ -114,38 +115,24 @@ public class SpaceShipPlayer extends SpaceObject {
 
         if (shipModules.get(index).moduleType == EMPTY) {
 
+            System.out.println( moduleType.name());
+
             switch (moduleType) {
                 case COKPIT: {
-                    shipModules.set(index, new SpaceShipCocpit(ModuleType.COKPIT, name, capacity,  cost,index, baseFailureRate));
-                    //Contener contener = new Contener.Builder().setBaseFailureRate()
-                    break;
-                }
-                case GAS: {
-                    shipModules.set(index, new Contener(ModuleType.GAS, name, capacity,  cost, index, baseFailureRate));
-                    break;
-                }
-                case LIQUID: {
-                    shipModules.set(index, new Contener(ModuleType.LIQUID, name, capacity,  cost, index, baseFailureRate));
-                    break;
-                }
-                case LOSE: {
-                    shipModules.set(index, new Contener(ModuleType.LOSE, name, capacity,  cost, index, baseFailureRate));
+                    shipModules.set(index, new SpaceShipCocpit(ModuleType.COKPIT, name, capacity, cost, index, baseFailureRate));
                     break;
                 }
                 case SPACE_SHIP_ENGINE: {
                     shipModules.set(index, new SpaceShipEngine(ModuleType.SPACE_SHIP_ENGINE, name, capacity, cost, index, baseFailureRate));
                     break;
                 }
-                case FUEL: {
-                    shipModules.set(index, new Contener(ModuleType.FUEL, name, capacity,  cost, index, baseFailureRate));
-                    break;
-                }
                 case HOUSING_MODULE: {
                     shipModules.set(index, new HousingModule(ModuleType.HOUSING_MODULE, name, capacity, cost, index, baseFailureRate));
                     break;
                 }
-                case EMPTY: {
-                    shipModules.set(index, new Empty(EMPTY, name, capacity, cost, index));
+                default:
+                {
+                    shipModules.set(index, new Contener(moduleType, name, capacity,  cost, index, baseFailureRate));
                     break;
                 }
             }
@@ -283,7 +270,7 @@ public class SpaceShipPlayer extends SpaceObject {
         );
         this.addAction(stopAction);
 
-        if (spaceShipEngine.isEngineError()){
+        if (spaceShipEngine.isModuleError()){
             spaceShipEngine.resetFailure();
         }
     }
@@ -295,11 +282,9 @@ public class SpaceShipPlayer extends SpaceObject {
             addCargo(cargoType, quantity);
         }
         else{
-
-            /** TO DO
-             * Make dialogBox on HUD
-             */
-
+            String msgText = "Not enough money or capacity";
+            String tile = "Caution!";
+            gameScreen.createMsg(msgText, tile);
         }
     }
 
@@ -335,11 +320,19 @@ public class SpaceShipPlayer extends SpaceObject {
     public void subMoney(double v) {
         money = money - v;
         ModifiedXML.writeMoneyToXml(money);
+        if (getMoney() <= 0){
+            noMoney = true;
+            setBaseFailureRate();
+        }
     }
 
     private void addMoney(double v) {
         money = money + v;
         ModifiedXML.writeMoneyToXml(money);
+        if (getMoney() > 0 ){
+            noMoney = false;
+            modifyFailureRate();
+        }
     }
 
     private boolean checkMoney(int quantity, double cost) {
@@ -437,6 +430,13 @@ public class SpaceShipPlayer extends SpaceObject {
 
         }
 
+    }
+
+    private void setBaseFailureRate() {
+        for (int i = 1; i < shipModules.size(); i++) {
+            ModuleType md = shipModules.get(i).moduleType;
+            shipModules.get(i).setExperienceLevel(0);
+        }
     }
 
 
