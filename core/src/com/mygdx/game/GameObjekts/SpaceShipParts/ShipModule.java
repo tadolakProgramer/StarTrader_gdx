@@ -1,5 +1,8 @@
 package com.mygdx.game.GameObjekts.SpaceShipParts;
 
+import com.mygdx.game.Helper.ModifiedXML;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +37,9 @@ public abstract class ShipModule {
 
             if (fill + quantity <= capacity) {
                 fill = fill + quantity;
+
+                //ModifiedXML.writeNewFillToXml(index,quantity);
+
                 if (capacitys.size() == 0) {
                     capacitys.put(cargoType, quantity);
                     quantity = 0;
