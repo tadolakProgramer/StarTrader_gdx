@@ -146,6 +146,7 @@ public class Hud extends  AbstractHUD {
         }
 
     private void readShipError() {
+
         for (int i=0; i<gameScreen.spaceShipPlayer.shipModules.size(); i++){
             if (gameScreen.spaceShipPlayer.shipModules.get(i).isModuleError()){
 
@@ -170,18 +171,19 @@ public class Hud extends  AbstractHUD {
 
     public void showDlg(String messageText, String titleText) {
 
-        final Dialog dlgNewPrice = new Dialog(titleText, skin2, "dialog");
+        final Dialog dialog = new Dialog(titleText, skin2, "dialog");
         TextButton btnMain = new TextButton("Close", skin2);
-        dlgNewPrice.text(messageText);
-        dlgNewPrice.button(btnMain);
-        dlgNewPrice.setSize(200,200);
-        dlgNewPrice.setPosition(GAME_WIDTH / 2.0f - 100, GAME_HEIGHT / 2.0f - 100);
-        stage.addActor(dlgNewPrice);
+        dialog.setModal(true);
+        dialog.text(messageText);
+        dialog.button(btnMain).pad(10);
+        dialog.setSize(400,200);
+        dialog.setPosition(GAME_WIDTH / 2.0f - 200, GAME_HEIGHT / 2.0f - 100);
+        stage.addActor(dialog);
 
         btnMain.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                dlgNewPrice.remove();
+                dialog.remove();
                 return true;
             }
         });
