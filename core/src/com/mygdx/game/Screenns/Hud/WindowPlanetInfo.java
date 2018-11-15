@@ -101,7 +101,9 @@ public class WindowPlanetInfo extends AbstractHUD {
             winTable.row().colspan(2);
             winTable.add(planetImage).size(100, 100);
             winTable.row().colspan(2);
-            winTable.add(new Label("Distance: "+ String.format("%.2f", distance), skin2)).expand().pad(5);
+            winTable.add(new Label("Location X: "+ planet.getPositionCX() + " Y: "+planet.getPositionCY(), skin2, "small")).expand().pad(5);
+            winTable.row().colspan(2);
+            winTable.add(new Label("Distance: "+ String.format("%.2f", distance) + " ly", skin2)).expand().pad(5);
 
             winTable.row().pad(5);
             winTable.add(titanLabel).expandX().left();
