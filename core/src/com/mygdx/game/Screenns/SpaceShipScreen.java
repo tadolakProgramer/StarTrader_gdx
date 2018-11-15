@@ -162,8 +162,8 @@ public class SpaceShipScreen extends AbstractScreen {
         table.setColor(255,1,1,255);
 
 
-        moneyLabelText = new Label("Money", skin);
-        fuelLabelText = new Label("Fuel: ", skin);
+        moneyLabelText = new Label("Money", skin2);
+        fuelLabelText = new Label("Fuel: ", skin2, "fuel");
 
 
         worldLabel = new Label("WORLD: ", skin);
@@ -171,7 +171,7 @@ public class SpaceShipScreen extends AbstractScreen {
 
         //define our labels using the String, and a Label style consisting of a font and color
         moneyLabel = new Label(String.format("%.2f", spaceShipPlayer.getMoney()), skin);
-        fuellLabel =new Label(String.format("%.2f", spaceShipPlayer.getFill(CargoType.FUEL)), skin);
+        fuellLabel =new Label(String.format("%.2f", spaceShipPlayer.getFill(CargoType.FUEL)), skin2, "fuel");
 
 
 
@@ -187,8 +187,8 @@ public class SpaceShipScreen extends AbstractScreen {
 
         if (spaceShipPlayer.getFill(CargoType.TITAN) > 0) {
 
-            titanLabelText = new Label("Titan:", skin, "titan");
-            titanLabel = new Label(" "+spaceShipPlayer.getFill(CargoType.TITAN), skin, "titan");
+            titanLabelText = new Label("Titan:", skin2, "titan");
+            titanLabel = new Label(" "+spaceShipPlayer.getFill(CargoType.TITAN), skin2, "titan");
 
             table.row();
             table.add(titanLabelText).expandX().left();
@@ -196,8 +196,8 @@ public class SpaceShipScreen extends AbstractScreen {
         }
         if (spaceShipPlayer.getFill(CargoType.GRAFEN) > 0) {
 
-            grafenLabelText = new Label("Grafen", skin, "grafen");
-            grafelLabel = new Label(" "+spaceShipPlayer.getFill(CargoType.GRAFEN) ,skin, "grafen");
+            grafenLabelText = new Label("Grafen", skin2, "grafen");
+            grafelLabel = new Label(" "+spaceShipPlayer.getFill(CargoType.GRAFEN) ,skin2, "grafen");
 
             table.row();
             table.add(grafenLabelText).expandX().left();
@@ -206,8 +206,8 @@ public class SpaceShipScreen extends AbstractScreen {
 
         if (spaceShipPlayer.getFill(CargoType.WATER) > 0) {
 
-            waterLabelText = new Label("Grafen", skin, "water");
-            waterlLabel = new Label(" "+spaceShipPlayer.getFill(CargoType.WATER) ,skin, "water");
+            waterLabelText = new Label("Grafen", skin2, "water");
+            waterlLabel = new Label(" "+spaceShipPlayer.getFill(CargoType.WATER) ,skin2, "water");
 
             table.row();
             table.add(waterLabelText).expandX().left();
@@ -244,8 +244,8 @@ public class SpaceShipScreen extends AbstractScreen {
         for (int i =0; i < CargoType.values().length; i++){
             if (shipModule.capacitys.containsKey(CargoType.values()[i])){
                 table.row();
-                table.add(new Label((CargoType.values()[i]).toString(), skin2)).left().pad(5);
-                table.add(new Label(String.format("%.2f",shipModule.capacitys.get(CargoType.values()[i])), skin2)).pad(5);
+                table.add(new Label((CargoType.values()[i]).toString(), skin2, CargoType.values()[i].getStyleName())).left().pad(5);
+                table.add(new Label(String.format("%.2f",shipModule.capacitys.get(CargoType.values()[i])), skin2, CargoType.values()[i].getStyleName())).pad(5);
                 //
             }
         }

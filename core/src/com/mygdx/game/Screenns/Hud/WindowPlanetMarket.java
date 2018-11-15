@@ -69,29 +69,29 @@ public class WindowPlanetMarket extends AbstractHUD {
                     planetImage.setSize(10,10);
                     titanPrice = planet.getPriceTitan();
                     fuelPrice =  planet.getPriceFuell();
-                    titanPriceLabel = new Label(String.format("%.2f", planet.wares.get(0).getPrice())+" T$", skin, "titan");
+                    titanPriceLabel = new Label(String.format("%.2f", planet.wares.get(0).getPrice())+" T$", skin2, planet.wares.get(0).getCargoType().getStyleName());
                     titanPriceLabel.setFontScale(1.5f);
-                    grafenPriceLabel = new Label(String.format("%.2f", planet.wares.get(1).getPrice())+" T$", skin, "grafen");
+                    grafenPriceLabel = new Label(String.format("%.2f", planet.wares.get(1).getPrice())+" T$", skin2, planet.wares.get(1).getCargoType().getStyleName());
                     grafenPriceLabel.setFontScale(1.5f);
-                    woterPriceLabel = new Label(String.format("%.2f", planet.wares.get(2).getPrice())+" T$", skin, "woter");
+                    woterPriceLabel = new Label(String.format("%.2f", planet.wares.get(2).getPrice())+" T$", skin2, planet.wares.get(2).getCargoType().getStyleName());
                     woterPriceLabel.setFontScale(1.5f);
-                    fuellPriceLabel = new Label(String.format("%.2f", planet.wares.get(3).getPrice())+" T$", skin, "fuell");
+                    fuellPriceLabel = new Label(String.format("%.2f", planet.wares.get(3).getPrice())+" T$", skin2, "fuel");
                     fuellPriceLabel.setFontScale(1.5f);
                     break;
                 }
             }
 
 
-            Label titanLabel = new Label(planet.wares.get(0).getCargoType().name(), skin, "titan");
+            Label titanLabel = new Label(planet.wares.get(0).getCargoType().name(), skin2, planet.wares.get(0).getCargoType().getStyleName());
             titanLabel.setFontScale(1.5f);
 
-            Label grafenLabel = new Label(planet.wares.get(1).getCargoType().name(), skin, "grafen");
+            Label grafenLabel = new Label(planet.wares.get(1).getCargoType().name(), skin2, planet.wares.get(1).getCargoType().getStyleName());
             grafenLabel.setFontScale(1.5f);
 
-            Label woterLabel = new Label(planet.wares.get(2).getCargoType().name(), skin, "woter");
+            Label woterLabel = new Label(planet.wares.get(2).getCargoType().name(), skin2, planet.wares.get(2).getCargoType().getStyleName());
             woterLabel.setFontScale(1.5f);
 
-            Label fuellLabel = new Label(planet.wares.get(3).getCargoType().name(), skin, "fuell");
+            Label fuellLabel = new Label(planet.wares.get(3).getCargoType().name(), skin2, "fuel");
             fuellLabel.setFontScale(1.5f);
 
 

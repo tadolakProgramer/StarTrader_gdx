@@ -3,13 +3,13 @@ package com.mygdx.game.Screenns.Hud;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.MyGdxGame;
@@ -20,10 +20,10 @@ import static com.mygdx.game.MyGdxGame.GAME_WIDTH;
 
 public class WindowPlanetInfo extends AbstractHUD {
 
-    private Label titanPriceLabel;
-    private Label grafenPriceLabel;
-    private Label woterPriceLabel;
-    private Label fuellPriceLabel;
+    private Label labelWarePrice1;
+    private Label labelWarePrice2;
+    private Label labelWarePrice3;
+    private Label labelWarePrice4;
 
     private int windowInfoPlanetCount;
 
@@ -34,6 +34,9 @@ public class WindowPlanetInfo extends AbstractHUD {
         windowInfoPlanetCount=1;
 
         if (windowInfoPlanetCount <= 1) {
+
+            float  spaceshipPosX = gameScreen.spaceShipPlayer.getPositionCX();
+            float  spaceshipPosY = gameScreen.spaceShipPlayer.getPositionCY();
 
             gameScreen.multiplexer.addProcessor(stage);
 
@@ -64,29 +67,30 @@ public class WindowPlanetInfo extends AbstractHUD {
                     planetImage = new Image(game.textureAtlas.findRegion(planet.getPath()));
 
                     planetImage.setSize(10, 10);
-                    titanPriceLabel = new Label(String.format("%.2f", planet.wares.get(0).getPrice()) + " T$", skin, "titan");
-                    titanPriceLabel.setFontScale(1.5f);
-                    grafenPriceLabel = new Label(String.format("%.2f", planet.wares.get(1).getPrice()) + " T$", skin, "grafen");
-                    grafenPriceLabel.setFontScale(1.5f);
-                    woterPriceLabel = new Label(String.format("%.2f", planet.wares.get(2).getPrice()) + " T$", skin, "woter");
-                    woterPriceLabel.setFontScale(1.5f);
-                    fuellPriceLabel = new Label(String.format("%.2f", planet.wares.get(3).getPrice()) + " T$", skin, "fuell");
-                    fuellPriceLabel.setFontScale(1.5f);
+                    labelWarePrice1 = new Label(String.format("%.2f", planet.wares.get(0).getPrice()) + " T$", skin2, planet.wares.get(0).getCargoType().getStyleName());
+                    labelWarePrice1.setFontScale(1.5f);
+                    labelWarePrice2 = new Label(String.format("%.2f", planet.wares.get(1).getPrice()) + " T$", skin2, planet.wares.get(1).getCargoType().getStyleName());
+                    labelWarePrice2.setFontScale(1.5f);
+                    labelWarePrice3 = new Label(String.format("%.2f", planet.wares.get(2).getPrice()) + " T$", skin2, planet.wares.get(2).getCargoType().getStyleName());
+                    labelWarePrice3.setFontScale(1.5f);
+                    labelWarePrice4 = new Label(String.format("%.2f", planet.wares.get(3).getPrice()) + " T$", skin2, "fuel");
+                    labelWarePrice4.setFontScale(1.5f);
                     break;
                 }
             }
 
+            float distance = Vector2.dst(spaceshipPosX, spaceshipPosY, planet.getPositionCX(), planet.getPositionCY());
 
-            Label titanLabel = new Label(planet.wares.get(0).getCargoType().name(), skin, "titan");
+            Label titanLabel = new Label(planet.wares.get(0).getCargoType().name(), skin2, planet.wares.get(0).getCargoType().getStyleName());
             titanLabel.setFontScale(1.5f);
 
-            Label grafenLabel = new Label(planet.wares.get(1).getCargoType().name(), skin, "grafen");
+            Label grafenLabel = new Label(planet.wares.get(1).getCargoType().name(), skin2, planet.wares.get(1).getCargoType().getStyleName());
             grafenLabel.setFontScale(1.5f);
 
-            Label woterLabel = new Label(planet.wares.get(2).getCargoType().name(), skin, "woter");
+            Label woterLabel = new Label(planet.wares.get(2).getCargoType().name(), skin2, planet.wares.get(2).getCargoType().getStyleName());
             woterLabel.setFontScale(1.5f);
 
-            Label fuellLabel = new Label(planet.wares.get(3).getCargoType().name(), skin, "fuell");
+            Label fuellLabel = new Label(planet.wares.get(3).getCargoType().name(), skin2, "fuel");
             fuellLabel.setFontScale(1.5f);
 
 
@@ -96,22 +100,24 @@ public class WindowPlanetInfo extends AbstractHUD {
             window.row().pad(5);
             winTable.row().colspan(2);
             winTable.add(planetImage).size(100, 100);
+            winTable.row().colspan(2);
+            winTable.add(new Label("Distance: "+ String.format("%.2f", distance), skin2)).expand().pad(5);
 
             winTable.row().pad(5);
             winTable.add(titanLabel).expandX().left();
-            winTable.add(titanPriceLabel).expandX().right();
+            winTable.add(labelWarePrice1).expandX().right();
 
             winTable.row().pad(5);
             winTable.add(grafenLabel).expandX().left();
-            winTable.add(grafenPriceLabel).expandX().right();
+            winTable.add(labelWarePrice2).expandX().right();
 
             winTable.row().pad(5);
             winTable.add(woterLabel).expandX().left();
-            winTable.add(woterPriceLabel).expandX().right();
+            winTable.add(labelWarePrice3).expandX().right();
 
             winTable.row().pad(5);
             winTable.add(fuellLabel).expandX().left();
-            winTable.add(fuellPriceLabel).expand().right();
+            winTable.add(labelWarePrice4).expand().right();
 
             winTable.row();
             winTable.add(textButton1).expand().center().pad(10);

@@ -3,22 +3,28 @@ package com.mygdx.game.GameObjekts.SpaceShipParts;
 
 public enum CargoType {
 
-    FUEL(ModuleType.FUEL),
-    TITAN(ModuleType.LOSE),
-    WATER(ModuleType.LIQUID),
-    QUICKSILVER(ModuleType.LIQUID),
-    GRAFEN(ModuleType.LOSE),
-    HELIUM3(ModuleType.GAS),
-    PERSON(ModuleType.HOUSING_MODULE);
+    FUEL(ModuleType.FUEL, "fuel"),
+    TITAN(ModuleType.LOSE, "titan"),
+    WATER(ModuleType.LIQUID, "water"),
+    QUICKSILVER(ModuleType.LIQUID, "silver"),
+    GRAFEN(ModuleType.LOSE, "grafen"),
+    HELIUM3(ModuleType.GAS, "helium3"),
+    PERSON(ModuleType.HOUSING_MODULE, "person");
 
     private final ModuleType moduleType;
+    private final String styleName;
 
-    CargoType(ModuleType moduleType) {
+    CargoType(ModuleType moduleType, String styleName) {
         this.moduleType = moduleType;
+        this.styleName = styleName;
     }
 
     public ModuleType getModuleType() {
         return moduleType;
+    }
+
+    public String getStyleName(){
+        return styleName;
     }
 
 }
