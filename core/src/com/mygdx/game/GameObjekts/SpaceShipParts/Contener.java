@@ -2,18 +2,21 @@ package com.mygdx.game.GameObjekts.SpaceShipParts;
 
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 
 public class Contener extends ShipModule {
 
+    private double currentDistance;
+    private static final int MAX_DISTANCE_NO_ERROR = 1000;
 
     public Contener(ModuleType moduleType, String name, double capacity,  double cost, int index, int baseFailureRate){
         super(moduleType, name, capacity, cost, index);
         this.moduleType = moduleType;
         this.name = name;
         this.capacity = capacity;
-        this.fill = fill;
         this.cost = cost;
         this.baseFailureRate = baseFailureRate;
+        this.failureRate = baseFailureRate;
     }
 
     @Override
@@ -22,12 +25,53 @@ public class Contener extends ShipModule {
         setFailure();
     }
 
-    private void setFailure() {
 
-        if (timeToFailure > (11 - failureRate) * 100){
+    private void setFailure() {
+        distanceControl();
+    }
+
+    public void addDistance(double distance){
+        currentDistance = currentDistance + distance;
+    }
+
+    private void distanceControl() {
+
+        if ((failureRate > 0) && (!isModuleError())){
+            if (currentDistance > MAX_DISTANCE_NO_ERROR / failureRate) {
+                currentDistance = 0;
+                if (MathUtils.random(1, 20) < failureRate) {
+                    randomFailure();
+                } else {
+                    moduleError = false;
+                }
+            }
 
         }
     }
+
+    private void randomFailure() {
+        int error = MathUtils.random(0, 100) + experienceLevel;
+        System.out.println("LosowanieModule: " + error + " "+this.moduleType+ " "+ index);
+
+        if (error < 8) {
+            for (int i = 0; i < CargoType.values().length; i++) {
+                if (capacitys.containsKey(CargoType.values()[i])) {
+                    capacitys.put((CargoType.values()[i]), capacitys.get(CargoType.values()[i]) * 0.9f);
+                    textEror = "You lost " + (10 - error) + "%" + CargoType.values()[i];
+                    setError();
+                    break;
+                }
+            }
+        }
+    }
+
+
+    private void setError() {
+        errorIsRead = false;
+        moduleError = true;
+    }
+
+
 
 
     public Contener build(){
