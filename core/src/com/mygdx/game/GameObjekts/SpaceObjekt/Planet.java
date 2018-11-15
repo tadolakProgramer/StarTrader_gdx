@@ -16,11 +16,6 @@ import static com.mygdx.game.MyGdxGame.GAME_SCALE;
 
 public class Planet extends SpaceObject {
 
-    public double planetScale;
-    private double priceTitan;
-    private double priceGrafen;
-    private double priceWoter;
-    private double priceFuell;
     private MyGdxGame game;
     private float timeToChangePrice;
     private Ware ware;
@@ -113,7 +108,7 @@ public class Planet extends SpaceObject {
 
         timeToChangePrice = timeToChangePrice + dt;
 
-        if (timeToChangePrice > rotationSpeed * 100){
+        if (timeToChangePrice > rotationSpeed * 1000){
             changePrice();
             timeToChangePrice = 0;
         }
@@ -125,18 +120,11 @@ public class Planet extends SpaceObject {
             wares.get(i).changePrice();
         }
 
-        ModifiedXML.writeNewPriceToXml(spaceObjectName, wares);
+        //ModifiedXML.writeNewPriceToXml(spaceObjectName, wares);
 
         hud.showDlg(spaceObjectName + "New price on ", "New price");
     }
 
 
-    public double getPriceTitan() {
-        return priceTitan;
-    }
-
-    public double getPriceFuell() {
-        return priceFuell;
-    }
 
 }
