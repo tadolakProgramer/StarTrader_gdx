@@ -41,7 +41,7 @@ public class SpaceShipPlayer extends SpaceObject {
 
    //public double housingModuleFill;
 
-    private SpaceShipEngine spaceShipEngine;
+    public SpaceShipEngine spaceShipEngine;
     private boolean isRun;
 
     private int planetNumber;
@@ -114,8 +114,6 @@ public class SpaceShipPlayer extends SpaceObject {
     public void addModule(int index, ModuleType moduleType, String name, double capacity, /*double fill,*/ double cost, int baseFailureRate) {
 
         if (shipModules.get(index).moduleType == EMPTY) {
-
-            System.out.println( moduleType.name());
 
             switch (moduleType) {
                 case COKPIT: {
@@ -209,6 +207,7 @@ public class SpaceShipPlayer extends SpaceObject {
         setActualSize();
         setNewPosition(dt);
         updateShipModule(dt);
+        shipModules.set(13, spaceShipEngine);
     }
 
 
@@ -244,7 +243,9 @@ public class SpaceShipPlayer extends SpaceObject {
                     //fuelFill = 0;
                 } else {
                     //System.out.println("Distance: "+ stepDistance*dt*spaceShipEngine.getSpeedActual());
-                    spaceShipEngine.addDistance(stepDistance);
+                    for (int i = 0; i < shipModules.size(); i++){
+                        shipModules.get(i).addDistance(stepDistance);
+                    }
                     setPositionOrgin(moveVector.x * dt * spaceShipEngine.getSpeedActual() + positionC.x, moveVector.y * dt * spaceShipEngine.getSpeedActual() + positionC.y);
                     subCargo(CargoType.FUEL, stepDistance * spaceShipEngine.getConsumptionFuel() / 100);
                     //fuelFill = fuelFill - stepDistance * spaceShipEngine.getConsumptionFuel() / 100;
@@ -270,8 +271,9 @@ public class SpaceShipPlayer extends SpaceObject {
         );
         this.addAction(stopAction);
 
-        if (spaceShipEngine.isModuleError()){
-            spaceShipEngine.resetFailure();
+        for (int i =0; i<shipModules.size(); i++)
+        if (shipModules.get(i).isModuleError()){
+            shipModules.get(i).resetFailure();
         }
     }
 
@@ -342,10 +344,9 @@ public class SpaceShipPlayer extends SpaceObject {
 
     private boolean checkFill(CargoType cargoType, int quantity) {
 
-        if (getCapacity(cargoType) <= (quantity + getFill(cargoType))) {
+        if (getCapacity(cargoType) < (quantity + getFill(cargoType))) {
             return false;
-        }
-         else{
+        } else{
             return true;
             }
     }
@@ -434,7 +435,6 @@ public class SpaceShipPlayer extends SpaceObject {
 
     private void setBaseFailureRate() {
         for (int i = 1; i < shipModules.size(); i++) {
-            ModuleType md = shipModules.get(i).moduleType;
             shipModules.get(i).setExperienceLevel(0);
         }
     }
