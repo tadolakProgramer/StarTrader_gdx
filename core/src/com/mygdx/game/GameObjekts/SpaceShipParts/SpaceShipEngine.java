@@ -32,7 +32,7 @@ public class SpaceShipEngine extends ShipModule{
 
     private void distanceControl() {
 
-        if ((failureRate > 0) && (!isEngineError())){
+        if ((failureRate > 0) && (!isModuleError())){
             if (currentDistance > MAX_DISTANCE_NO_ERROR / failureRate) {
                 currentDistance = 0;
                 if (MathUtils.random(1, 20) < failureRate) {
@@ -143,9 +143,7 @@ public class SpaceShipEngine extends ShipModule{
         this.speedActual = speedActual;
     }
 
-    public boolean isEngineError() {
-        return moduleError;
-    }
+
 
     public void setEngineError(boolean engineError) {
         this.moduleError = engineError;
