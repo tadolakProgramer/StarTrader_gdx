@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.SpaceShipScreen;
-import com.mygdx.game.Screenns.SpalshScreen;
 
 import static com.mygdx.game.MyGdxGame.FILE_CARGO_ATLAS;
 
