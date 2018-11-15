@@ -1,8 +1,5 @@
 package com.mygdx.game.GameObjekts.SpaceShipParts;
 
-import com.mygdx.game.Helper.ModifiedXML;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,13 +16,13 @@ public abstract class ShipModule {
     public int experienceLevel;
     protected float timeToFailure;
     protected boolean moduleError;
+    protected boolean errorIsRead;
     protected String textEror;
     protected int index;
 
     public Map<CargoType, Double> capacitys = new HashMap<CargoType, Double>();
 
     public ShipModule(ModuleType moduleType, String name, double capacity, double cost, int index){
-        this.failureRate = this.baseFailureRate;
         this.moduleType = moduleType;
         this.name = name;
         this.index = index;
@@ -107,6 +104,15 @@ public abstract class ShipModule {
 
     }
 
+    public void addDistance(double distance){
+
+    }
+
+    public void resetFailure(){
+        moduleError = false;
+        textEror = " ";
+    }
+
     public ModuleType getModuleType() {
         return moduleType;
     }
@@ -136,7 +142,16 @@ public abstract class ShipModule {
         return moduleError;
     }
 
+    public boolean isErrorIsRead() {
+        return errorIsRead;
+    }
+
     public String getTextEror() {
+        errorIsRead = true;
         return textEror;
+    }
+
+    protected void setModuleError(){
+        moduleError = true;
     }
 }
