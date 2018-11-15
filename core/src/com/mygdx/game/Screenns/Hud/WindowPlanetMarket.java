@@ -65,10 +65,7 @@ public class WindowPlanetMarket extends AbstractHUD {
                     planetNumber = i;
                     region = game.textureAtlas.findRegion(planet.getPath());
                     planetImage = new Image(game.textureAtlas.findRegion(planet.getPath()));
-
                     planetImage.setSize(10,10);
-                    titanPrice = planet.getPriceTitan();
-                    fuelPrice =  planet.getPriceFuell();
                     titanPriceLabel = new Label(String.format("%.2f", planet.wares.get(0).getPrice())+" T$", skin2, planet.wares.get(0).getCargoType().getStyleName());
                     titanPriceLabel.setFontScale(1.5f);
                     grafenPriceLabel = new Label(String.format("%.2f", planet.wares.get(1).getPrice())+" T$", skin2, planet.wares.get(1).getCargoType().getStyleName());
