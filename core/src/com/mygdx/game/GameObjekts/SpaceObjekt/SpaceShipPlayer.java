@@ -137,6 +137,13 @@ public class SpaceShipPlayer extends SpaceObject {
         }
     }
 
+    public void bayModule(int index, ModuleType moduleType, String name, double capacity, double cost, int baseFailureRate){
+
+        if (checkMoney(1, cost)){
+            addModule(index, moduleType, name, capacity, cost, baseFailureRate);
+            subMoney(cost);
+        }
+    }
 
     public void addPerson() {
 
@@ -356,7 +363,9 @@ public class SpaceShipPlayer extends SpaceObject {
         double fill = 0;
         for (int i = 0; i < shipModules.size(); i++) {
             if (shipModules.get(i).getModuleType().equals(cargoType.getModuleType())) {
-                fill = shipModules.get(i).getFillCargoType(cargoType) + fill;
+                if (shipModules.get(i).getFill() > 0) {
+                    fill = shipModules.get(i).getFillCargoType(cargoType) + fill;
+                }
             }
         }
         return fill;
