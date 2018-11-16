@@ -3,9 +3,9 @@ package com.mygdx.game.GameObjekts.SpaceShipParts;
 
 import com.badlogic.gdx.math.MathUtils;
 
-public class SpaceShipEngine extends ShipModule{
+public class SpaceShipEngine extends ShipModule implements Modules{
 
-    private static final int MAX_DISTANCE_NO_ERROR = 1000;
+    private static final int MAX_DISTANCE_NO_ERROR = 10000;
 
     private float speedEngine;
     private float consumptionFuel;
@@ -20,17 +20,19 @@ public class SpaceShipEngine extends ShipModule{
 
     public SpaceShipEngine(ModuleType moduleType, String name, double capacity, double cost, int index, int baseFailureRate) {
         super(moduleType, name, capacity, cost, index);
+        this. baseFailureRate = baseFailureRate;
+        this.failureRate = baseFailureRate;
         speedEngine = 40;
         speedEngineSlow = 2;
         consumptionFuel = 20.50f;
-        this. baseFailureRate = baseFailureRate;
     }
 
     public void update(float dt) {
         distanceControl();
     }
 
-    private void distanceControl() {
+    @Override
+    public void distanceControl() {
 
         if ((failureRate > 0) && (!isModuleError())){
             if (currentDistance > MAX_DISTANCE_NO_ERROR / failureRate) {
@@ -45,59 +47,65 @@ public class SpaceShipEngine extends ShipModule{
         }
     }
 
-    private void randomFailure() {
+    @Override
+    public void randomFailure() {
         int error = MathUtils.random(0 ,100) + experienceLevel;
         System.out.println("Losowanie: "+ error);
         switch (error){
             case 0: {
-                setSpeedActual(getSpeedActual()*0.9f);
+                setSpeedActual(getSpeedActual()*0.1f);
                 textEror = "Engine speed has decreased by 90%";
-                moduleError = true;
+                setError();
                 break;
             }
             case 1: {
-                setSpeedActual(getSpeedActual()*0.8f);
+                setSpeedActual(getSpeedActual()*0.2f);
                 textEror = "Engine speed has decreased by 80%";
-                moduleError = true;
+                setError();
                 break;
             }
             case 2: {
-                setSpeedActual(getSpeedActual()*0.7f);
+                setSpeedActual(getSpeedActual()*0.3f);
                 textEror = "Engine speed has decreased by 70%";
-                moduleError = true;
+                setError();
                 break;
             }
             case 3: {
-                setSpeedActual(getSpeedActual()*0.6f);
+                setSpeedActual(getSpeedActual()*0.4f);
                 textEror = "Engine speed has decreased by 60%";
-                moduleError = true;
+                setError();
                 break;
             }
             case 4: {
                 setSpeedActual(getSpeedActual()*0.5f);
                 textEror = "Engine speed has decreased by 50%";
-                moduleError = true;
+                setError();
                 break;
             }
             case 5: {
-                setSpeedActual(getSpeedActual()*0.4f);
+                setSpeedActual(getSpeedActual()*0.6f);
                 textEror = "Engine speed has decreased by 40%";
-                moduleError = true;
+                setError();
                 break;
             }
             case 6: {
-                setSpeedActual(getSpeedActual()*0.3f);
+                setSpeedActual(getSpeedActual()*0.7f);
                 textEror = "Engine speed has decreased by 30%";
-                moduleError = true;
+                setError();
                 break;
             }
             case 7: {
-                setSpeedActual(getSpeedActual()*0.2f);
+                setSpeedActual(getSpeedActual()*0.8f);
                 textEror = "Engine speed has decreased by 20%";
-                moduleError = true;
+                setError();
                 break;
             }
         }
+    }
+
+    private void setError() {
+        errorIsRead = false;
+        moduleError = true;
     }
 
     public void resetFailure(){
@@ -142,8 +150,6 @@ public class SpaceShipEngine extends ShipModule{
     public void setSpeedActual(float speedActual) {
         this.speedActual = speedActual;
     }
-
-
 
     public void setEngineError(boolean engineError) {
         this.moduleError = engineError;

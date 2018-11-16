@@ -1,6 +1,6 @@
 package com.mygdx.game.GameObjekts.SpaceShipParts;
 
-public class HousingModule extends ShipModule{
+public class HousingModule extends ShipModule implements Modules{
 
 
     public HousingModule(ModuleType moduleType, String name, double capacity, double cost, int index, int baseFailureRate) {
@@ -8,6 +8,16 @@ public class HousingModule extends ShipModule{
         this.capacity = capacity;
         this.cost = cost;
         this.baseFailureRate = baseFailureRate;
+
+    }
+
+    @Override
+    public void distanceControl() {
+
+    }
+
+    @Override
+    public void randomFailure() {
 
     }
 }
