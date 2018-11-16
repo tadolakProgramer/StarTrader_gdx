@@ -56,8 +56,8 @@ public class Contener extends ShipModule {
         if (error < 8) {
             for (int i = 0; i < CargoType.values().length; i++) {
                 if (capacitys.containsKey(CargoType.values()[i])) {
-                    capacitys.put((CargoType.values()[i]), capacitys.get(CargoType.values()[i]) * 0.9f);
-                    textEror = "You lost " + (10 - error) + "%" + CargoType.values()[i];
+                    subCargo((CargoType.values()[i]), (double) Math.round(capacitys.get(CargoType.values()[i]) * error * 0.1f));
+                    textEror = "You lost " + (error) + "%" + CargoType.values()[i];
                     setError();
                     break;
                 }
