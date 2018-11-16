@@ -6,12 +6,14 @@ import com.badlogic.gdx.utils.XmlReader.Element;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Ware;
 import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
+import com.mygdx.game.GameObjekts.SpaceShipParts.Contener;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.Crow;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.CrowType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.ExperienceLevel;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow.ExperienceType;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
+import com.mygdx.game.GameObjekts.SpaceShipParts.ShipModule;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screenns.GameScreen;
 import com.mygdx.game.Screenns.Hud.Hud;
@@ -38,6 +40,8 @@ public class ReadXML {
     public static  Boolean setShipFromXML(SpaceShipPlayer spaceShipPlayer) {
 
         Element root = new XmlReader().parse(Gdx.files.internal(MyGdxGame.FILE_SPACE_SHIP));
+
+        spaceShipPlayer.setSpaceObjectName(root.get("Name"));
 
         Element position = root.getChildByName("pos");
         spaceShipPlayer.setPositionOrgin(position.getFloat("x"), position.getFloat("y"));
@@ -124,5 +128,25 @@ public class ReadXML {
         }
 
         return true;
+    }
+
+    public static List<ShipModule> readListModuleFromXML(){
+
+        List <ShipModule> shipModules = new ArrayList<>();
+        Element root = new XmlReader().parse(Gdx.files.internal(MyGdxGame.FILE_SHIP_MODULES));
+
+        int j = root.getChildCount();
+
+        for (int i =0; i<j; i++){
+            Element module = root.getChild(i);
+            shipModules.add(new Contener(
+                    ModuleType.valueOf(module.get("ModuleType")),
+                    module.get("Name"),
+                    module.getFloat("Capacity"),
+                    module.getFloat("Cost"),
+                    0,
+                    module.getInt("BaseFailureRate")));
+        }
+        return shipModules;
     }
 }
