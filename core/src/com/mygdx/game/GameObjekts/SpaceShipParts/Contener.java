@@ -17,6 +17,7 @@ public class Contener extends ShipModule {
         this.cost = cost;
         this.baseFailureRate = baseFailureRate;
         this.failureRate = baseFailureRate;
+        this.fill =0;
     }
 
     @Override
