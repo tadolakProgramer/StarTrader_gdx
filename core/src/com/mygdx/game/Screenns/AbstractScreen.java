@@ -74,6 +74,7 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void dispose() {
+        System.out.println("Koniec");
         game.dispose();
     }
 
