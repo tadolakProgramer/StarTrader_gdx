@@ -130,23 +130,49 @@ public class ReadXML {
         return true;
     }
 
-    public static List<ShipModule> readListModuleFromXML(){
+    public static List<ShipModule> readListModuleFromXML(int index){
 
         List <ShipModule> shipModules = new ArrayList<>();
         Element root = new XmlReader().parse(Gdx.files.internal(MyGdxGame.FILE_SHIP_MODULES));
 
         int j = root.getChildCount();
 
-        for (int i =0; i<j; i++){
+        for (int i =0; i<j; i++) {
             Element module = root.getChild(i);
-            shipModules.add(new Contener(
-                    ModuleType.valueOf(module.get("ModuleType")),
-                    module.get("Name"),
-                    module.getFloat("Capacity"),
-                    module.getFloat("Cost"),
-                    0,
-                    module.getInt("BaseFailureRate")));
+            switch (index) {
+                case 1: case 6: {
+                    if (!module.get("ModuleType").equals(ModuleType.HOUSING_MODULE.name())) {
+                        addModuleToList(shipModules, module);
+                    }
+                    break;
+            }
+                case 5: case 10: {
+                    if (!module.get("ModuleType").equals(ModuleType.FUEL.name())) {
+                        addModuleToList(shipModules, module);
+                    }
+                    break;
+                }
+                case 2: case 3: case 4: case 7: case 8: case 9:{
+                    if (!module.get("ModuleType").equals(ModuleType.FUEL.name()) &&
+                    (!module.get("ModuleType").equals(ModuleType.HOUSING_MODULE.name())))
+                    {
+                        addModuleToList(shipModules, module);
+                    }
+                }
+                break;
+
+            }
         }
         return shipModules;
+    }
+
+    private static void addModuleToList(List<ShipModule> shipModules, Element module) {
+        shipModules.add(new Contener(
+                ModuleType.valueOf(module.get("ModuleType")),
+                module.get("Name"),
+                module.getFloat("Capacity"),
+                module.getFloat("Cost"),
+                0,
+                module.getInt("BaseFailureRate")));
     }
 }
