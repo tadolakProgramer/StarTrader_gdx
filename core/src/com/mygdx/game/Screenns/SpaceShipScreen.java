@@ -211,8 +211,28 @@ public class SpaceShipScreen extends AbstractScreen {
 
         if (spaceShipPlayer.getFill(CargoType.WATER) > 0) {
 
-            waterLabelText = new Label("Grafen", skin2, "water");
+            waterLabelText = new Label("Water", skin2, "water");
             waterlLabel = new Label(String.format("%.2f",spaceShipPlayer.getFill(CargoType.WATER)) ,skin2, "water");
+
+            table.row();
+            table.add(waterLabelText).expandX().left();
+            table.add(waterlLabel).expandX();
+        }
+
+        if (spaceShipPlayer.getFill(CargoType.HELIUM3) > 0) {
+
+            waterLabelText = new Label("Helium 3", skin2, "water");
+            waterlLabel = new Label(String.format("%.2f",spaceShipPlayer.getFill(CargoType.HELIUM3)) ,skin2, "helium3");
+
+            table.row();
+            table.add(waterLabelText).expandX().left();
+            table.add(waterlLabel).expandX();
+        }
+
+        if (spaceShipPlayer.getFill(CargoType.QUICKSILVER) > 0) {
+
+            waterLabelText = new Label("Quicksilver", skin2, "water");
+            waterlLabel = new Label(String.format("%.2f",spaceShipPlayer.getFill(CargoType.QUICKSILVER)) ,skin2, "silver");
 
             table.row();
             table.add(waterLabelText).expandX().left();
@@ -303,14 +323,14 @@ public class SpaceShipScreen extends AbstractScreen {
 
     public void createWindowBayNewModule(final int index){
 
-
         List <Table> tables = new ArrayList<>();
-        final List <ShipModule> moduleList = ReadXML.readListModuleFromXML();
+        final List <ShipModule> moduleList = ReadXML.readListModuleFromXML(index);
 
         windowShipModuleInfo = new Window("Choice the module", skin2);
         TextButton btnClose = new TextButton("Close", skin2);
 
         Table box = new Table();
+        box.debug();
         Table tbButton = new Table();
 
         ScrollPane scrollPane = new ScrollPane(box, skin2);
@@ -351,6 +371,7 @@ public class SpaceShipScreen extends AbstractScreen {
             tbBuy.setName(Integer.toString(itable));
             table.add(tbBuy).expand().pad(5);
 
+
             tbBuy.addListener(new ClickListener() {
                 @Override
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -371,7 +392,8 @@ public class SpaceShipScreen extends AbstractScreen {
             table.row().colspan(2).pad(10);
             table.add(btnClose);
 
-            windowShipModuleInfo.setSize(300, 400);
+
+            windowShipModuleInfo.setSize(400, 400);
             windowShipModuleInfo.setPosition(GAME_WIDTH / 2.0f - 100, GAME_HEIGHT / 2.0f - 100);
             windowShipModuleInfo.add(scrollPane).grow().pad(5);
             //windowShipModuleInfo.add(tbButton).grow().pad(5);
