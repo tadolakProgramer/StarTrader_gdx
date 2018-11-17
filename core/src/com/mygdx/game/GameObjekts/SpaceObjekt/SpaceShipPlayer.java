@@ -142,6 +142,7 @@ public class SpaceShipPlayer extends SpaceObject {
         if (checkMoney(1, cost)){
             addModule(index, moduleType, name, capacity, cost, baseFailureRate);
             subMoney(cost);
+            modifyFailureRate();
         }
     }
 
@@ -425,17 +426,31 @@ public class SpaceShipPlayer extends SpaceObject {
     for (int i = 1; i < shipModules.size(); i++) {
                 ModuleType md = shipModules.get(i).moduleType;
                 switch (md) {
-                    case FUEL: {
+                    case FUEL: case LOSE:  case GAS:{
                         if (elMap.containsKey(ExperienceType.MECHANIKS)) {
-                            //shipModules.get(i).setFailureRate(elMap.get(ExperienceType.MECHANIKS));
                             shipModules.get(i).setExperienceLevel(elMap.get(ExperienceType.MECHANIKS));
                         }
+                        break;
                 }
+                    case LIQUID:
+                    {
+                        if (elMap.containsKey(ExperienceType.PLUMBER)) {
+                            shipModules.get(i).setExperienceLevel(elMap.get(ExperienceType.PLUMBER));
+                        }
+                        break;
+                    }
+                    case HOUSING_MODULE:
+                    {
+                        if (elMap.containsKey(ExperienceType.BIOLOGIST)) {
+                            shipModules.get(i).setExperienceLevel(elMap.get(ExperienceType.BIOLOGIST));
+                        }
+                        break;
+                    }
                     case SPACE_SHIP_ENGINE:
                         if (elMap.containsKey(ExperienceType.MECHANIKS)){
-                            //spaceShipEngine.setFailureRate(elMap.get(ExperienceType.MECHANIKS));
                             shipModules.get(i).setExperienceLevel(elMap.get(ExperienceType.MECHANIKS));
                         }
+                        break;
             }
 
         }
