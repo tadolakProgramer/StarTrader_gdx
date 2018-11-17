@@ -16,10 +16,9 @@ import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipDraft;
 import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
 import com.mygdx.game.GameObjekts.SpaceShipParts.CargoType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleActor;
-import com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType;
 import com.mygdx.game.GameObjekts.SpaceShipParts.ShipModule;
+import com.mygdx.game.Helper.ReadXML;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Screenns.Hud.WindowPaymentList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,40 +48,41 @@ public class SpaceShipScreen extends AbstractScreen {
     private Skin skin2;
     private Table table;
     private Table tableCrows;
-
-    private List<Table> crowTables = new ArrayList<>();
     private Label waterLabelText;
     private Label waterlLabel;
 
     private Window windowShipModuleInfo;
+    private Table box;
 
 
     public SpaceShipScreen(final MyGdxGame game, final SpaceShipPlayer spaceShipPlayer) {
         super(game);
         this.spaceShipPlayer = spaceShipPlayer;
         game.kolejka.addFirst(this);
-        table = new Table();
-        tableCrows = new Table();
+
         isVisible = true;
         skin = new Skin(Gdx.files.internal(FILE_EARTH_SKIN));
         skin2 = new Skin(Gdx.files.internal(FILE_UI_SKIN));
-        intSpaceShipDraft(spaceShipPlayer);
+        initSpaceShipDraft();
+        intSpaceShipModuleActors(spaceShipPlayer);
         createTableWithCargo();
         createTableCrows();
     }
 
-
-    private void intSpaceShipDraft(final SpaceShipPlayer spaceShipPlayer) {
+    private void initSpaceShipDraft() {
         spaceShipDraft = new SpaceShipDraft(game);
-        for(int i = 1; i <= 10 ; i++){
+        stage.addActor(spaceShipDraft);
+    }
 
+
+    private void intSpaceShipModuleActors(final SpaceShipPlayer spaceShipPlayer) {
+        for(int i = 1; i <= 10 ; i++){
                 int index = i;
                 ShipModule shipModule = spaceShipPlayer.shipModules.get(i);
                 moduleActor = new ModuleActor(this, shipModule , index, spaceShipDraft.getScale());
-                stage.addActor(spaceShipDraft);
                 stage.addActor(moduleActor);
-
         }
+
     }
 
     @Override
@@ -116,17 +116,15 @@ public class SpaceShipScreen extends AbstractScreen {
 
     private void createTableCrows() {
 
+        List<Table> crowTables = new ArrayList<>();
+        box = new Table();
+        tableCrows = new Table();
+
         tableCrows.bottom().center().pad(10f);
-        //tableCrows.debug();
-        //make the table fill the entire stage
         tableCrows.setFillParent(false);
 
-        //tableCrows.setWidth(200f);
         tableCrows.setColor(255,1,1,255);
-        //Label.LabelStyle labelStyle = new Label.LabelStyle(new BitmapFont(), Color.CORAL);
 
-
-        //Define dataLabel
         int personsNumber = spaceShipPlayer.persosns.size();
 
         for (int tn=0; tn<personsNumber; tn++) {
@@ -146,12 +144,15 @@ public class SpaceShipScreen extends AbstractScreen {
             crowTables.get(tn).add(new Label(spaceShipPlayer.persosns.get(tn).getSecondExperienceLevel().getExperienceType().name(), skin));
             crowTables.get(tn).add(new Label(Float.toString(spaceShipPlayer.persosns.get(tn).getSecondExperienceLevel().getLevel()), skin));
 
-            crowTables.get(tn).setPosition(100 + 200 * tn+1, 100);
-            stage.addActor(crowTables.get(tn));
+            box.add(crowTables.get(tn));
         }
+        box.setPosition(200, 100);
+        stage.addActor(box);
     }
 
     private void createTableWithCargo() {
+
+        table = new Table();
 
         table.top().pad(10f);
         //table.debug();
@@ -166,13 +167,12 @@ public class SpaceShipScreen extends AbstractScreen {
         fuelLabelText = new Label("Fuel: ", skin2, "fuel");
 
 
-        worldLabel = new Label("WORLD: ", skin);
+        worldLabel = new Label("WORLD: ", skin2);
 
 
         //define our labels using the String, and a Label style consisting of a font and color
         moneyLabel = new Label(String.format("%.2f", spaceShipPlayer.getMoney()), skin);
         fuellLabel =new Label(String.format("%.2f", spaceShipPlayer.getFill(CargoType.FUEL)), skin2, "fuel");
-
 
 
         //fuelFillBar = new ProgressBar(0.0f, (float) spaceShipPlayer.fuelCapacity, 1, false, skin, "fancy");
@@ -185,10 +185,15 @@ public class SpaceShipScreen extends AbstractScreen {
         table.add(fuelLabelText).expandX().left();
         table.add(fuellLabel).expandX();
 
+        table.row();
+        table.add(new Label("Speed: ",skin2)).expandX().left();
+        table.add(new Label(String.format("%2f", spaceShipPlayer.spaceShipEngine.getSpeedActual()), skin2)).expandX();
+
+
         if (spaceShipPlayer.getFill(CargoType.TITAN) > 0) {
 
             titanLabelText = new Label("Titan:", skin2, "titan");
-            titanLabel = new Label(" "+spaceShipPlayer.getFill(CargoType.TITAN), skin2, "titan");
+            titanLabel = new Label(String.format("%.2f", spaceShipPlayer.getFill(CargoType.TITAN)), skin2, "titan");
 
             table.row();
             table.add(titanLabelText).expandX().left();
@@ -197,7 +202,7 @@ public class SpaceShipScreen extends AbstractScreen {
         if (spaceShipPlayer.getFill(CargoType.GRAFEN) > 0) {
 
             grafenLabelText = new Label("Grafen", skin2, "grafen");
-            grafelLabel = new Label(" "+spaceShipPlayer.getFill(CargoType.GRAFEN) ,skin2, "grafen");
+            grafelLabel = new Label(String.format("%.2f",spaceShipPlayer.getFill(CargoType.GRAFEN)) ,skin2, "grafen");
 
             table.row();
             table.add(grafenLabelText).expandX().left();
@@ -207,7 +212,7 @@ public class SpaceShipScreen extends AbstractScreen {
         if (spaceShipPlayer.getFill(CargoType.WATER) > 0) {
 
             waterLabelText = new Label("Grafen", skin2, "water");
-            waterlLabel = new Label(" "+spaceShipPlayer.getFill(CargoType.WATER) ,skin2, "water");
+            waterlLabel = new Label(String.format("%.2f",spaceShipPlayer.getFill(CargoType.WATER)) ,skin2, "water");
 
             table.row();
             table.add(waterLabelText).expandX().left();
@@ -296,21 +301,21 @@ public class SpaceShipScreen extends AbstractScreen {
 
 
 
-    public void createWindowBayNewModule(ShipModule shipModule){
+    public void createWindowBayNewModule(final int index){
 
 
         List <Table> tables = new ArrayList<>();
+        final List <ShipModule> moduleList = ReadXML.readListModuleFromXML();
 
-        windowShipModuleInfo = new Window(shipModule.getModuleType().name(), skin2);
+        windowShipModuleInfo = new Window("Choice the module", skin2);
         TextButton btnClose = new TextButton("Close", skin2);
-        TextButton btnSale = new TextButton("Buy", skin2);
 
         Table box = new Table();
         Table tbButton = new Table();
 
         ScrollPane scrollPane = new ScrollPane(box, skin2);
 
-        for (int itable=0; itable <3; itable++) {
+        for (int itable=0; itable <moduleList.size(); itable++) {
 
             tables.add(table = new Table());
 
@@ -322,46 +327,59 @@ public class SpaceShipScreen extends AbstractScreen {
             table.top();
 
             table.row();
+            table.add(new Label("Module Type: ", skin2)).left().pad(5);
+            table.add(new Label(moduleList.get(itable).getModuleType().name(), skin2)).pad(5);
+
+            table.row();
             table.add(new Label("Name: ", skin2)).left().pad(5);
-            table.add(new Label(shipModule.name, skin2)).pad(5);
+            table.add(new Label(moduleList.get(itable).name, skin2)).pad(5);
 
             table.row();
             table.add(new Label("Capacity: ", skin2)).left().pad(5);
-            table.add(new Label("" + shipModule.getCapacity(), skin2)).pad(5);
-
-            table.row();
-            table.add(new Label("Fill: ", skin2)).left().pad(5);
-            table.add(new Label(String.format("%.2f", shipModule.getFill()), skin2)).pad(5);
+            table.add(new Label("" + moduleList.get(itable).getCapacity(), skin2)).pad(5);
 
             table.row();
             table.add(new Label("Base failure rate: ", skin2)).left().pad(5);
-            table.add(new Label("" + shipModule.baseFailureRate, skin2)).pad(5);
-
-            table.row();
-            table.add(new Label("Factor failure rate: ", skin2)).left().pad(5);
-            table.add(new Label("" + shipModule.experienceLevel, skin2)).pad(5);
+            table.add(new Label("" + moduleList.get(itable).baseFailureRate, skin2)).pad(5);
 
             table.row();
             table.add(new Label("Cost: ", skin2)).left().pad(5);
-            table.add(new Label("" + shipModule.cost, skin2)).pad(5);
+            table.add(new Label("" + moduleList.get(itable).cost, skin2)).pad(5);
 
-            if (spaceShipPlayer.isRun()) {
-                table.row().colspan(2).pad(10);
-                table.add(btnClose);
-            } else {
-                table.row().pad(10);
-                table.add(btnClose);
-                table.add(btnSale);
-            }
+            table.row().colspan(2).pad(5);
+            final TextButton tbBuy = new TextButton("Buy", skin2);
+            tbBuy.setName(Integer.toString(itable));
+            table.add(tbBuy).expand().pad(5);
+
+            tbBuy.addListener(new ClickListener() {
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    int listIndex = Integer.valueOf(tbBuy.getName());
+                    spaceShipPlayer.bayModule(index,
+                            moduleList.get(listIndex).getModuleType(),
+                            moduleList.get(listIndex).name,
+                            moduleList.get(listIndex).getCapacity(),
+                            moduleList.get(listIndex).cost,
+                            moduleList.get(listIndex).baseFailureRate);
+                    changeModuleActor();
+                    windowShipModuleInfo.remove();
+                    //gameScreen.multiplexer.removeProcessor(stage);
+                }
+            });
+
         }
-        windowShipModuleInfo.setSize(300,400);
-        windowShipModuleInfo.setPosition(GAME_WIDTH / 2.0f - 100, GAME_HEIGHT / 2.0f - 100);
-        windowShipModuleInfo.add(scrollPane).grow().pad(5);
-        //windowShipModuleInfo.add(tbButton).grow().pad(5);
+            table.row().colspan(2).pad(10);
+            table.add(btnClose);
 
+            windowShipModuleInfo.setSize(300, 400);
+            windowShipModuleInfo.setPosition(GAME_WIDTH / 2.0f - 100, GAME_HEIGHT / 2.0f - 100);
+            windowShipModuleInfo.add(scrollPane).grow().pad(5);
+            //windowShipModuleInfo.add(tbButton).grow().pad(5);
 
-        stage.addActor(windowShipModuleInfo);
+            stage.addActor(windowShipModuleInfo);
+/**
 
+**/
         btnClose.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -369,6 +387,15 @@ public class SpaceShipScreen extends AbstractScreen {
                 //gameScreen.multiplexer.removeProcessor(stage);
             }
         });
+        }
 
+        private void changeModuleActor(){
+        stage.clear();
+        box.clear();
+            initSpaceShipDraft();
+            intSpaceShipModuleActors(spaceShipPlayer);
+            createTableWithCargo();
+            createTableCrows();
+        }
     }
-}
+
