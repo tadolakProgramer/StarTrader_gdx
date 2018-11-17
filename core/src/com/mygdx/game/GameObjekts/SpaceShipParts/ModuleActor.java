@@ -19,7 +19,7 @@ public class ModuleActor extends Actor {
     //private SpaceShipScreen spaceShipScreen;
     protected ShipModule shipModule;
 
-    public ModuleActor(final SpaceShipScreen spaceShipScreen, final ShipModule shipModule, int index, float scale) {
+    public ModuleActor(final SpaceShipScreen spaceShipScreen, final ShipModule shipModule, final int index, float scale) {
         super();
         this.shipModule = shipModule;
         textureAtlas = new TextureAtlas(FILE_CARGO_ATLAS);
@@ -54,6 +54,13 @@ public class ModuleActor extends Actor {
                     setPositionModuleOnShip(index);
                     break;
                 }
+            case LIQUID: {
+                textureName = "CargoWoter";
+                setTexture(textureName);
+                setScale(scale);
+                setPositionModuleOnShip(index);
+                break;
+            }
                 case EMPTY:{
                     textureName = "Empty";
                     setTexture(textureName);
@@ -73,7 +80,7 @@ public class ModuleActor extends Actor {
                     spaceShipScreen.createWindowShipModuleInfo(shipModule);
                 }
                 else {
-                    spaceShipScreen.createWindowBayNewModule(shipModule);
+                    spaceShipScreen.createWindowBayNewModule(index);
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }
@@ -84,7 +91,7 @@ public class ModuleActor extends Actor {
     private void setPositionModuleOnShip(int index) {
 
         if (index <=5) {
-            setPosition(349 + (index - 1) * 93.3f, 270);
+            setPosition(index + 349 + (index - 1) * 93.3f, 270);
         }
         else
         {
