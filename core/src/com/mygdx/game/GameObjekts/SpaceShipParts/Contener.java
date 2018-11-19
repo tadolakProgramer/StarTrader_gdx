@@ -4,7 +4,7 @@ package com.mygdx.game.GameObjekts.SpaceShipParts;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
-public class Contener extends ShipModule {
+public class Contener extends ShipModule implements Modules{
 
     private double currentDistance;
     private static final int MAX_DISTANCE_NO_ERROR = 1000;
@@ -31,12 +31,13 @@ public class Contener extends ShipModule {
         distanceControl();
     }
 
+    @Override
     public void addDistance(double distance){
         currentDistance = currentDistance + distance;
     }
 
-    private void distanceControl() {
-
+    @Override
+    public void distanceControl() {
         if ((failureRate > 0) && (!isModuleError())){
             if (currentDistance > MAX_DISTANCE_NO_ERROR / failureRate) {
                 currentDistance = 0;
@@ -46,18 +47,18 @@ public class Contener extends ShipModule {
                     moduleError = false;
                 }
             }
-
         }
     }
 
-    private void randomFailure() {
+    @Override
+    public void randomFailure() {
         int error = MathUtils.random(0, 100) + experienceLevel;
         System.out.println("LosowanieModule: " + error + " "+this.moduleType+ " "+ index);
 
         if (error < 8) {
             for (int i = 0; i < CargoType.values().length; i++) {
                 if (capacitys.containsKey(CargoType.values()[i])) {
-                    subCargo((CargoType.values()[i]), (double) Math.round(capacitys.get(CargoType.values()[i]) * error * 0.1f));
+                    subCargo((CargoType.values()[i]), (double) Math.round(capacitys.get(CargoType.values()[i]) * error * 0.01f));
                     textEror = "You lost " + (error) + "%" + CargoType.values()[i];
                     setError();
                     break;
@@ -65,15 +66,6 @@ public class Contener extends ShipModule {
             }
         }
     }
-
-
-    private void setError() {
-        errorIsRead = false;
-        moduleError = true;
-    }
-
-
-
 
     public Contener build(){
         return new Contener(moduleType, name, capacity,  cost, index, baseFailureRate);
