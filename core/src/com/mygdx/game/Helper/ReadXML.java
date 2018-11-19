@@ -84,7 +84,7 @@ public class ReadXML {
             ExperienceLevel ex1 = new ExperienceLevel(ExperienceType.valueOf(person.get("fet")), person.getInt("fel"));
             ExperienceLevel ex2 = new ExperienceLevel(ExperienceType.valueOf(person.get("set")), person.getInt("sel"));
 
-            spaceShipPlayer.persosns.add( new Crow(
+            spaceShipPlayer.persons.add( new Crow(
                     CrowType.valueOf(root.getChild(i).getName()),
                     person.get("name"),
                     person.getInt("age"),
@@ -95,10 +95,8 @@ public class ReadXML {
                     person.getFloat("pay")
             ));
 
-            spaceShipPlayer.addExperience(ex1);
-            spaceShipPlayer.addExperience(ex2);
-            spaceShipPlayer.modifyFailureRate();
         }
+        spaceShipPlayer.readExperience();
         return true;
     }
 
