@@ -439,13 +439,6 @@ public class SpaceShipPlayer extends SpaceObject {
                         }
                         break;
                     }
-                    case HOUSING_MODULE:
-                    {
-                        if (elMap.containsKey(ExperienceType.BIOLOGIST)) {
-                            shipModules.get(i).setExperienceLevel(elMap.get(ExperienceType.BIOLOGIST));
-                        }
-                        break;
-                    }
                     case SPACE_SHIP_ENGINE:
                         if (elMap.containsKey(ExperienceType.MECHANIKS)){
                             shipModules.get(i).setExperienceLevel(elMap.get(ExperienceType.MECHANIKS));
@@ -463,6 +456,11 @@ public class SpaceShipPlayer extends SpaceObject {
         }
     }
 
+    public void addYear() {
+        for (int p = 0; p < persosns.size(); p++){
+            persosns.get(p).addAge();
+        }
+    }
 
 //GET SET **********************************************************************
 
@@ -482,4 +480,6 @@ public class SpaceShipPlayer extends SpaceObject {
     public boolean isRun() {
         return isRun;
     }
+
+
 }
