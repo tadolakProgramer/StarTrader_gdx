@@ -1,5 +1,7 @@
 package com.mygdx.game.GameObjekts.SpaceShipParts.ShipCrow;
 
+import com.badlogic.gdx.math.MathUtils;
+
 public abstract class Person {
 
     protected CrowType crowType;
@@ -10,6 +12,7 @@ public abstract class Person {
     private ExperienceLevel firstExperienceLevel;
     protected ExperienceLevel secondExperienceLevel;
     private float pay;
+    private boolean isDeth;
 
     public Person(CrowType crowType, String name, int age, float height, String gender, ExperienceLevel firstExperienceLevel, ExperienceLevel secondExperienceLevel, float pay) {
         this.crowType = crowType;
@@ -20,6 +23,7 @@ public abstract class Person {
         this.firstExperienceLevel = firstExperienceLevel;
         this.secondExperienceLevel = secondExperienceLevel;
         this.pay = pay;
+        this.isDeth = false;
     }
 
     public ExperienceLevel getFirstExperienceLevel() {
@@ -36,6 +40,10 @@ public abstract class Person {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isDeth() {
+        return isDeth;
     }
 
     public int getAge() {
@@ -56,5 +64,12 @@ public abstract class Person {
 
     public void addAge(){
         age++;
+    }
+
+    public void dethOrLive(){
+        if (age > 75 ){
+            if (MathUtils.random(age, 120)==120)
+                isDeth = true;
+        }
     }
 }
