@@ -9,7 +9,7 @@ public enum CargoType {
     QUICKSILVER(ModuleType.LIQUID, "silver"),
     GRAFEN(ModuleType.LOSE, "grafen"),
     HELIUM3(ModuleType.GAS, "helium3"),
-    PERSON(ModuleType.HOUSING_MODULE, "person");
+    PERSON(ModuleType.COKPIT, "person");
 
     private final ModuleType moduleType;
     private final String styleName;
