@@ -9,6 +9,8 @@ import com.mygdx.game.GameObjekts.SpaceObjekt.Ware;
 import com.mygdx.game.MyGdxGame;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -74,7 +76,12 @@ public class ModifiedXML {
 
         String DIR = Gdx.files.getLocalStoragePath();
 
-        setDocument(((Gdx.files.internal(MyGdxGame.FILE_SPACE_SHIP)).path()));
+        FileHandle handle = Gdx.files.internal(MyGdxGame.FILE_SPACESHIP);
+        if (handle.exists()){
+            System.out.println("JestJestJest");
+        }
+
+        setDocument(((Gdx.files.local(MyGdxGame.FILE_SPACE_SHIP)).file().getPath()));
 
         //Node ship = doc.getFirstChild();
         Node ship1 = doc.getElementsByTagName("target").item(0);
@@ -128,7 +135,7 @@ public class ModifiedXML {
                     for (int j = 0; j < nodes.getLength(); j++) {
                         Node element = nodes.item(j);
                         for (int it=0; it < wares.size() ;it++){
-                        if (wares.get(it).getCargoType().equals(element.getNodeName())) {
+                        if (wares.get(it).getCargoType().name().equals(element.getAttributes())) {
                             element.setTextContent(Double.toString(wares.get(it).getPrice()));
                         }
                        }
@@ -138,6 +145,29 @@ public class ModifiedXML {
                 }
             }
         }
+        return true;
+    }
+
+    public static Boolean writeNewFillToXml(int index, double fill){
+
+        StringWriter writer = new StringWriter();
+        XmlWriter xml = new XmlWriter(writer);
+
+        try {
+            xml.element("SLOT" + index).
+                    element("Fill").
+                    element("cargo").attribute("FUEL", fill)
+                    .pop().
+                    pop().
+                    pop();
+
+            FileHandle handle = Gdx.files.internal(MyGdxGame.FILE_SPACE_SHIP);
+            //handle.writeString(writer.toString(),false);
+            System.out.println(writer);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return true;
     }
 
