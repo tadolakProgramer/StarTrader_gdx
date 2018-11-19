@@ -113,6 +113,11 @@ public abstract class ShipModule {
         textEror = " ";
     }
 
+    protected void setError() {
+        errorIsRead = false;
+        moduleError = true;
+    }
+
     public ModuleType getModuleType() {
         return moduleType;
     }
