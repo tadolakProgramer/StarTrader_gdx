@@ -53,4 +53,8 @@ public abstract class Person {
     public float getPay() {
         return pay;
     }
+
+    public void addAge(){
+        age++;
+    }
 }
