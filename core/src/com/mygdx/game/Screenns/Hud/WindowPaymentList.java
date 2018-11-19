@@ -33,12 +33,12 @@ public class WindowPaymentList extends AbstractHUD {
         table.align(1);
         table.top();
 
-        for (int i=0; i < gameScreen.spaceShipPlayer.persosns.size(); i++)
+        for (int i = 0; i < gameScreen.spaceShipPlayer.persons.size(); i++)
         {
-            String name = gameScreen.spaceShipPlayer.persosns.get(i).getName();
-            String crowType = gameScreen.spaceShipPlayer.persosns.get(i).getCrowType().name();
-            String pay = String.format("%.2f", gameScreen.spaceShipPlayer.persosns.get(i).getPay());
-            sumOfPayment = sumOfPayment + gameScreen.spaceShipPlayer.persosns.get(i).getPay();
+            String name = gameScreen.spaceShipPlayer.persons.get(i).getName();
+            String crowType = gameScreen.spaceShipPlayer.persons.get(i).getCrowType().name();
+            String pay = String.format("%.2f", gameScreen.spaceShipPlayer.persons.get(i).getPay());
+            sumOfPayment = sumOfPayment + gameScreen.spaceShipPlayer.persons.get(i).getPay();
             table.row();
             table.add(new Label(name + " "+ crowType + " " + pay,skin,"grafen")).pad(5);
         }
