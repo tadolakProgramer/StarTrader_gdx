@@ -2,7 +2,6 @@ package com.mygdx.game.Screenns;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -128,7 +127,7 @@ public class SpaceShipScreen extends AbstractScreen {
 
         tableCrows.setColor(255,1,1,255);
 
-        int personsNumber = spaceShipPlayer.persosns.size();
+        int personsNumber = spaceShipPlayer.persons.size();
 
         for (int tn=0; tn<personsNumber; tn++) {
 
@@ -136,19 +135,19 @@ public class SpaceShipScreen extends AbstractScreen {
 
             crowTables.get(tn).row().pad(5);
             crowTables.get(tn).add(new Label("Specjalist:", skin));
-            crowTables.get(tn).add(new Label(spaceShipPlayer.persosns.get(tn).getCrowType().name(), skin));
+            crowTables.get(tn).add(new Label(spaceShipPlayer.persons.get(tn).getCrowType().name(), skin));
             crowTables.get(tn).row().pad(5);
             crowTables.get(tn).add(new Label("Name:", skin));
-            crowTables.get(tn).add(new Label(spaceShipPlayer.persosns.get(tn).getName(), skin));
+            crowTables.get(tn).add(new Label(spaceShipPlayer.persons.get(tn).getName(), skin));
             crowTables.get(tn).row().pad(5);
             crowTables.get(tn).add(new Label("Age:", skin));
-            crowTables.get(tn).add(new Label(""+spaceShipPlayer.persosns.get(tn).getAge()+" y", skin));
+            crowTables.get(tn).add(new Label(""+spaceShipPlayer.persons.get(tn).getAge()+" y", skin));
             crowTables.get(tn).row().pad(5);
-            crowTables.get(tn).add(new Label(spaceShipPlayer.persosns.get(tn).getFirstExperienceLevel().getExperienceType().name(), skin));
-            crowTables.get(tn).add(new Label(Float.toString(spaceShipPlayer.persosns.get(tn).getFirstExperienceLevel().getLevel()), skin));
+            crowTables.get(tn).add(new Label(spaceShipPlayer.persons.get(tn).getFirstExperienceLevel().getExperienceType().name(), skin));
+            crowTables.get(tn).add(new Label(Float.toString(spaceShipPlayer.persons.get(tn).getFirstExperienceLevel().getLevel()), skin));
             crowTables.get(tn).row().pad(5);
-            crowTables.get(tn).add(new Label(spaceShipPlayer.persosns.get(tn).getSecondExperienceLevel().getExperienceType().name(), skin));
-            crowTables.get(tn).add(new Label(Float.toString(spaceShipPlayer.persosns.get(tn).getSecondExperienceLevel().getLevel()), skin));
+            crowTables.get(tn).add(new Label(spaceShipPlayer.persons.get(tn).getSecondExperienceLevel().getExperienceType().name(), skin));
+            crowTables.get(tn).add(new Label(Float.toString(spaceShipPlayer.persons.get(tn).getSecondExperienceLevel().getLevel()), skin));
 
             box.add(crowTables.get(tn));
         }
