@@ -121,8 +121,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
             float x1 = camera.position.x;
             float y1 = camera.position.y;
-            float w = GAME_WIDTH;
-            float h = GAME_HEIGHT;
+            float w = GAME_WIDTH * camera.zoom;
+            float h = GAME_HEIGHT * camera.zoom;
 
             for (int i=0; i<planets.size(); i++){
                 if ((planets.get(i).getPositionCX() - planets.get(i).getActualWidth()/2 >= x1 + w/2) ||
@@ -145,14 +145,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
 
     private void update(float dt) {
-
+        backgroundCam.zoom = camera.zoom;
         backgroundCam.update();
         hud.update(dt);
         stage.act();
         setViewPlanets();
         updateTime(dt);
-
-        //System.out.println("Cam_pos: "+camera.position.x+"  "+camera.position.y);
         }
 
     private void updateTime(float dt) {
@@ -160,13 +158,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         timeToPayment = timeToPayment + dt;
         if (timeToPayment >= TIME_TO_PAYMENT){
             timeToPayment = 0;
-            for (int i=0; i < spaceShipPlayer.persosns.size(); i++){
-                spaceShipPlayer.subMoney(spaceShipPlayer.persosns.get(i).getPay());
-            }
-            setDateOfGame();
+            spaceShipPlayer.addMonth();
             hud.showDlgPayment();
+            setDateOfGame();
         }
-
     }
 
     private void setDateOfGame() {
@@ -174,6 +169,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         if (month > 12){
             month = 1;
             year++;
+            spaceShipPlayer.addYear();
         }
         dateOfGame = (Integer.toString(year)+"."+Integer.toString(month));
     }
@@ -190,6 +186,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     public  void dispose(){
         ModifiedXML.writePositionToXml(spaceShipPlayer.getOriginX(), spaceShipPlayer.getOriginY());
+
     }
 
 
@@ -257,5 +254,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     public void createMarketWindow() {
         hud.createWindowPlanetMarket(spaceShipPlayer.targetName);
+    }
+
+    public void createMsg(String msgText, String title){
+        hud.showDlg(msgText, title);
     }
 }
