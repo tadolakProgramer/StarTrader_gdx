@@ -49,7 +49,7 @@ public class Hud extends  AbstractHUD {
         Table table = new Table();
         //Top-Align table
         table.top().pad(10f);
-        table.debug();
+        //table.debug();
         //make the table fill the entire stage
         table.setFillParent(true);
         table.setColor(255,1,1,255);
@@ -87,7 +87,8 @@ public class Hud extends  AbstractHUD {
 
         //add
 
-        TextButton textButton1 = new TextButton("Start", skin);
+        TextButton textButton1 = new TextButton("Go to ", skin2);
+        textButton1.bottom().right().pad(10);
         textButton1.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -96,9 +97,9 @@ public class Hud extends  AbstractHUD {
             }
         });
 
-        TextButton textButtonZoom = new TextButton("Start", skin);
-        textButtonZoom.setPosition(100,0);
-        textButtonZoom.addListener(new ClickListener() {
+        TextButton textButtonZoomP = new TextButton("Zoom + ", skin2);
+        textButtonZoomP.setPosition(100,0);
+        textButtonZoomP.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameScreen.camera.zoom = gameScreen.camera.zoom - 0.01f;
@@ -106,9 +107,31 @@ public class Hud extends  AbstractHUD {
             }
         });
 
+        TextButton textButtonZoomM = new TextButton("Zoom - ", skin2);
+        textButtonZoomM.setPosition(200,0);
+        textButtonZoomM.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameScreen.camera.zoom = gameScreen.camera.zoom + 0.01f;
+                return true;
+            }
+        });
+
+        TextButton textButtonZoom1 = new TextButton("Zoom 1:1 ", skin2);
+        textButtonZoom1.setPosition(300,0);
+        textButtonZoom1.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameScreen.camera.zoom = 1.0f;
+                return true;
+            }
+        });
+
         stage.addActor(table);
         stage.addActor(textButton1);
-        stage.addActor(textButtonZoom);
+        stage.addActor(textButtonZoomP);
+        stage.addActor(textButtonZoomM);
+        stage.addActor(textButtonZoom1);
         }
 
 
@@ -148,7 +171,7 @@ public class Hud extends  AbstractHUD {
     private void readShipError() {
 
         for (int i=0; i<gameScreen.spaceShipPlayer.shipModules.size(); i++){
-            if (gameScreen.spaceShipPlayer.shipModules.get(i).isModuleError()){
+            if (gameScreen.spaceShipPlayer.shipModules.get(i).isModuleError() && (!gameScreen.spaceShipPlayer.shipModules.get(i).isErrorIsRead())){
 
                 String messageText = gameScreen.spaceShipPlayer.shipModules.get(i).getTextEror();
                 String titleText = "Error" + gameScreen.spaceShipPlayer.shipModules.get(i).getModuleType().name();
