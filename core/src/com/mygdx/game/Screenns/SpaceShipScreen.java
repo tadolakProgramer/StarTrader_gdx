@@ -20,6 +20,7 @@ import com.mygdx.game.GameObjekts.SpaceShipParts.ShipModule;
 import com.mygdx.game.Helper.ReadXML;
 import com.mygdx.game.MyGdxGame;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,8 @@ public class SpaceShipScreen extends AbstractScreen {
         super(game);
         this.spaceShipPlayer = spaceShipPlayer;
         game.kolejka.addFirst(this);
+
+        DecimalFormat df = new DecimalFormat("#.##" + " kT");
 
         isVisible = true;
         skin = new Skin(Gdx.files.internal(FILE_EARTH_SKIN));
@@ -138,6 +141,9 @@ public class SpaceShipScreen extends AbstractScreen {
             crowTables.get(tn).add(new Label("Name:", skin));
             crowTables.get(tn).add(new Label(spaceShipPlayer.persosns.get(tn).getName(), skin));
             crowTables.get(tn).row().pad(5);
+            crowTables.get(tn).add(new Label("Age:", skin));
+            crowTables.get(tn).add(new Label(""+spaceShipPlayer.persosns.get(tn).getAge()+" y", skin));
+            crowTables.get(tn).row().pad(5);
             crowTables.get(tn).add(new Label(spaceShipPlayer.persosns.get(tn).getFirstExperienceLevel().getExperienceType().name(), skin));
             crowTables.get(tn).add(new Label(Float.toString(spaceShipPlayer.persosns.get(tn).getFirstExperienceLevel().getLevel()), skin));
             crowTables.get(tn).row().pad(5);
@@ -187,7 +193,7 @@ public class SpaceShipScreen extends AbstractScreen {
 
         table.row();
         table.add(new Label("Speed: ",skin2)).expandX().left();
-        table.add(new Label(String.format("%2f", spaceShipPlayer.spaceShipEngine.getSpeedActual()), skin2)).expandX();
+        table.add(new Label(String.format("%.2f", spaceShipPlayer.spaceShipEngine.getSpeedActual()), skin2)).expandX();
 
 
         if (spaceShipPlayer.getFill(CargoType.TITAN) > 0) {
@@ -248,7 +254,6 @@ public class SpaceShipScreen extends AbstractScreen {
 
     public void createWindowShipModuleInfo(ShipModule shipModule){
 
-        ShapeRenderer shapeRander = new ShapeRenderer();
 
         windowShipModuleInfo = new Window(shipModule.getModuleType().name(), skin2);
         TextButton btnClose = new TextButton("Close", skin2);
@@ -288,8 +293,8 @@ public class SpaceShipScreen extends AbstractScreen {
         table.add(new Label(""+shipModule.experienceLevel, skin2)).pad(5);
 
         table.row();
-        table.add(new Label("Cost: ", skin2)).left().pad(5);
-        table.add(new Label(""+shipModule.cost, skin2)).pad(5);
+        table.add(new Label("Price for sel: ", skin2)).left().pad(5);
+        table.add(new Label(""+shipModule.cost * 0.8, skin2)).pad(5);
 
         if (spaceShipPlayer.isRun()) {
             table.row().colspan(2).pad(10);
@@ -300,8 +305,6 @@ public class SpaceShipScreen extends AbstractScreen {
             table.add(btnClose);
             table.add(btnSale);
         }
-
-
 
         windowShipModuleInfo.setSize(300,400);
         windowShipModuleInfo.setPosition(GAME_WIDTH / 2.0f - 100, GAME_HEIGHT / 2.0f - 100);
@@ -331,7 +334,6 @@ public class SpaceShipScreen extends AbstractScreen {
 
         Table box = new Table();
         box.debug();
-        Table tbButton = new Table();
 
         ScrollPane scrollPane = new ScrollPane(box, skin2);
 
