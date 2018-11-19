@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.badlogic.gdx.math.MathUtils;
-import com.mygdx.game.Screenns.Hud.Hud;
 
 import static com.mygdx.game.GameObjekts.SpaceShipParts.ModuleType.EMPTY;
 import static com.mygdx.game.MyGdxGame.GAME_SCALE;
@@ -36,10 +35,8 @@ public class SpaceShipPlayer extends SpaceObject {
 
 
     public List<ShipModule> shipModules = new ArrayList<ShipModule>();
-    public List<Person> persosns = new ArrayList<Person>();
+    public List<Person> persons = new ArrayList<Person>();
     public Map<ExperienceType, Integer> elMap = new HashMap<ExperienceType, Integer>();
-
-   //public double housingModuleFill;
 
     public SpaceShipEngine spaceShipEngine;
     private boolean isRun;
@@ -142,6 +139,7 @@ public class SpaceShipPlayer extends SpaceObject {
         if (checkMoney(1, cost)){
             addModule(index, moduleType, name, capacity, cost, baseFailureRate);
             subMoney(cost);
+            setBaseFailureRate();
             modifyFailureRate();
         }
     }
@@ -152,40 +150,43 @@ public class SpaceShipPlayer extends SpaceObject {
 
     public void setStart(int planetNumber) {
 
-        this.planetNumber = planetNumber;
+        if (persons.size() > 0 ) {
 
-        korekt =false;
+            this.planetNumber = planetNumber;
 
-        targetX = gameScreen.planets.get(planetNumber).getPositionCX();
-        targetY = gameScreen.planets.get(planetNumber).getPositionCY();
+            korekt = false;
 
-        navigationFactor = 100 - elMap.get(ExperienceType.NAVIGATE)*10;
+            targetX = gameScreen.planets.get(planetNumber).getPositionCX();
+            targetY = gameScreen.planets.get(planetNumber).getPositionCY();
 
-        float targetX_temp = MathUtils.random(-navigationFactor, navigationFactor) + targetX;
-        float targetY_temp = MathUtils.random(-navigationFactor, navigationFactor) + targetY;
+            navigationFactor = 100 - elMap.get(ExperienceType.NAVIGATE) * 10;
 
-        targetX = targetX_temp;
-        targetY = targetY_temp;
+            float targetX_temp = MathUtils.random(-navigationFactor, navigationFactor) + targetX;
+            float targetY_temp = MathUtils.random(-navigationFactor, navigationFactor) + targetY;
 
-        ModifiedXML.writeTargetPositionToXml(targetX, targetY);
+            targetX = targetX_temp;
+            targetY = targetY_temp;
 
-        targetName = gameScreen.planets.get(planetNumber).getSpaceObjectName();
+            ModifiedXML.writeTargetPositionToXml(targetX, targetY);
 
-        double angle = Math.atan2(targetY - positionC.y, targetX - positionC.x);
-        double rotation = Math.toDegrees(angle) + 90;
+            targetName = gameScreen.planets.get(planetNumber).getSpaceObjectName();
 
-        spaceShipEngine.setSpeedActual(spaceShipEngine.getSpeedEngine());
-        moveVector.set((float) Math.cos(angle), (float) Math.sin(angle));
+            double angle = Math.atan2(targetY - positionC.y, targetX - positionC.x);
+            double rotation = Math.toDegrees(angle) + 90;
 
-        isRun = true;
+            spaceShipEngine.setSpeedActual(spaceShipEngine.getSpeedEngine());
+            moveVector.set((float) Math.cos(angle), (float) Math.sin(angle));
 
-        Action startAction = Actions.parallel(
-                Actions.rotateTo((float) rotation, 1.2f),
-                Actions.scaleTo(0.5f, 0.5f, 1.2f)
-                //Actions.(moveVector.x ,moveVector.y ,20f)
-        );
+            isRun = true;
 
-        this.addAction(startAction);
+            Action startAction = Actions.parallel(
+                    Actions.rotateTo((float) rotation, 1.2f),
+                    Actions.scaleTo(0.5f, 0.5f, 1.2f)
+                    //Actions.(moveVector.x ,moveVector.y ,20f)
+            );
+
+            this.addAction(startAction);
+        }
 
     }
 
@@ -291,11 +292,6 @@ public class SpaceShipPlayer extends SpaceObject {
             subMoney(quantity * cost);
             addCargo(cargoType, quantity);
         }
-        else{
-            String msgText = "Not enough money or capacity";
-            String tile = "Caution!";
-            gameScreen.createMsg(msgText, tile);
-        }
     }
 
     public void sell(CargoType cargoType, int quantity, double cost) {
@@ -332,7 +328,6 @@ public class SpaceShipPlayer extends SpaceObject {
         ModifiedXML.writeMoneyToXml(money);
         if (getMoney() <= 0){
             noMoney = true;
-            setBaseFailureRate();
         }
     }
 
@@ -341,18 +336,27 @@ public class SpaceShipPlayer extends SpaceObject {
         ModifiedXML.writeMoneyToXml(money);
         if (getMoney() > 0 ){
             noMoney = false;
-            modifyFailureRate();
         }
     }
 
     private boolean checkMoney(int quantity, double cost) {
-        return quantity * cost < money;
+
+        if (quantity * cost > money){
+            String msgText = "You do not have enough money to buy so much";
+            String tile = "Caution!";
+            gameScreen.createMsg(msgText, tile);
+            return false;
+        }else
+        return true;
     }
 
 
     private boolean checkFill(CargoType cargoType, int quantity) {
 
         if (getCapacity(cargoType) < (quantity + getFill(cargoType))) {
+            String msgText = "You do not have enough space to buy so much";
+            String tile = "Caution!";
+            gameScreen.createMsg(msgText, tile);
             return false;
         } else{
             return true;
@@ -397,7 +401,20 @@ public class SpaceShipPlayer extends SpaceObject {
 
 
 
-    public void addExperience(ExperienceLevel ex) {
+    public void readExperience() {
+
+        elMap.clear();
+
+        for (int p = 0; p < persons.size(); p++) {
+            ExperienceLevel ex1 = persons.get(p).getFirstExperienceLevel();
+            addExperience(ex1);
+            ExperienceLevel ex2 = persons.get(p).getSecondExperienceLevel();
+            addExperience(ex2);
+        }
+        modifyFailureRate();
+    }
+
+    public void addExperience(ExperienceLevel ex){
 
         if (elMap.size() == 0) {
             elMap.put(ex.getExperienceType(),ex.getLevel());
@@ -445,9 +462,7 @@ public class SpaceShipPlayer extends SpaceObject {
                         }
                         break;
             }
-
         }
-
     }
 
     private void setBaseFailureRate() {
@@ -456,9 +471,21 @@ public class SpaceShipPlayer extends SpaceObject {
         }
     }
 
+    public void addMonth() {
+        for (int i = 0; i < persons.size(); i++){
+            persons.get(i).dethOrLive();
+            if (persons.get(i).isDeth()) {
+                persons.remove(i);
+                readExperience();
+                modifyFailureRate();
+            }
+            subMoney(persons.get(i).getPay());
+        }
+    }
+
     public void addYear() {
-        for (int p = 0; p < persosns.size(); p++){
-            persosns.get(p).addAge();
+        for (int p = 0; p < persons.size(); p++){
+            persons.get(p).addAge();
         }
     }
 
@@ -480,6 +507,4 @@ public class SpaceShipPlayer extends SpaceObject {
     public boolean isRun() {
         return isRun;
     }
-
-
 }
