@@ -33,7 +33,6 @@ public class SpaceShipEngine extends ShipModule implements Modules{
 
     @Override
     public void distanceControl() {
-
         if ((failureRate > 0) && (!isModuleError())){
             if (currentDistance > MAX_DISTANCE_NO_ERROR / failureRate) {
                 currentDistance = 0;
@@ -43,14 +42,13 @@ public class SpaceShipEngine extends ShipModule implements Modules{
                     moduleError = false;
                 }
             }
-
         }
     }
 
     @Override
     public void randomFailure() {
         int error = MathUtils.random(0 ,100) + experienceLevel;
-        System.out.println("Losowanie: "+ error);
+        System.out.println("LosowanieEngine: "+ error);
         switch (error){
             case 0: {
                 setSpeedActual(getSpeedActual()*0.1f);
@@ -103,11 +101,8 @@ public class SpaceShipEngine extends ShipModule implements Modules{
         }
     }
 
-    private void setError() {
-        errorIsRead = false;
-        moduleError = true;
-    }
 
+    @Override
     public void resetFailure(){
         setEngineError(false);
         textEror = " ";
