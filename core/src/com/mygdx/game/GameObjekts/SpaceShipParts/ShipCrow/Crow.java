@@ -6,5 +6,4 @@ public class Crow extends Person {
         super(crowType, name, age, height, gender, firstExperienceLevel, secondExperienceLevel, pay);
     }
 
-
 }
