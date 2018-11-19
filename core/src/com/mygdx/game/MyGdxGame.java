@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -9,16 +10,16 @@ import java.util.Deque;
 import java.util.List;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.LocalFileHandleResolver;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.ImageResolver;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.GameObjekts.SpaceObjekt.Planet;
-import com.mygdx.game.GameObjekts.SpaceObjekt.SpaceShipPlayer;
+import com.mygdx.game.Screenns.CreatePlayerScreen;
 import com.mygdx.game.Screenns.GameScreen;
 import com.mygdx.game.Screenns.SpalshScreen;
-
 
 
 public class MyGdxGame extends Game {
@@ -33,40 +34,80 @@ public class MyGdxGame extends Game {
 	public final static float SCROLL_SPEED =10f;
 
 	//Files
-	public final static String FILE_SPRITE_ATLAS = "planets.pack";
-	public final static String FILE_SPACE_SHIP = ("spaceship.xml");
-	public final static String FILE_PLAYER = ("player.xml");
-	public final static String FILE_PLANETS = ("cars.xml");
+	public final static String FILE_SPRITE_ATLAS = "data/planets.pack";
+	public final static String FILE_CARGO_ATLAS = "data/cargo.atlas";
+	public final static String FILE_SPACESHIP = "data/SpaceShip_Empty.png";
+	public final static String FILE_SPACE_SHIP = "data/spaceship.xml";
+	public final static String FILE_PLAYER = "data/player.xml";
+	public final static String FILE_PLANETS = "data/cars.xml";
+	public final static String FILE_SHIP_MODULES = "data/spacemodule.xml";
+	//Skins
+	public final static String FILE_EARTH_SKIN = "data/skin/flat-earth-ui.json";
+	public final static String FILE_UI_SKIN = "data/skin/uiskin.json";
 
+	//
+	public final static int TIME_TO_PAYMENT = 300; /* Time to payment in s real time*/
+
+	//
+	public  Skin skin;
+
+	public static String DIR;
 	public Deque<Screen> kolejka = new ArrayDeque<Screen>();
 	public BitmapFont myFont;
-//	public final static Skin SKIN = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
-	public Skin skin;
 	public AssetManager assetManager;
 	public TextureAtlas textureAtlas;
 
 	private boolean paused;
-
-	public List<Planet> planets = new ArrayList<Planet>();
+	private boolean Jest;
 	public Screen gameScreen;
 
 	@Override
 	public void create() {
+
 		assetManager = new AssetManager();
 		textureAtlas = new TextureAtlas(FILE_SPRITE_ATLAS);
+		skin = new Skin(Gdx.files.internal(FILE_EARTH_SKIN));
 
 		assetManager.load(FILE_SPRITE_ATLAS, TextureAtlas.class);
-		//Texture texture = textureAtlas.findRegion("planet1").getTexture();
-		//Texture texture = (textureAtlas.findRegion("planet_1").getTexture());
-
 
 		myFont = new BitmapFont(Gdx.files.internal("fonts/Xspace3.fnt"));
 		myFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear,
 				Texture.TextureFilter.Linear);
 
-		this.gameScreen = new GameScreen(this);
-		this.setScreen(new SpalshScreen(this));
+        this.gameScreen = new GameScreen(this);
+
+		switch(Gdx.app.getType()) {
+			case Android:{
+				FileHandle handle = Gdx.files.local("data/");
+				if (handle.isDirectory()){
+					for (FileHandle file: handle.list()) {
+						file.copyTo(Gdx.files.local(""));
+						Gdx.app.log("File", file.toString());
+					}
+				}
+			}
+				// android specific code
+			case Desktop:
+				// desktop specific code
+		}
+
+		Jest = true;
+
+		if (Jest) {
+			System.out.println("Jest!");
+			this.setScreen(new SpalshScreen(this));
+		} else {
+			System.out.println("Nie ma!");
+			this.setScreen(new CreatePlayerScreen(this));
+		}
 	}
+
+	@Override
+	public void dispose () {
+		System.out.println("Koniec");
+		if (screen != null) screen.hide();
+	}
+
 	public boolean isPaused() {
 		return paused;
 	}
